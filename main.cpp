@@ -99,7 +99,7 @@ int main()
 			<< 's'
 			<< endl;
 		
-		count1 += 1;
+		count1 = count1 + 1;
 	}
 	
 	
@@ -111,7 +111,10 @@ int main()
 	
 	
 	while (!exitLoop1)
-	{
+	{									// 'exitLoop1' is initialized as false.
+										// "while (exitLoop1)" means "while exitLoop1 is true..."
+										// The (!) makes it negative.
+										// exitLoop1 only becomes "true" by entering valid characters.
 		cin >> response1;
 		
 		if
@@ -187,7 +190,7 @@ int main()
 		<< endl;
 	for (const auto& i : isotopes)
 	{
-		count2 += 1;
+		count2 = count2 + 1;
 		cout
 			<< '<'
 			<< count2
