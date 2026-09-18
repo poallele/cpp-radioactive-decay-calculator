@@ -33,18 +33,18 @@ int main()
 	//=============================================================================================
 	// Task
 	//=============================================================================================
-	
-	
-	
 	const
 		int GREGORIAN_SECONDS = 31556952;
 		string ERROR_MESSAGE = "Invalid character. ";
-	
+
+
 	bool
 		exitLoop1 = false,
 		exitLoop2 = false;
-	
+
+
 	string response1{};
+
 
 	int
 		response2,
@@ -53,8 +53,17 @@ int main()
 		count1{},
 		count2 = 0;
 
-	long double decay{};
 
+	long double decay{};
+	
+	
+	
+	//=============================================================================================
+	// Task
+	//=============================================================================================
+	
+	
+	
 	vector<Measurement> measurement =
 	{
 		{"s",	"second",	GREGORIAN_SECONDS	/	1},
