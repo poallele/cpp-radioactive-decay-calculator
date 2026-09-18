@@ -44,13 +44,11 @@ int main()
 		exitLoop2 = false;
 	
 	string response1{};
-	int response2{};
 
 	int
+		response2,
 		responseIndex1{},
-		responseIndex2{};
-	
-	int
+		responseIndex2{},
 		count1{},
 		count2 = 0;
 
