@@ -38,7 +38,7 @@ int main()
 	
 	const
 		int GREGORIAN_SECONDS = 31556952;
-		string errorMessage = "Invalid character. ";
+		string ERROR_MESSAGE = "Invalid character. ";
 	
 	bool
 		exitLoop1 = false,
@@ -145,7 +145,7 @@ int main()
 		
 		else
 			{
-				cout << errorMessage;
+				cout << ERROR_MESSAGE;
 			}
 	}
 	
@@ -225,7 +225,7 @@ int main()
 		}
 		
 		else {
-			cout << errorMessage;
+			cout << ERROR_MESSAGE;
 		}
 	}
 	
