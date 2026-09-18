@@ -36,8 +36,9 @@ int main()
 	
 	
 	
-	const int GREGORIAN_SECONDS = 31556952;
-	const string errorMessage = "Invalid character. ";
+	const
+		int GREGORIAN_SECONDS = 31556952;
+		string errorMessage = "Invalid character. ";
 	
 	bool
 		exitLoop1 = false,
