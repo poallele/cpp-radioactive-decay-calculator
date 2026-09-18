@@ -56,7 +56,7 @@ int main()
 	int responseIndex1{};
 	int count1{};
 	cout << "Would you like to measure in:\n";
-	
+
 	for (const auto& m : measurement)
 	{
 		cout
@@ -145,8 +145,13 @@ int main()
 	 * print the decay constant as a number with 20 decimal places. */
 	const double decay = (log(2)) / isotopes[responseIndex2].value;
 	cout
-		<< "Probability per " << measurement[responseIndex1].unit << " for a single " << isotopes[response2 - 1].name
-		<< " nucleus to decay: " << std::fixed << std::setprecision(25) << decay;
+		<< "Probability per " << measurement[responseIndex1].unit
+		<< " for a single "
+		<< isotopes[response2 - 1].name
+		<< " nucleus to decay: "
+		<< std::fixed
+		<< std::setprecision(25)
+		<< decay;
 
 	return 0;
 }
