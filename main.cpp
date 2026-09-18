@@ -50,11 +50,11 @@ int main()
 
 	vector<Measurement> measurement =
 	{
-		{"s","second",GREGORIAN_SECONDS / 1},
-		{"m","minute",GREGORIAN_SECONDS / 60},
-		{"h","hour",GREGORIAN_SECONDS / 3600},
-		{"d","day",GREGORIAN_SECONDS / 86400},
-		{"y","year",GREGORIAN_SECONDS / GREGORIAN_SECONDS}
+		{"s",	"second",	GREGORIAN_SECONDS	/	1},
+		{"m",	"minute",	GREGORIAN_SECONDS	/	60},
+		{"h",	"hour",		GREGORIAN_SECONDS	/	3600},
+		{"d",	"day",		GREGORIAN_SECONDS	/	86400},
+		{"y",	"year",		GREGORIAN_SECONDS	/	GREGORIAN_SECONDS}
 	};
 	
 	
@@ -71,7 +71,9 @@ int main()
 	 * "if-else" conditionals are utilized instead of "switch" statements
 	 * for their ability to use strings and logical comparisons. */
 	
-	cout << "Would you like to measure in:\n";
+	cout
+		<< "Would you like to measure in:"
+		<< endl;
 
 	for (const auto& m : measurement)
 	{
@@ -123,6 +125,7 @@ int main()
 			responseIndex1 = 4;
 			exitLoop1 = true;
 		}
+		
 		else
 		{
 			cout << errorMessage;
@@ -139,11 +142,11 @@ int main()
 	
 	vector<Isotopes> isotopes =
 	{
-		{"Uranium-233",1.592e5 * measurement[responseIndex1].multiplier},
-		{"Uranium-235",7.04e8 * measurement[responseIndex1].multiplier},
-		{"Uranium-238",4.463e9 * measurement[responseIndex1].multiplier},
-		{"Plutonium-239",2.411e4 * measurement[responseIndex1].multiplier},
-		{"Thorium-232",1.40e10 * measurement[responseIndex1].multiplier}
+		{"Uranium-233",		1.592e5		*	measurement[responseIndex1].multiplier},
+		{"Uranium-235",		7.04e8		*	measurement[responseIndex1].multiplier},
+		{"Uranium-238",		4.463e9		*	measurement[responseIndex1].multiplier},
+		{"Plutonium-239",	2.411e4		*	measurement[responseIndex1].multiplier},
+		{"Thorium-232",		1.40e10		*	measurement[responseIndex1].multiplier}
 	};
 	
 	
@@ -203,6 +206,7 @@ int main()
 		{
 			exitLoop2 = true;
 		}
+		
 		else {
 			cout << errorMessage;
 		}
