@@ -75,15 +75,6 @@ int main()
 	//=============================================================================================
 	// Task
 	//=============================================================================================
-	
-
-	/* user prompt. 'print' = (std::cout <<). 'submit' = (std::cin >>).
-	 * exitLoop1 is initialized as false. while (exitLoop1)
-	 * means "while exitLoop1 is true". the (!) makes it negative.
-	 * exitLoop1 only becomes "true" by entering valid characters.
-	 * "if-else" conditionals are utilized instead of "switch" statements
-	 * for their ability to use strings and logical comparisons. */
-	
 	cout
 		<< "Would you like to measure in:"
 		<< endl;
@@ -115,9 +106,11 @@ int main()
 										// "while (exitLoop1)" means "while exitLoop1 is true..."
 										// The (!) makes it negative.
 										// exitLoop1 only becomes "true" by entering valid characters.
+		
 		cin >> response1;
 		
-		if
+		if												// 'If-else' conditionals are utilized instead of 'switch' statements
+														// for their ability to use strings and logical comparisons.
 			(response1 == measurement[0].character)
 				{
 					responseIndex1 = 0;
