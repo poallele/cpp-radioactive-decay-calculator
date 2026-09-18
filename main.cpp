@@ -17,13 +17,13 @@ struct Timespan
 {
 	string			character;
 	string			unit;
-	int				multiplier;
+	int				divisorOfYearlySeconds;
 };
 
 struct Isotopes
 {
 	string			name;
-	long double		value;
+	long double		halfLife;
 };
 //=============================================================================================
 
@@ -35,7 +35,7 @@ int main()
 	// Task
 	//=============================================================================================
 	const
-		int		GREGORIAN_SECONDS	=	31556952;
+		int		GREGORIAN_CALENDAR_SECONDS		=	31556952;
 		string	ERROR_MESSAGE		=	"Invalid character. ";
 
 
@@ -64,11 +64,11 @@ int main()
 	//=============================================================================================
 	vector<Timespan> timespan =
 	{
-		{"s",	"second",	GREGORIAN_SECONDS	/	1},
-		{"m",	"minute",	GREGORIAN_SECONDS	/	60},
-		{"h",	"hour",		GREGORIAN_SECONDS	/	3600},
-		{"d",	"day",		GREGORIAN_SECONDS	/	86400},
-		{"y",	"year",		GREGORIAN_SECONDS	/	GREGORIAN_SECONDS}
+		{"s",	"second",	1},
+		{"m",	"minute",	60},
+		{"h",	"hour",		3600},
+		{"d",	"day",		86400},
+		{"y",	"year",		GREGORIAN_CALENDAR_SECONDS}
 	};
 	
 	
@@ -77,7 +77,7 @@ int main()
 	// Task
 	//=============================================================================================
 	cout
-		<< "Would you like to measure in:"
+		<< "Select a timespan for measurement:"
 		<< endl;
 
 	for (const auto& currentTimespan:timespan)
@@ -156,11 +156,11 @@ int main()
 	//=============================================================================================
 	vector<Isotopes> isotopes =
 	{
-		{"Uranium-233",		1.592e5		*	timespan[responseIndex1].multiplier},
-		{"Uranium-235",		7.04e8		*	timespan[responseIndex1].multiplier},
-		{"Uranium-238",		4.463e9		*	timespan[responseIndex1].multiplier},
-		{"Plutonium-239",	2.411e4		*	timespan[responseIndex1].multiplier},
-		{"Thorium-232",		1.40e10		*	timespan[responseIndex1].multiplier}
+		{"Uranium-233",		1.592e5		*	(GREGORIAN_CALENDAR_SECONDS / timespan[responseIndex1].divisorOfYearlySeconds)},
+		{"Uranium-235",		7.04e8		*	(GREGORIAN_CALENDAR_SECONDS / timespan[responseIndex1].divisorOfYearlySeconds)},
+		{"Uranium-238",		4.463e9		*	(GREGORIAN_CALENDAR_SECONDS / timespan[responseIndex1].divisorOfYearlySeconds)},
+		{"Plutonium-239",	2.411e4		*	(GREGORIAN_CALENDAR_SECONDS / timespan[responseIndex1].divisorOfYearlySeconds)},
+		{"Thorium-232",		1.405e10	*	(GREGORIAN_CALENDAR_SECONDS / timespan[responseIndex1].divisorOfYearlySeconds)}
 	};
 	
 	
@@ -171,7 +171,7 @@ int main()
 	// user prompt
 	cout
 		<< endl
-		<< "Select a fertile radioactive isotope:"
+		<< "Select a radioactive isotope:"
 		<< endl;
 	
 	for (const auto & currentIsotope:isotopes)
@@ -240,7 +240,7 @@ int main()
 	/* decay constant | the natural logarithm of  2 divided by the half life.
 	 * print the decay constant as a number with 20 decimal places. */
 	
-	decay = (log(2)) / isotopes[responseIndex2].value;
+	decay = (log(2)) / isotopes[responseIndex2].halfLife;
 	cout
 		<< endl
 		<< "Probability per"
