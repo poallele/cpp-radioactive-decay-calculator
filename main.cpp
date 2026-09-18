@@ -1,4 +1,4 @@
-// CPPRadioactiveDecayCalc.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// main.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include <iostream>
@@ -15,16 +15,17 @@ using namespace std;
 //=============================================================================================
 struct Measurement
 {
-	string character;
-	string unit;
-	int multiplier;
+	string			character;
+	string			unit;
+	int				multiplier;
 };
 
 struct Isotopes
 {
-	string name;
-	long double value;
+	string			name;
+	long double		value;
 };
+//=============================================================================================
 
 
 
@@ -54,7 +55,8 @@ int main()
 				count2				=	0;
 
 
-	long double decay{};
+	long double
+				decay{};
 	
 	
 	
@@ -172,7 +174,8 @@ int main()
 		<< endl
 		<< "Select a fertile radioactive isotope:"
 		<< endl;
-	for (const auto& i : isotopes)
+	
+	for (const auto & downTheIsotopesList:isotopes)
 	{
 		count2 = count2 + 1;
 		cout
@@ -180,7 +183,7 @@ int main()
 			<< count2
 			<< '>'
 			<< ' '
-			<< i.name
+			<< downTheIsotopesList.name
 			<< endl;
 	}
 	
@@ -224,6 +227,7 @@ int main()
 	//=============================================================================================
 	// Task
 	//=============================================================================================
+	
 	/* since the index "[]" for a vector begins at 0, "-1" is used
 	 * (since user responses begin at 1). if this was not used,
 	 * then response2 would equal 6 instead of 5. since 6 is not
