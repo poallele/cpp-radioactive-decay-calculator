@@ -2,7 +2,7 @@
 
 Goals (new additions from old version--github.com/poallele/cpp-radioactive-decay-calculator-OLD):
 
-Use namespace std (replace all 'std::' with nothing) (deepseek)
+Use namespace std (replace all 'std::' with nothing)
 
 Make all vars, vectors, structs most readable name possible (deepseek)
 
