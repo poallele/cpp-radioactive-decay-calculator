@@ -8,6 +8,8 @@ Make all vars, vectors, structs most readable name possible (deepseek)
 
 Add comments (deepseek)
 
+Didnt end up using AI actually
+
 
 Fix formatting
 
