@@ -76,11 +76,13 @@ int main()
 	for (const auto& m : measurement)
 	{
 		cout
-			<< "<"
+			<< '<'
 			<< measurement[count1].character
-			<< "> "
+			<< '>'
+			<< ' '
 			<< measurement[count1].unit
-			<< "s\n";
+			<< 's'
+			<< endl;
 		count1 += 1;
 	}
 	
