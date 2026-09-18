@@ -44,14 +44,14 @@ int main()
 						exitLoop2						=	false;
 
 
-	string				response1{};		// controls exitLoop1 & responseIndex1
+	string				response1{};		// controls exitLoop1 & indexOfUsersChosenUnit
 
 
 	int
-						response2,			// controls exitLoop2 & responseIndex2
-						responseIndex1{},
-						responseIndex2{},
-						downTheIsotopeNameList			=	0;
+						response2,			// controls exitLoop2 & indexOfUsersChosenIsotope
+						indexOfUsersChosenUnit{},
+						indexOfUsersChosenIsotope{},
+						numberedOrderOfIsotopes			=	0;
 
 
 	long double
@@ -111,35 +111,35 @@ int main()
 														// for their ability to use strings and logical comparisons.
 			(response1 == timespan[0].character)
 				{
-					responseIndex1 = 0;
+					indexOfUsersChosenUnit = 0;
 					exitLoop1 = true;
 				}
 		
 		else if
 			(response1 == timespan[1].character)
 				{
-					responseIndex1 = 1;
+					indexOfUsersChosenUnit = 1;
 					exitLoop1 = true;
 				}
 		
 		else if
 			(response1 == timespan[2].character)
 				{
-					responseIndex1 = 2;
+					indexOfUsersChosenUnit = 2;
 					exitLoop1 = true;
 				}
 		
 		else if
 			(response1 == timespan[3].character)
 				{
-					responseIndex1 = 3;
+					indexOfUsersChosenUnit = 3;
 					exitLoop1 = true;
 				}
 		
 		else if
 			(response1 == timespan[4].character)
 				{
-					responseIndex1 = 4;
+					indexOfUsersChosenUnit = 4;
 					exitLoop1 = true;
 				}
 		
@@ -176,11 +176,11 @@ int main()
 	
 	for (const auto & currentIsotope:isotopes)
 	{
-		downTheIsotopeNameList = downTheIsotopeNameList + 1;
+		numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
 		
 		cout
 			<< '<'
-			<< downTheIsotopeNameList
+			<< numberedOrderOfIsotopes
 			<< '>'
 			<< ' ';
 		
@@ -240,7 +240,7 @@ int main()
 	 * then response2 would equal 6 instead of 5. since 6 is not
 	 * present in the index, it would not return anything. */
 	
-	responseIndex2 = response2-1;
+	indexOfUsersChosenIsotope = response2-1;
 
 	/* decay constant | the natural logarithm of  2 divided by the half life.
 	 * print the decay constant as a number with 20 decimal places. */
@@ -248,19 +248,19 @@ int main()
 	decay =
 		
 		(log(2) /
-		isotopes[responseIndex2].halfLife)
+		isotopes[indexOfUsersChosenIsotope].halfLife)
 		
 		*
 
 		(GREGORIAN_CALENDAR_SECONDS /
-		timespan[responseIndex1].denominatorOfYearlySecondsWhichResultsInATimespansSpecificAmountOfSeconds);
+		timespan[indexOfUsersChosenUnit].denominatorOfYearlySecondsWhichResultsInATimespansSpecificAmountOfSeconds);
 	
 
 	cout
 		<< endl
 		<< "Probability per"
 		<< ' '
-		<< timespan[responseIndex1].unit
+		<< timespan[indexOfUsersChosenUnit].unit
 		<< ' '
 		<< "for a single"
 		<< ' '
