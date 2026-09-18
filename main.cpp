@@ -101,31 +101,26 @@ int main()
 			responseIndex1 = 0;
 			exitLoop1 = true;
 		}
-		
 		else if (response1 == measurement[1].character)
 		{
 			responseIndex1 = 1;
 			exitLoop1 = true;
 		}
-		
 		else if (response1 == measurement[2].character)
 		{
 			responseIndex1 = 2;
 			exitLoop1 = true;
 		}
-		
 		else if (response1 == measurement[3].character)
 		{
 			responseIndex1 = 3;
 			exitLoop1 = true;
 		}
-		
 		else if (response1 == measurement[4].character)
 		{
 			responseIndex1 = 4;
 			exitLoop1 = true;
 		}
-		
 		else
 		{
 			cout << errorMessage;
@@ -158,7 +153,9 @@ int main()
 	
 	
 	// user prompt
-	cout << "Select a fertile radioactive isotope:\n";
+	cout
+		<< endl
+		<< "Select a fertile radioactive isotope:\n";
 	for (const auto& i : isotopes)
 	{
 		count2 += 1;
@@ -186,27 +183,22 @@ int main()
 		{
 			exitLoop2 = true;
 		}
-		
 		else if (response2 == 2)
 		{
 			exitLoop2 = true;
 		}
-		
 		else if (response2 == 3)
 		{
 			exitLoop2 = true;
 		}
-		
 		else if (response2 == 4)
 		{
 			exitLoop2 = true;
 		}
-		
 		else if (response2 == 5)
 		{
 			exitLoop2 = true;
 		}
-		
 		else {
 			cout << errorMessage;
 		}
@@ -230,13 +222,23 @@ int main()
 	 * print the decay constant as a number with 20 decimal places. */
 	const double decay = (log(2)) / isotopes[responseIndex2].value;
 	cout
-		<< "Probability per " << measurement[responseIndex1].unit
-		<< " for a single "
+		<< endl
+		<< "Probability per"
+		<< ' '
+		<< measurement[responseIndex1].unit
+		<< ' '
+		<< "for a single"
+		<< ' '
 		<< isotopes[response2 - 1].name
-		<< " nucleus to decay: "
+		<< ' '
+		<< "nucleus to decay:"
+		<< ' '
 		<< std::fixed
 		<< std::setprecision(25)
-		<< decay;
+		<< decay
+		<< endl
+		<< endl
+		<< endl;
 
 	
 	
