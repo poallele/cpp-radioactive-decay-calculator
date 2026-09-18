@@ -13,7 +13,7 @@ using namespace std;
 //=============================================================================================
 // Task
 //=============================================================================================
-struct Measurement
+struct Timespan
 {
 	string			character;
 	string			unit;
@@ -44,15 +44,14 @@ int main()
 				exitLoop2			=	false;
 
 
-	string		response1{};
+	string		response1{};		// controls exitLoop1 & responseIndex1
 
 
 	int
-				response2,
+				response2,			// controls exitLoop2 & responseIndex2
 				responseIndex1{},
 				responseIndex2{},
-				count1{},
-				count2				=	0;
+				downTheIsotopeNameList				=	0;
 
 
 	long double
@@ -63,7 +62,7 @@ int main()
 	//=============================================================================================
 	// Task
 	//=============================================================================================
-	vector<Measurement> measurement =
+	vector<Timespan> timespan =
 	{
 		{"s",	"second",	GREGORIAN_SECONDS	/	1},
 		{"m",	"minute",	GREGORIAN_SECONDS	/	60},
@@ -81,18 +80,18 @@ int main()
 		<< "Would you like to measure in:"
 		<< endl;
 
-	for (const auto& m : measurement)
+	for (const auto& currentTimespan:timespan)
 	{
 		cout
 			<< '<'
-			<< measurement[count1].character
+			<< currentTimespan.character
 			<< '>'
-			<< ' '
-			<< measurement[count1].unit
+			<< ' ';
+		
+		cout
+			<< currentTimespan.unit
 			<< 's'
 			<< endl;
-		
-		count1 = count1 + 1;
 	}
 	
 	
@@ -110,35 +109,35 @@ int main()
 		
 		if												// 'If-else' conditionals are utilized instead of 'switch' statements
 														// for their ability to use strings and logical comparisons.
-			(response1 == measurement[0].character)
+			(response1 == timespan[0].character)
 				{
 					responseIndex1 = 0;
 					exitLoop1 = true;
 				}
 		
 		else if
-			(response1 == measurement[1].character)
+			(response1 == timespan[1].character)
 				{
 					responseIndex1 = 1;
 					exitLoop1 = true;
 				}
 		
 		else if
-			(response1 == measurement[2].character)
+			(response1 == timespan[2].character)
 				{
 					responseIndex1 = 2;
 					exitLoop1 = true;
 				}
 		
 		else if
-			(response1 == measurement[3].character)
+			(response1 == timespan[3].character)
 				{
 					responseIndex1 = 3;
 					exitLoop1 = true;
 				}
 		
 		else if
-			(response1 == measurement[4].character)
+			(response1 == timespan[4].character)
 				{
 					responseIndex1 = 4;
 					exitLoop1 = true;
@@ -157,11 +156,11 @@ int main()
 	//=============================================================================================
 	vector<Isotopes> isotopes =
 	{
-		{"Uranium-233",		1.592e5		*	measurement[responseIndex1].multiplier},
-		{"Uranium-235",		7.04e8		*	measurement[responseIndex1].multiplier},
-		{"Uranium-238",		4.463e9		*	measurement[responseIndex1].multiplier},
-		{"Plutonium-239",	2.411e4		*	measurement[responseIndex1].multiplier},
-		{"Thorium-232",		1.40e10		*	measurement[responseIndex1].multiplier}
+		{"Uranium-233",		1.592e5		*	timespan[responseIndex1].multiplier},
+		{"Uranium-235",		7.04e8		*	timespan[responseIndex1].multiplier},
+		{"Uranium-238",		4.463e9		*	timespan[responseIndex1].multiplier},
+		{"Plutonium-239",	2.411e4		*	timespan[responseIndex1].multiplier},
+		{"Thorium-232",		1.40e10		*	timespan[responseIndex1].multiplier}
 	};
 	
 	
@@ -175,15 +174,18 @@ int main()
 		<< "Select a fertile radioactive isotope:"
 		<< endl;
 	
-	for (const auto & downTheIsotopesList:isotopes)
+	for (const auto & currentIsotope:isotopes)
 	{
-		count2 = count2 + 1;
+		downTheIsotopeNameList = downTheIsotopeNameList + 1;
+		
 		cout
 			<< '<'
-			<< count2
+			<< downTheIsotopeNameList
 			<< '>'
-			<< ' '
-			<< downTheIsotopesList.name
+			<< ' ';
+		
+		cout
+			<< currentIsotope.name
 			<< endl;
 	}
 	
@@ -243,7 +245,7 @@ int main()
 		<< endl
 		<< "Probability per"
 		<< ' '
-		<< measurement[responseIndex1].unit
+		<< timespan[responseIndex1].unit
 		<< ' '
 		<< "for a single"
 		<< ' '
