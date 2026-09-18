@@ -34,24 +34,24 @@ int main()
 	// Task
 	//=============================================================================================
 	const
-		int GREGORIAN_SECONDS = 31556952;
-		string ERROR_MESSAGE = "Invalid character. ";
+		int		GREGORIAN_SECONDS	=	31556952;
+		string	ERROR_MESSAGE		=	"Invalid character. ";
 
 
 	bool
-		exitLoop1 = false,
-		exitLoop2 = false;
+				exitLoop1			=	false,
+				exitLoop2			=	false;
 
 
-	string response1{};
+	string		response1{};
 
 
 	int
-		response2,
-		responseIndex1{},
-		responseIndex2{},
-		count1{},
-		count2 = 0;
+				response2,
+				responseIndex1{},
+				responseIndex2{},
+				count1{},
+				count2				=	0;
 
 
 	long double decay{};
@@ -98,9 +98,6 @@ int main()
 	//=============================================================================================
 	// Task
 	//=============================================================================================
-	
-	
-	
 	while (!exitLoop1)
 	{									// 'exitLoop1' is initialized as false.
 										// "while (exitLoop1)" means "while exitLoop1 is true..."
@@ -156,9 +153,6 @@ int main()
 	//=============================================================================================
 	// Task
 	//=============================================================================================
-	
-	
-	
 	vector<Isotopes> isotopes =
 	{
 		{"Uranium-233",		1.592e5		*	measurement[responseIndex1].multiplier},
@@ -173,9 +167,6 @@ int main()
 	//=============================================================================================
 	// Task
 	//=============================================================================================
-	
-	
-	
 	// user prompt
 	cout
 		<< endl
@@ -198,9 +189,6 @@ int main()
 	//=============================================================================================
 	// Task
 	//=============================================================================================
-	
-	
-	
 	while (!exitLoop2)
 	{
 		cin >> response2;
@@ -236,9 +224,6 @@ int main()
 	//=============================================================================================
 	// Task
 	//=============================================================================================
-	
-	
-	
 	/* since the index "[]" for a vector begins at 0, "-1" is used
 	 * (since user responses begin at 1). if this was not used,
 	 * then response2 would equal 6 instead of 5. since 6 is not
