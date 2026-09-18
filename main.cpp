@@ -39,17 +39,20 @@ int main()
 	const int GREGORIAN_SECONDS = 31556952;
 	const string errorMessage = "Invalid character. ";
 	
-	bool exitLoop1 = false;
-	bool exitLoop2 = false;
+	bool
+		exitLoop1 = false,
+		exitLoop2 = false;
 	
 	string response1{};
 	int response2{};
 
-	int responseIndex1{};
-	int responseIndex2{};
+	int
+		responseIndex1{},
+		responseIndex2{};
 	
-	int count1{};
-	int count2 = 0;
+	int
+		count1{},
+		count2 = 0;
 
 	long double decay{};
 
