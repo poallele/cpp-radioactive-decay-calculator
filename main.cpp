@@ -157,16 +157,18 @@ int main()
 	// user prompt
 	cout
 		<< endl
-		<< "Select a fertile radioactive isotope:\n";
+		<< "Select a fertile radioactive isotope:"
+		<< endl;
 	for (const auto& i : isotopes)
 	{
 		count2 += 1;
 		cout
-			<< "<"
+			<< '<'
 			<< count2
-			<< "> "
+			<< '>'
+			<< ' '
 			<< i.name
-			<< '\n';
+			<< endl;
 	}
 	
 	
