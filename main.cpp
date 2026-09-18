@@ -85,6 +85,7 @@ int main()
 			<< measurement[count1].unit
 			<< 's'
 			<< endl;
+		
 		count1 += 1;
 	}
 	
@@ -100,36 +101,45 @@ int main()
 	{
 		cin >> response1;
 		
-		if (response1 == measurement[0].character)
-		{
-			responseIndex1 = 0;
-			exitLoop1 = true;
-		}
-		else if (response1 == measurement[1].character)
-		{
-			responseIndex1 = 1;
-			exitLoop1 = true;
-		}
-		else if (response1 == measurement[2].character)
-		{
-			responseIndex1 = 2;
-			exitLoop1 = true;
-		}
-		else if (response1 == measurement[3].character)
-		{
-			responseIndex1 = 3;
-			exitLoop1 = true;
-		}
-		else if (response1 == measurement[4].character)
-		{
-			responseIndex1 = 4;
-			exitLoop1 = true;
-		}
+		if
+			(response1 == measurement[0].character)
+				{
+					responseIndex1 = 0;
+					exitLoop1 = true;
+				}
+		
+		else if
+			(response1 == measurement[1].character)
+				{
+					responseIndex1 = 1;
+					exitLoop1 = true;
+				}
+		
+		else if
+			(response1 == measurement[2].character)
+				{
+					responseIndex1 = 2;
+					exitLoop1 = true;
+				}
+		
+		else if
+			(response1 == measurement[3].character)
+				{
+					responseIndex1 = 3;
+					exitLoop1 = true;
+				}
+		
+		else if
+			(response1 == measurement[4].character)
+				{
+					responseIndex1 = 4;
+					exitLoop1 = true;
+				}
 		
 		else
-		{
-			cout << errorMessage;
-		}
+			{
+				cout << errorMessage;
+			}
 	}
 	
 	
