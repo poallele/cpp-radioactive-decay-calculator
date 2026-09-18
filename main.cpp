@@ -47,6 +47,9 @@ int main()
 	bool exitLoop2 = false;
 	int response2{};
 	int count2 = 0;
+	int responseIndex2{};
+
+	long double decay{};
 
 	vector<Measurement> measurement =
 	{
@@ -234,11 +237,13 @@ int main()
 	 * (since user responses begin at 1). if this was not used,
 	 * then response2 would equal 6 instead of 5. since 6 is not
 	 * present in the index, it would not return anything. */
-	int responseIndex2{ response2 - 1 };
+	
+	responseIndex2 = response2-1;
 
 	/* decay constant | the natural logarithm of  2 divided by the half life.
 	 * print the decay constant as a number with 20 decimal places. */
-	const double decay = (log(2)) / isotopes[responseIndex2].value;
+	
+	decay = (log(2)) / isotopes[responseIndex2].value;
 	cout
 		<< endl
 		<< "Probability per"
