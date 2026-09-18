@@ -23,16 +23,9 @@ struct Isotopes
 
 int main()
 {
-	/* This is a multi-line comment.
-	 * the matching asterisks to the left
-	 * can make this easier to read
-	 */
-
-	 /* if they choose 'seconds' then the half-lives (in the form of years,
-	  * scientific notation) are converted into seconds by multiplying
-	  * them by the number of seconds in the gregorian calendar.
-	  * dividing them by 3600 (amount of seconds in an hour)
-	  * yields hours. */
+	//=============================================================================================
+	// Task
+	//=============================================================================================
 	const int GREGORIAN_SECONDS = 31556952;
 	vector<Measurement> measurement =
 	{
@@ -42,7 +35,9 @@ int main()
 		{"d","day",GREGORIAN_SECONDS / 86400},
 		{"y","year",GREGORIAN_SECONDS / GREGORIAN_SECONDS}
 	};
-
+	//=============================================================================================
+	// Task
+	//=============================================================================================
 	string errorMessage = "Invalid character. ";
 
 	/* user prompt. 'print' = (std::cout <<). 'submit' = (std::cin >>).
@@ -67,7 +62,9 @@ int main()
 			<< "s\n";
 		count1 += 1;
 	}
-
+	//=============================================================================================
+	// Task
+	//=============================================================================================
 	while (!exitLoop1)
 	{
 		cin >> response1;
@@ -95,7 +92,9 @@ int main()
 			cout << errorMessage;
 		}
 	}
-
+	//=============================================================================================
+	// Task
+	//=============================================================================================
 	vector<Isotopes> isotopes =
 	{
 		{"Uranium-233",1.592e5 * measurement[responseIndex1].multiplier},
@@ -104,17 +103,24 @@ int main()
 		{"Plutonium-239",2.411e4 * measurement[responseIndex1].multiplier},
 		{"Thorium-232",1.40e10 * measurement[responseIndex1].multiplier}
 	};
-
+	//=============================================================================================
+	// Task
+	//=============================================================================================
 	// user prompt
 	bool exitLoop2 = false;
 	int response2{};
 	int count2 = 0;
 	cout << "Select a fertile radioactive isotope:\n";
-	for (const auto& i : isotopes) {
+	for (const auto& i : isotopes)
+	{
 		count2 += 1;
 		cout << "<" << count2 << "> " << i.name << '\n';
 	}
-	while (!exitLoop2) {
+	//=============================================================================================
+	// Task
+	//=============================================================================================
+	while (!exitLoop2)
+	{
 		cin >> response2;
 		if (response2 == 1) {
 			exitLoop2 = true;
@@ -135,6 +141,9 @@ int main()
 			cout << errorMessage;
 		}
 	}
+	//=============================================================================================
+	// Task
+	//=============================================================================================
 	/* since the index "[]" for a vector begins at 0, "-1" is used
 	 * (since user responses begin at 1). if this was not used,
 	 * then response2 would equal 6 instead of 5. since 6 is not
