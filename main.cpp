@@ -17,7 +17,7 @@ struct Timespan
 {
 	string			character;
 	string			unit;
-	int				divisorOfYearlySeconds;
+	long double		denominatorOfYearlySecondsWhichResultsInATimespansSpecificAmountOfSeconds;
 };
 
 struct Isotopes
@@ -35,27 +35,27 @@ int main()
 	// Task
 	//=============================================================================================
 	const
-		int		GREGORIAN_CALENDAR_SECONDS		=	31556952;
-		string	ERROR_MESSAGE		=	"Invalid character. ";
+		long double		GREGORIAN_CALENDAR_SECONDS		=	31556952;
+		string			ERROR_MESSAGE					=	"Invalid character. ";
 
 
 	bool
-				exitLoop1			=	false,
-				exitLoop2			=	false;
+						exitLoop1						=	false,
+						exitLoop2						=	false;
 
 
-	string		response1{};		// controls exitLoop1 & responseIndex1
+	string				response1{};		// controls exitLoop1 & responseIndex1
 
 
 	int
-				response2,			// controls exitLoop2 & responseIndex2
-				responseIndex1{},
-				responseIndex2{},
-				downTheIsotopeNameList				=	0;
+						response2,			// controls exitLoop2 & responseIndex2
+						responseIndex1{},
+						responseIndex2{},
+						downTheIsotopeNameList			=	0;
 
 
 	long double
-				decay{};
+						decay{};
 	
 	
 	
@@ -156,11 +156,11 @@ int main()
 	//=============================================================================================
 	vector<Isotopes> isotopes =
 	{
-		{"Uranium-233",		1.592e5		*	(GREGORIAN_CALENDAR_SECONDS / timespan[responseIndex1].divisorOfYearlySeconds)},
-		{"Uranium-235",		7.04e8		*	(GREGORIAN_CALENDAR_SECONDS / timespan[responseIndex1].divisorOfYearlySeconds)},
-		{"Uranium-238",		4.463e9		*	(GREGORIAN_CALENDAR_SECONDS / timespan[responseIndex1].divisorOfYearlySeconds)},
-		{"Plutonium-239",	2.411e4		*	(GREGORIAN_CALENDAR_SECONDS / timespan[responseIndex1].divisorOfYearlySeconds)},
-		{"Thorium-232",		1.405e10	*	(GREGORIAN_CALENDAR_SECONDS / timespan[responseIndex1].divisorOfYearlySeconds)}
+		{"Uranium-233",		1.592e5},
+		{"Uranium-235",		7.04e8},
+		{"Uranium-238",		4.463e9},
+		{"Plutonium-239",	2.411e4},
+		{"Thorium-232",		1.405e10}
 	};
 	
 	
@@ -199,29 +199,34 @@ int main()
 		cin >> response2;
 		
 		if (response2 == 1)
-		{
-			exitLoop2 = true;
-		}
-		else if (response2 == 2)
-		{
-			exitLoop2 = true;
-		}
-		else if (response2 == 3)
-		{
-			exitLoop2 = true;
-		}
-		else if (response2 == 4)
-		{
-			exitLoop2 = true;
-		}
-		else if (response2 == 5)
-		{
-			exitLoop2 = true;
-		}
+			{
+				exitLoop2 = true;
+			}
 		
-		else {
-			cout << ERROR_MESSAGE;
-		}
+		else if (response2 == 2)
+			{
+				exitLoop2 = true;
+			}
+		
+		else if (response2 == 3)
+			{
+				exitLoop2 = true;
+			}
+		
+		else if (response2 == 4)
+			{
+				exitLoop2 = true;
+			}
+		
+		else if (response2 == 5)
+			{
+				exitLoop2 = true;
+			}
+		
+		else
+			{
+				cout << ERROR_MESSAGE;
+			}
 	}
 	
 	
@@ -240,7 +245,17 @@ int main()
 	/* decay constant | the natural logarithm of  2 divided by the half life.
 	 * print the decay constant as a number with 20 decimal places. */
 	
-	decay = (log(2)) / isotopes[responseIndex2].halfLife;
+	decay =
+		
+		(log(2) /
+		isotopes[responseIndex2].halfLife)
+		
+		*
+
+		(GREGORIAN_CALENDAR_SECONDS /
+		timespan[responseIndex1].denominatorOfYearlySecondsWhichResultsInATimespansSpecificAmountOfSeconds);
+	
+
 	cout
 		<< endl
 		<< "Probability per"
