@@ -34,32 +34,10 @@ int main()
 	//=============================================================================================
 	// Task
 	//=============================================================================================
-	const long double	GREGORIAN_CALENDAR_SECONDS			=	31556952;
-	const string		ERROR_MESSAGE						=	"Invalid character. ";
+	const long double	GREGORIAN_CALENDAR_SECONDS	=	31556952;
+	const string		ERROR_MESSAGE				=	"Invalid character. ";
 
-
-	string				chosenUnitResponse;
-	int					vectorIndexOfChosenUnit{};
-	bool				exitInputValidationLoopForUnits		=	false;
-
-
-	int					chosenIsotopeResponse;
-	int					vectorIndexOfChosenIsotope{};
-	bool				exitInputValidationLoopForIsotopes	=	false;
-
-
-
-	int					numberedOrderOfIsotopes				=	0;
-
-
-	long double			decayConstant{};
-	
-	
-	
-	//=============================================================================================
-	// Task
-	//=============================================================================================
-	vector<TimespanStruct> TimespanVector =
+	vector<TimespanStruct>TimespanVector =
 	{
 		{"s",	"second",	1},
 		{"m",	"minute",	60},
@@ -68,8 +46,7 @@ int main()
 		{"y",	"year",		GREGORIAN_CALENDAR_SECONDS}
 	};
 	
-	
-	vector<IsotopeStruct> IsotopeVector =
+	vector<IsotopeStruct>IsotopeVector =
 	{
 		{"Uranium-233",		1.592e5},
 		{"Uranium-235",		7.04e8},
@@ -77,9 +54,25 @@ int main()
 		{"Plutonium-239",	2.411e4},
 		{"Thorium-232",		1.405e10}
 	};
+	
+	
+	
+	//=============================================================================================
+	// Task
+	//=============================================================================================
+	string				chosenMeasurementUnitResponse;
+	int					indexOfChosenMeasurementUnitsInVector{};
+	bool				exitInputValidationLoopForMeasurementUnits = false;
 
+	int					chosenIsotopeResponse;
+	int					indexOfChosenIsotopeInVector{};
+	bool				exitInputValidationLoopForIsotopes = false;
 
+	int					numberedOrderOfIsotopes = 0;
+	long double			decayConstant{};
 
+	
+	
 	//=============================================================================================
 	// Prompt 1
 	//=============================================================================================
@@ -105,48 +98,48 @@ int main()
 	//=============================================================================================
 	// Input Validation 1
 	//=============================================================================================
-	while (!exitInputValidationLoopForUnits)
-	{									// 'exitInputValidationLoopForUnits' is initialized as false.
-										// "while (exitInputValidationLoopForUnits)" means "while exitInputValidationLoopForUnits is true..."
+	while (!exitInputValidationLoopForMeasurementUnits)
+	{									// 'exitInputValidationLoopForMeasurementUnits' is initialized as false.
+										// "while (exitInputValidationLoopForMeasurementUnits)" means "while exitInputValidationLoopForMeasurementUnits is true..."
 										// The (!) makes it negative.
-										// exitInputValidationLoopForUnits only becomes "true" by entering valid characters.
+										// exitInputValidationLoopForMeasurementUnits only becomes "true" by entering valid characters.
 		
-		cin >> chosenUnitResponse;
+		cin >> chosenMeasurementUnitResponse;
 		
 		if												// 'If-else' conditionals are utilized instead of 'switch' statements
 														// for their ability to use strings and logical comparisons.
-			(chosenUnitResponse == TimespanVector[0].firstCharacter)
+			(chosenMeasurementUnitResponse == TimespanVector[0].firstCharacter)
 				{
-					vectorIndexOfChosenUnit = 0;
-					exitInputValidationLoopForUnits = true;
+					indexOfChosenMeasurementUnitsInVector = 0;
+					exitInputValidationLoopForMeasurementUnits = true;
 				}
 		
 		else if
-			(chosenUnitResponse == TimespanVector[1].firstCharacter)
+			(chosenMeasurementUnitResponse == TimespanVector[1].firstCharacter)
 				{
-					vectorIndexOfChosenUnit = 1;
-					exitInputValidationLoopForUnits = true;
+					indexOfChosenMeasurementUnitsInVector = 1;
+					exitInputValidationLoopForMeasurementUnits = true;
 				}
 		
 		else if
-			(chosenUnitResponse == TimespanVector[2].firstCharacter)
+			(chosenMeasurementUnitResponse == TimespanVector[2].firstCharacter)
 				{
-					vectorIndexOfChosenUnit = 2;
-					exitInputValidationLoopForUnits = true;
+					indexOfChosenMeasurementUnitsInVector = 2;
+					exitInputValidationLoopForMeasurementUnits = true;
 				}
 		
 		else if
-			(chosenUnitResponse == TimespanVector[3].firstCharacter)
+			(chosenMeasurementUnitResponse == TimespanVector[3].firstCharacter)
 				{
-					vectorIndexOfChosenUnit = 3;
-					exitInputValidationLoopForUnits = true;
+					indexOfChosenMeasurementUnitsInVector = 3;
+					exitInputValidationLoopForMeasurementUnits = true;
 				}
 		
 		else if
-			(chosenUnitResponse == TimespanVector[4].firstCharacter)
+			(chosenMeasurementUnitResponse == TimespanVector[4].firstCharacter)
 				{
-					vectorIndexOfChosenUnit = 4;
-					exitInputValidationLoopForUnits = true;
+					indexOfChosenMeasurementUnitsInVector = 4;
+					exitInputValidationLoopForMeasurementUnits = true;
 				}
 		
 		else
@@ -230,24 +223,24 @@ int main()
 	 * then chosenIsotopeResponse would equal 6 instead of 5. since 6 is not
 	 * present in the index, it would not return anything. */
 	
-	vectorIndexOfChosenIsotope = chosenIsotopeResponse-1;
+	indexOfChosenIsotopeInVector = chosenIsotopeResponse-1;
 
 	decayConstant =	// Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
 		
 		(log(2) /
-		IsotopeVector[vectorIndexOfChosenIsotope].halfLife)
+		IsotopeVector[indexOfChosenIsotopeInVector].halfLife)
 		
 		*
 
 		(GREGORIAN_CALENDAR_SECONDS /
-		TimespanVector[vectorIndexOfChosenUnit].secondsInASingularUnit);
+		TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit);
 	
 
 	cout
 		<< endl
 		<< "Probability per"
 		<< ' '
-		<< TimespanVector[vectorIndexOfChosenUnit].unit
+		<< TimespanVector[indexOfChosenMeasurementUnitsInVector].unit
 		<< ' '
 		<< "for a single"
 		<< ' '
