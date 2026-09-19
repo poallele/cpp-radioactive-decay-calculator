@@ -39,24 +39,29 @@ int main()
 
 
 
-	const int AMOUNT_OF_MEASUREMENTS = 5;
+	int AMOUNT_OF_MEASUREMENTS				= 5;	// default amount
+	AMOUNT_OF_MEASUREMENTS					+= 1;	// How many more measurements do you want to add?
 	vector<TimespanStruct>TimespanVector =
 	{
 		{"s",	"second",	1},
 		{"m",	"minute",	60},
 		{"h",	"hour",		3600},
 		{"d",	"day",		86400},
-		{"y",	"year",		GREGORIAN_CALENDAR_SECONDS}
-	};
+		{"y",	"year",		GREGORIAN_CALENDAR_SECONDS},
 
-	const int AMOUNT_OF_ISOTOPES = 5;
+		{"x",	"test unit",69}				// Add whatever new measurements you want down here
+	};//===========================================================================================
+	int AMOUNT_OF_ISOTOPES					= 5;	// default amount
+	AMOUNT_OF_ISOTOPES						+= 1;	// How many more isotopes do you want to add?
 	vector<IsotopeStruct>IsotopeVector =
 	{
 		{"Uranium-233",		1.592e5},
 		{"Uranium-235",		7.04e8},
 		{"Uranium-238",		4.463e9},
 		{"Plutonium-239",	2.411e4},
-		{"Thorium-232",		1.405e10}
+		{"Thorium-232",		1.405e10},
+		
+		{"test isotope",	420},			// Add whatever new isotope you want down here
 	};
 
 
