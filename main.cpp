@@ -194,8 +194,8 @@ int main()
 
 		*
 
-		(GREGORIAN_CALENDAR_SECONDS /
-		TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit);
+		(TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit /
+		GREGORIAN_CALENDAR_SECONDS);
 
 
 	cout
