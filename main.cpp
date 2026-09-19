@@ -94,9 +94,8 @@ int main()
 			<< '<'
 			<< currentTimespan.firstCharacter
 			<< '>'
-			<< ' ';
-		
-		cout
+			<< ' '
+			
 			<< currentTimespan.unit
 			<< 's'
 			<< endl;
@@ -175,9 +174,8 @@ int main()
 			<< '<'
 			<< numberedOrderOfIsotopes
 			<< '>'
-			<< ' ';
-		
-		cout
+			<< ' '
+			
 			<< currentIsotope.name
 			<< endl;
 	}
