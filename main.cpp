@@ -13,14 +13,14 @@ using namespace std;
 //=============================================================================================
 // Task
 //=============================================================================================
-struct Timespan
+struct TimespanStruct
 {
-	string			character;
+	string			firstCharacter;
 	string			unit;
 	long double		denominatorOfYearlySecondsWhichResultsInATimespansSpecificAmountOfSeconds;
 };
 
-struct Isotopes
+struct IsotopeStruct
 {
 	string			name;
 	long double		halfLife;
@@ -34,35 +34,33 @@ int main()
 	//=============================================================================================
 	// Task
 	//=============================================================================================
-	const
-		long double		GREGORIAN_CALENDAR_SECONDS		=	31556952;
-		string			ERROR_MESSAGE					=	"Invalid character. ";
+	const long double	GREGORIAN_CALENDAR_SECONDS			=	31556952;
+	const string		ERROR_MESSAGE						=	"Invalid character. ";
 
 
-	bool
-						exitLoop1						=	false,
-						exitLoop2						=	false;
+	int					chosenIsotopeResponse;
+	int					vectorIndexOfChosenIsotope{};
+	bool				exitInputValidationLoopForUnits		=	false;
 
 
-	string				response1{};		// controls exitLoop1 & indexOfUsersChosenUnit
+
+	string				chosenUnitResponse;
+	int					vectorIndexOfChosenUnit{};
+	bool				exitInputValidationLoopForIsotopes	=	false;
 
 
-	int
-						response2,			// controls exitLoop2 & indexOfUsersChosenIsotope
-						indexOfUsersChosenUnit{},
-						indexOfUsersChosenIsotope{},
-						numberedOrderOfIsotopes			=	0;
+
+	int					numberedOrderOfIsotopes				=	0;
 
 
-	long double
-						decay{};
+	long double			decayConstant{};
 	
 	
 	
 	//=============================================================================================
 	// Task
 	//=============================================================================================
-	vector<Timespan> timespan =
+	vector<TimespanStruct> TimespanVector =
 	{
 		{"s",	"second",	1},
 		{"m",	"minute",	60},
@@ -80,11 +78,11 @@ int main()
 		<< "Select a timespan for measurement:"
 		<< endl;
 
-	for (const auto& currentTimespan:timespan)
+	for (const auto& currentTimespan:TimespanVector)
 	{
 		cout
 			<< '<'
-			<< currentTimespan.character
+			<< currentTimespan.firstCharacter
 			<< '>'
 			<< ' ';
 		
@@ -99,48 +97,48 @@ int main()
 	//=============================================================================================
 	// Task
 	//=============================================================================================
-	while (!exitLoop1)
-	{									// 'exitLoop1' is initialized as false.
-										// "while (exitLoop1)" means "while exitLoop1 is true..."
+	while (!exitInputValidationLoopForUnits)
+	{									// 'exitInputValidationLoopForUnits' is initialized as false.
+										// "while (exitInputValidationLoopForUnits)" means "while exitInputValidationLoopForUnits is true..."
 										// The (!) makes it negative.
-										// exitLoop1 only becomes "true" by entering valid characters.
+										// exitInputValidationLoopForUnits only becomes "true" by entering valid characters.
 		
-		cin >> response1;
+		cin >> chosenUnitResponse;
 		
 		if												// 'If-else' conditionals are utilized instead of 'switch' statements
 														// for their ability to use strings and logical comparisons.
-			(response1 == timespan[0].character)
+			(chosenUnitResponse == TimespanVector[0].firstCharacter)
 				{
-					indexOfUsersChosenUnit = 0;
-					exitLoop1 = true;
+					vectorIndexOfChosenUnit = 0;
+					exitInputValidationLoopForUnits = true;
 				}
 		
 		else if
-			(response1 == timespan[1].character)
+			(chosenUnitResponse == TimespanVector[1].firstCharacter)
 				{
-					indexOfUsersChosenUnit = 1;
-					exitLoop1 = true;
+					vectorIndexOfChosenUnit = 1;
+					exitInputValidationLoopForUnits = true;
 				}
 		
 		else if
-			(response1 == timespan[2].character)
+			(chosenUnitResponse == TimespanVector[2].firstCharacter)
 				{
-					indexOfUsersChosenUnit = 2;
-					exitLoop1 = true;
+					vectorIndexOfChosenUnit = 2;
+					exitInputValidationLoopForUnits = true;
 				}
 		
 		else if
-			(response1 == timespan[3].character)
+			(chosenUnitResponse == TimespanVector[3].firstCharacter)
 				{
-					indexOfUsersChosenUnit = 3;
-					exitLoop1 = true;
+					vectorIndexOfChosenUnit = 3;
+					exitInputValidationLoopForUnits = true;
 				}
 		
 		else if
-			(response1 == timespan[4].character)
+			(chosenUnitResponse == TimespanVector[4].firstCharacter)
 				{
-					indexOfUsersChosenUnit = 4;
-					exitLoop1 = true;
+					vectorIndexOfChosenUnit = 4;
+					exitInputValidationLoopForUnits = true;
 				}
 		
 		else
@@ -154,7 +152,7 @@ int main()
 	//=============================================================================================
 	// Task
 	//=============================================================================================
-	vector<Isotopes> isotopes =
+	vector<IsotopeStruct> IsotopeVector =
 	{
 		{"Uranium-233",		1.592e5},
 		{"Uranium-235",		7.04e8},
@@ -174,7 +172,7 @@ int main()
 		<< "Select a radioactive isotope:"
 		<< endl;
 	
-	for (const auto & currentIsotope:isotopes)
+	for (const auto & currentIsotope:IsotopeVector)
 	{
 		numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
 		
@@ -194,33 +192,33 @@ int main()
 	//=============================================================================================
 	// Task
 	//=============================================================================================
-	while (!exitLoop2)
+	while (!exitInputValidationLoopForIsotopes)
 	{
-		cin >> response2;
+		cin >> chosenIsotopeResponse;
 		
-		if (response2 == 1)
+		if (chosenIsotopeResponse == 1)
 			{
-				exitLoop2 = true;
+				exitInputValidationLoopForIsotopes = true;
 			}
 		
-		else if (response2 == 2)
+		else if (chosenIsotopeResponse == 2)
 			{
-				exitLoop2 = true;
+				exitInputValidationLoopForIsotopes = true;
 			}
 		
-		else if (response2 == 3)
+		else if (chosenIsotopeResponse == 3)
 			{
-				exitLoop2 = true;
+				exitInputValidationLoopForIsotopes = true;
 			}
 		
-		else if (response2 == 4)
+		else if (chosenIsotopeResponse == 4)
 			{
-				exitLoop2 = true;
+				exitInputValidationLoopForIsotopes = true;
 			}
 		
-		else if (response2 == 5)
+		else if (chosenIsotopeResponse == 5)
 			{
-				exitLoop2 = true;
+				exitInputValidationLoopForIsotopes = true;
 			}
 		
 		else
@@ -237,40 +235,40 @@ int main()
 	
 	/* since the index "[]" for a vector begins at 0, "-1" is used
 	 * (since user responses begin at 1). if this was not used,
-	 * then response2 would equal 6 instead of 5. since 6 is not
+	 * then chosenIsotopeResponse would equal 6 instead of 5. since 6 is not
 	 * present in the index, it would not return anything. */
 	
-	indexOfUsersChosenIsotope = response2-1;
+	vectorIndexOfChosenIsotope = chosenIsotopeResponse-1;
 
 	/* decay constant | the natural logarithm of  2 divided by the half life.
 	 * print the decay constant as a number with 20 decimal places. */
 	
-	decay =
+	decayConstant =
 		
 		(log(2) /
-		isotopes[indexOfUsersChosenIsotope].halfLife)
+		IsotopeVector[vectorIndexOfChosenIsotope].halfLife)
 		
 		*
 
 		(GREGORIAN_CALENDAR_SECONDS /
-		timespan[indexOfUsersChosenUnit].denominatorOfYearlySecondsWhichResultsInATimespansSpecificAmountOfSeconds);
+		TimespanVector[vectorIndexOfChosenUnit].denominatorOfYearlySecondsWhichResultsInATimespansSpecificAmountOfSeconds);
 	
 
 	cout
 		<< endl
 		<< "Probability per"
 		<< ' '
-		<< timespan[indexOfUsersChosenUnit].unit
+		<< TimespanVector[vectorIndexOfChosenUnit].unit
 		<< ' '
 		<< "for a single"
 		<< ' '
-		<< isotopes[response2 - 1].name
+		<< IsotopeVector[chosenIsotopeResponse - 1].name
 		<< ' '
 		<< "nucleus to decay:"
 		<< ' '
 		<< std::fixed
 		<< std::setprecision(25)
-		<< decay
+		<< decayConstant
 		<< endl
 		<< endl
 		<< endl;
