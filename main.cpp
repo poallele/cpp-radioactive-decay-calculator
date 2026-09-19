@@ -266,8 +266,8 @@ int main()
 		<< ' '
 		<< "nucleus to decay:"
 		<< ' '
-		<< std::fixed
-		<< std::setprecision(25)
+		<< fixed
+		<< setprecision(25)
 		<< decayConstant
 		<< endl
 		<< endl
