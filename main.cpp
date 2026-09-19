@@ -37,6 +37,9 @@ int main()
 	const long double	GREGORIAN_CALENDAR_SECONDS = 31556952;
 	const string		ERROR_MESSAGE = "Invalid character. ";
 
+
+
+	const int AMOUNT_OF_MEASUREMENTS = 5;
 	vector<TimespanStruct>TimespanVector =
 	{
 		{"s",	"second",	1},
@@ -46,6 +49,7 @@ int main()
 		{"y",	"year",		GREGORIAN_CALENDAR_SECONDS}
 	};
 
+	const int AMOUNT_OF_ISOTOPES = 5;
 	vector<IsotopeStruct>IsotopeVector =
 	{
 		{"Uranium-233",		1.592e5},
@@ -99,50 +103,20 @@ int main()
 	// Input Validation 1
 	//=============================================================================================
 	while (!exitInputValidationLoopForMeasurementUnits)
-	{									// 'exitInputValidationLoopForMeasurementUnits' is initialized as false.
-										// "while (exitInputValidationLoopForMeasurementUnits)" means "while exitInputValidationLoopForMeasurementUnits is true..."
-										// The (!) makes it negative.
-										// exitInputValidationLoopForMeasurementUnits only becomes "true" by entering valid characters.
-
+	{									
 		cin >> chosenMeasurementUnitResponse;
 
-		if												// 'If-else' conditionals are utilized instead of 'switch' statements
-														// for their ability to use strings and logical comparisons.
-			(chosenMeasurementUnitResponse == TimespanVector[0].firstCharacter)
+		for (int i = 0; i <= (AMOUNT_OF_MEASUREMENTS-1); i++)
 		{
-			indexOfChosenMeasurementUnitsInVector = 0;
-			exitInputValidationLoopForMeasurementUnits = true;
+			if (chosenMeasurementUnitResponse == TimespanVector[i].firstCharacter)
+			{
+				indexOfChosenMeasurementUnitsInVector = i;
+				exitInputValidationLoopForMeasurementUnits = true;
+				break;
+			}
 		}
-
-		else if
-			(chosenMeasurementUnitResponse == TimespanVector[1].firstCharacter)
-		{
-			indexOfChosenMeasurementUnitsInVector = 1;
-			exitInputValidationLoopForMeasurementUnits = true;
-		}
-
-		else if
-			(chosenMeasurementUnitResponse == TimespanVector[2].firstCharacter)
-		{
-			indexOfChosenMeasurementUnitsInVector = 2;
-			exitInputValidationLoopForMeasurementUnits = true;
-		}
-
-		else if
-			(chosenMeasurementUnitResponse == TimespanVector[3].firstCharacter)
-		{
-			indexOfChosenMeasurementUnitsInVector = 3;
-			exitInputValidationLoopForMeasurementUnits = true;
-		}
-
-		else if
-			(chosenMeasurementUnitResponse == TimespanVector[4].firstCharacter)
-		{
-			indexOfChosenMeasurementUnitsInVector = 4;
-			exitInputValidationLoopForMeasurementUnits = true;
-		}
-
-		else
+		
+		if (exitInputValidationLoopForMeasurementUnits != true)
 		{
 			cout << ERROR_MESSAGE;
 		}
@@ -187,7 +161,7 @@ int main()
 			&&
 			chosenIsotopeResponse >= 1
 			&&
-			chosenIsotopeResponse <= 5
+			chosenIsotopeResponse <= AMOUNT_OF_ISOTOPES
 			
 		)
 		{
@@ -216,12 +190,12 @@ int main()
 	decayConstant =	// Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
 
 		(log(2) /
-			IsotopeVector[indexOfChosenIsotopeInVector].halfLife)
+		IsotopeVector[indexOfChosenIsotopeInVector].halfLife)
 
 		*
 
 		(GREGORIAN_CALENDAR_SECONDS /
-			TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit);
+		TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit);
 
 
 	cout
