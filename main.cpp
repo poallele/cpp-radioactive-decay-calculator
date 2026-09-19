@@ -17,7 +17,7 @@ struct TimespanStruct
 {
 	string			firstCharacter;
 	string			unit;
-	long double		denominatorOfYearlySecondsWhichResultsInATimespansSpecificAmountOfSeconds;
+	long double		secondsInASingularUnit;
 };
 
 struct IsotopeStruct
@@ -233,10 +233,7 @@ int main()
 	
 	vectorIndexOfChosenIsotope = chosenIsotopeResponse-1;
 
-	/* decay constant | the natural logarithm of  2 divided by the half life.
-	 * print the decay constant as a number with 20 decimal places. */
-	
-	decayConstant =
+	decayConstant =	// Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of timespan units
 		
 		(log(2) /
 		IsotopeVector[vectorIndexOfChosenIsotope].halfLife)
@@ -244,7 +241,7 @@ int main()
 		*
 
 		(GREGORIAN_CALENDAR_SECONDS /
-		TimespanVector[vectorIndexOfChosenUnit].denominatorOfYearlySecondsWhichResultsInATimespansSpecificAmountOfSeconds);
+		TimespanVector[vectorIndexOfChosenUnit].secondsInASingularUnit);
 	
 
 	cout
