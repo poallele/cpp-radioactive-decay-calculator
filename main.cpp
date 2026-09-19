@@ -40,12 +40,12 @@ int main()
 
 	string				chosenUnitResponse;
 	int					vectorIndexOfChosenUnit{};
-	bool				exitInputValidationLoopForIsotopes	=	false;
+	bool				exitInputValidationLoopForUnits		=	false;
 
 
 	int					chosenIsotopeResponse;
 	int					vectorIndexOfChosenIsotope{};
-	bool				exitInputValidationLoopForUnits		=	false;
+	bool				exitInputValidationLoopForIsotopes	=	false;
 
 
 
