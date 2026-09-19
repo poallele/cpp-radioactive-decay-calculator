@@ -38,15 +38,14 @@ int main()
 	const string		ERROR_MESSAGE						=	"Invalid character. ";
 
 
-	int					chosenIsotopeResponse;
-	int					vectorIndexOfChosenIsotope{};
-	bool				exitInputValidationLoopForUnits		=	false;
-
-
-
 	string				chosenUnitResponse;
 	int					vectorIndexOfChosenUnit{};
 	bool				exitInputValidationLoopForIsotopes	=	false;
+
+
+	int					chosenIsotopeResponse;
+	int					vectorIndexOfChosenIsotope{};
+	bool				exitInputValidationLoopForUnits		=	false;
 
 
 
@@ -233,7 +232,7 @@ int main()
 	
 	vectorIndexOfChosenIsotope = chosenIsotopeResponse-1;
 
-	decayConstant =	// Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of timespan units
+	decayConstant =	// Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
 		
 		(log(2) /
 		IsotopeVector[vectorIndexOfChosenIsotope].halfLife)
