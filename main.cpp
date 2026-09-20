@@ -49,7 +49,7 @@ int main()
 		{"d",	"day",		86400},
 		{"y",	"year",		GREGORIAN_CALENDAR_SECONDS},
 
-		{"x",	"test unit",69}				// Add whatever new measurements you want down here
+		{"x",	"placeholder unit",	0.01}			// Add whatever new measurements you want down here
 	};//===========================================================================================
 	int AMOUNT_OF_ISOTOPES					= 5;	// default amount
 	AMOUNT_OF_ISOTOPES						+= 1;	// How many more isotopes do you want to add?
@@ -61,7 +61,7 @@ int main()
 		{"Plutonium-239",	2.411e4},
 		{"Thorium-232",		1.405e10},
 		
-		{"test isotope",	420},			// Add whatever new isotope you want down here
+		{"placeholder isotope",		1.47614e-9},	// Add whatever new isotope you want down here
 	};
 
 
@@ -201,7 +201,6 @@ int main()
 
 		(TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit /
 		GREGORIAN_CALENDAR_SECONDS);
-
 
 	cout
 		<< endl
