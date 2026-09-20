@@ -61,7 +61,7 @@ int main()
 		{"Plutonium-239",	2.411e4},
 		{"Thorium-232",		1.405e10},
 		
-		{"placeholder isotope",		1.47614e-9},	// Add whatever new isotope you want down here
+		{"placeholder isotope",		14.7613976825e2},	// Add whatever new isotope you want down here
 	};
 
 
