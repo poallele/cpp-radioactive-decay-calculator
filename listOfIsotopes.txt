@@ -1,0 +1,2 @@
+Plutonium-239:2.411e4
+Thorium-232:1.405e10
