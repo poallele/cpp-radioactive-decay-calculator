@@ -7,6 +7,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <iomanip>
 using namespace std;
 
 struct TimespanStruct
@@ -30,6 +31,8 @@ int main()
     string input3; // To hold file input
     string input4; // To hold file input
     string input5; // To hold file input
+    int numberedOrderOfIsotopes = 0;
+    int spaceTaken;
 
     vector<TimespanStruct>TimespanVector =
     {
@@ -84,22 +87,24 @@ int main()
     // Task
     //=============================================================================================
     // Use an iterator to display the vector contents.
-    for (auto& currentTimespan : TimespanVector)                       // PAGE 434
+    for (auto& currentMeasurement : TimespanVector)                 // PAGE 434
     {
+        spaceTaken = currentMeasurement.unit.length();
+
         cout
-            << "First character: "
-            << currentTimespan.firstCharacter
-            << endl
-            << "Unit: "
-            << currentTimespan.unit
-            << endl
-            << "Seconds per unit: "
-            << currentTimespan.secondsInASingularUnit
-            << endl
-            
+            << '<'
+            << currentMeasurement.firstCharacter
+            << '>'
+            << ' '
+
+            << currentMeasurement.unit
+            << ':'
+
+            << setw(50 - spaceTaken)
+            << "Seconds in a singular unit: "
+            << currentMeasurement.secondsInASingularUnit
             << endl;
     }
-    cout << "********************************************";
     //=============================================================================================
     // Task
     //=============================================================================================
@@ -136,15 +141,23 @@ int main()
     // Task
     //=============================================================================================
     // Use an iterator to display the vector contents.
-    for (auto& currentIsotope : IsotopeVector)                       // PAGE 434
+    for (auto& currentIsotope : IsotopeVector)                      // PAGE 434
     {
+        numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
+        spaceTaken = currentIsotope.name.length();
+        
         cout
-            << "Name: "
+            << '<'
+            << numberedOrderOfIsotopes
+            << '>'
+            << ' '
+
             << currentIsotope.name
-            << endl
+            << ':'
+            
+            << setw(33 - spaceTaken)
             << "Half life: "
             << currentIsotope.halfLife
-            << endl
             << endl;
     }
 
