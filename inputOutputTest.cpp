@@ -9,6 +9,13 @@
 #include <vector>
 using namespace std;
 
+struct TimespanStruct
+{
+    string			firstCharacter;
+    string			unit;
+    long double		secondsInASingularUnit;
+};
+
 struct IsotopeStruct
 {
     string			name;
@@ -17,9 +24,18 @@ struct IsotopeStruct
 
 int main()
 {
-    string input; // To hold file input
+    string input1; // To hold file input
     string input2; // To hold file input
+    string input3; // To hold file input
+    string input4; // To hold file input
+    string input5; // To hold file input
 
+    vector<TimespanStruct>TimespanVector =
+    {
+        {"s",	"second",	1},
+        {"m",	"minute",	60},
+        {"h",	"hour",		3600},
+    };
     vector<IsotopeStruct>IsotopeVector =
     {
         {"Uranium-233",		1.592e5},
@@ -28,28 +44,28 @@ int main()
     };
     //=====================================================================
     // Open the file for input.
-    fstream dataFile("listOfIsotopes.txt", ios::in);                // PAGE 714
+    fstream dataFile2("listOfIsotopes.txt", ios::in);                // PAGE 714
 
     // If the file was successfully opened, continue.
-    if (dataFile)
+    if (dataFile2)
     {
         // While the last read operation was successful, continue.
-        while (dataFile)
+        while (dataFile2)
         {
             // Display the last item read.
-            cout << input << endl;
-            
-            // Read an item using ':' as a delimiter.
-            getline(dataFile, input, ':');
-            getline(dataFile, input2);
-            
-            long double input2LongDouble = stold(string(input2));   // PAGE 612
+            cout << input4 << endl;
 
-            IsotopeVector.emplace_back(input,input2LongDouble);     // PAGE 1080
+            // Read an item using ':' as a delimiter.
+            getline(dataFile2, input4, ':');
+            getline(dataFile2, input5);
+
+            long double input5LongDouble = stold(string(input5));   // PAGE 612
+
+            IsotopeVector.emplace_back(input4, input5LongDouble);     // PAGE 1080
         }
 
         // Close the file.
-        dataFile.close();
+        dataFile2.close();
     }
     else
     {
@@ -59,7 +75,7 @@ int main()
     cout << endl;
 
     // Use an iterator to display the vector contents.
-    for (auto & currentIsotope:IsotopeVector)                       // PAGE 434
+    for (auto& currentIsotope : IsotopeVector)                       // PAGE 434
     {
         cout
             << "Name: "
@@ -70,6 +86,7 @@ int main()
             << endl
             << endl;
     }
+    //==================================================================================
 
     return 0;
 }
