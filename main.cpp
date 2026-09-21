@@ -225,3 +225,16 @@ int main()
 
 	return 0;
 }
+
+// #include <iostream>
+// #include <string>
+
+// int main() {
+    // std::string apple, red;
+
+    // std::getline(std::cin, apple, ':');
+    // std::getline(std::cin, red);
+
+    // std::cout << "apple = " << apple << '\n';
+    // std::cout << "red = " << red << '\n';
+//}
