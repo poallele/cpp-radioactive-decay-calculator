@@ -4,12 +4,18 @@
 // https://manara.edu.sy/downloads/files/1681300155_Refrence.pdf
 
 #include <iostream>
-#include <fstream>
-#include <string>
 #include <vector>
+#include <string>
+#include <cmath>
+#include <fstream>
 #include <iomanip>
 using namespace std;
 
+
+
+//=============================================================================================
+// Task
+//=============================================================================================
 struct TimespanStruct
 {
     string			firstCharacter;
@@ -22,17 +28,15 @@ struct IsotopeStruct
     string			name;
     long double		halfLife;
 };
+//=============================================================================================
 
 int main()
 {
-    const long double GREGORIAN_CALENDAR_SECONDS = 31556952;
-    string input1; // To hold file input
-    string input2; // To hold file input
-    string input3; // To hold file input
-    string input4; // To hold file input
-    string input5; // To hold file input
-    int numberedOrderOfIsotopes = 0;
-    int spaceTaken;
+    //=============================================================================================
+    // Task
+    //=============================================================================================
+    const long double   GREGORIAN_CALENDAR_SECONDS = 31556952;
+    const string		ERROR_MESSAGE = "Invalid character. ";
 
     vector<TimespanStruct>TimespanVector =
     {
@@ -50,8 +54,36 @@ int main()
         {"Plutonium-239",	2.411e4},
         {"Thorium-232",		1.405e10},
     };
+    
+    
+    
     //=============================================================================================
     // Task
+    //=============================================================================================
+    string				chosenMeasurementUnitResponse;
+    int					indexOfChosenMeasurementUnitsInVector{};
+    bool				exitInputValidationLoopForMeasurementUnits = false;
+
+    double				chosenIsotopeResponse;
+    int					indexOfChosenIsotopeInVector{};
+    bool				exitInputValidationLoopForIsotopes = false;
+
+    string              input1; // To hold file input
+    string              input2; // To hold file input
+    string              input3; // To hold file input
+    string              input4; // To hold file input
+    string              input5; // To hold file input
+    
+    int                 numberedOrderOfIsotopes = 0;
+    
+    int                 spaceTaken;
+    
+    long double			decayConstant;
+    
+    
+    
+    //=============================================================================================
+    // File retrieval 1
     //=============================================================================================
     // Open the file for input.
     fstream dataFile("listOfMeasurements.txt", ios::in);                // PAGE 714
@@ -79,30 +111,11 @@ int main()
     {
         cout << "ERROR: Cannot open file.\n";
     }
+    
+    
+    
     //=============================================================================================
-    // Task
-    //=============================================================================================
-    // Use an iterator to display the vector contents.
-    for (auto& currentMeasurement : TimespanVector)                 // PAGE 434
-    {
-        spaceTaken = currentMeasurement.unit.length();
-
-        cout
-            << '<'
-            << currentMeasurement.firstCharacter
-            << '>'
-            << ' '
-
-            << currentMeasurement.unit
-            << ':'
-
-            << setw(50 - spaceTaken)
-            << "Seconds in a singular unit: "
-            << currentMeasurement.secondsInASingularUnit
-            << endl;
-    }
-    //=============================================================================================
-    // Task
+    // File retrieval 2
     //=============================================================================================
     // Open the file for input.
     fstream dataFile2("listOfIsotopes.txt", ios::in);                // PAGE 714
@@ -129,10 +142,54 @@ int main()
     {
         cout << "ERROR: Cannot open file.\n";
     }
+    
+    
+    
+    //=============================================================================================
+    // Prompt 1
+    //=============================================================================================
+    cout
+        << "Select a timespan for measurement:"
+        << endl;
+
+    // Use an iterator to display the vector contents.
+    for (auto& currentMeasurement : TimespanVector)                 // PAGE 434
+    {
+        spaceTaken = currentMeasurement.unit.length();
+
+        cout
+            << '<'
+            << currentMeasurement.firstCharacter
+            << '>'
+            << ' '
+
+            << currentMeasurement.unit
+            << "(s)"
+            << ':'
+
+            << setw(50 - spaceTaken)
+            << "Seconds in a singular unit: "
+            << currentMeasurement.secondsInASingularUnit
+            << endl;
+    }
     cout << endl;
+    
+
+    
     //=============================================================================================
-    // Task
+    // Input Validation 1
     //=============================================================================================
+    cin >> chosenMeasurementUnitResponse;
+
+
+
+    //=============================================================================================
+    // Prompt 2
+    //=============================================================================================
+    cout
+        << "Select a radioactive isotope:"
+        << endl;
+    
     // Use an iterator to display the vector contents.
     for (auto& currentIsotope : IsotopeVector)                      // PAGE 434
     {
@@ -148,11 +205,62 @@ int main()
             << currentIsotope.name
             << ':'
 
-            << setw(33 - spaceTaken)
+            << setw(36 - spaceTaken)
             << "Half life: "
             << currentIsotope.halfLife
             << endl;
     }
+    
+    
+    
+    //=============================================================================================
+    // Input Validation 2
+    //=============================================================================================
+    cin >> chosenIsotopeResponse;
+
+
+
+    //=============================================================================================
+    // Print final output
+    //=============================================================================================
+
+    /* since the index "[]" for a vector begins at 0, "-1" is used
+     * (since user responses begin at 1). if this was not used,
+     * then chosenIsotopeResponse would equal 6 instead of 5. since 6 is not
+     * present in the index, it would not return anything. */
+
+    indexOfChosenIsotopeInVector = chosenIsotopeResponse - 1;
+
+    decayConstant =	// Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
+
+        (log(2) /
+            IsotopeVector[indexOfChosenIsotopeInVector].halfLife)
+
+        *
+
+        (TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit /
+            GREGORIAN_CALENDAR_SECONDS);
+
+    cout
+        << endl
+        << "Probability per"
+        << ' '
+        << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit
+        << ' '
+        << "for a single"
+        << ' '
+        << IsotopeVector[chosenIsotopeResponse - 1].name
+        << ' '
+        << "nucleus to decay:"
+        << ' '
+        << fixed
+        << setprecision(25)
+        << decayConstant
+        << endl
+        << endl
+        << endl;
+
+
 
     return 0;
 }
