@@ -87,7 +87,7 @@ int main()
 		<< "Select a timespan for measurement:"
 		<< endl;
 
-	for (const auto& currentTimespan : TimespanVector)
+	for (auto&currentTimespan:TimespanVector)
 	{
 		cout
 			<< '<'
@@ -135,7 +135,7 @@ int main()
 		<< "Select a radioactive isotope:"
 		<< endl;
 
-	for (const auto& currentIsotope : IsotopeVector)
+	for (auto&currentIsotope:IsotopeVector)
 	{
 		numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
 
