@@ -138,7 +138,7 @@ int main()
     {
         numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
         spaceTaken = currentIsotope.name.length();
-        
+
         cout
             << '<'
             << numberedOrderOfIsotopes
@@ -147,7 +147,7 @@ int main()
 
             << currentIsotope.name
             << ':'
-            
+
             << setw(33 - spaceTaken)
             << "Half life: "
             << currentIsotope.halfLife
