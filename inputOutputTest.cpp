@@ -1,10 +1,7 @@
 // This program demonstrates the getline function with
 // a specified delimiter.
 
-// https://manara.edu.sy/downloads/files/1681300155_Refrence.pdf (PAGE 714 WILL ADD LATER)
-// (emplace_back PAGE 1083) (for loops PAGE 286)
-// https://cplusplus.com/reference/string/stold/ (stold PAGE 615)
-
+// https://manara.edu.sy/downloads/files/1681300155_Refrence.pdf
 
 #include <iostream>
 #include <fstream>
@@ -31,7 +28,7 @@ int main()
     };
     //=====================================================================
     // Open the file for input.
-    fstream dataFile("listOfIsotopes.txt", ios::in);
+    fstream dataFile("listOfIsotopes.txt", ios::in);                // PAGE 714
 
     // If the file was successfully opened, continue.
     if (dataFile)
@@ -46,9 +43,9 @@ int main()
             getline(dataFile, input, ':');
             getline(dataFile, input2);
             
-            long double input2LongDouble = stold(string(input2));
+            long double input2LongDouble = stold(string(input2));   // PAGE 612
 
-            IsotopeVector.emplace_back(input,input2LongDouble);
+            IsotopeVector.emplace_back(input,input2LongDouble);     // PAGE 1080
         }
 
         // Close the file.
@@ -62,7 +59,7 @@ int main()
     cout << endl;
 
     // Use an iterator to display the vector contents.
-    for (auto & currentIsotope:IsotopeVector)
+    for (auto & currentIsotope:IsotopeVector)                       // PAGE 434
     {
         cout
             << "Name: "
