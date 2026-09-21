@@ -67,6 +67,7 @@ int main()
             << endl
             << "Half life: "
             << currentIsotope.halfLife
+            << endl
             << endl;
     }
 
