@@ -62,9 +62,6 @@ int main()
         // While the last read operation was successful, continue.
         while (dataFile)
         {
-            // Display the last item read.
-            cout << input1 << endl;
-
             // Read an item using ':' as a delimiter.
             getline(dataFile, input1, ':');
             getline(dataFile, input2, ':');
@@ -82,7 +79,6 @@ int main()
     {
         cout << "ERROR: Cannot open file.\n";
     }
-    cout << endl;
     //=============================================================================================
     // Task
     //=============================================================================================
@@ -117,9 +113,6 @@ int main()
         // While the last read operation was successful, continue.
         while (dataFile2)
         {
-            // Display the last item read.
-            cout << input4 << endl;
-
             // Read an item using ':' as a delimiter.
             getline(dataFile2, input4, ':');
             getline(dataFile2, input5);
