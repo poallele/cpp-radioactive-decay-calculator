@@ -37,7 +37,7 @@ int main()
 	const long double	GREGORIAN_CALENDAR_SECONDS = 31556952;
 	const string		ERROR_MESSAGE = "Invalid character. ";
 
-	// https://manara.edu.sy/downloads/files/1681300155_Refrence.pdf (PAGE 709 WILL ADD LATER)
+	// https://manara.edu.sy/downloads/files/1681300155_Refrence.pdf (PAGE 714 WILL ADD LATER)
 
 	int AMOUNT_OF_MEASUREMENTS				= 5;	// default amount
 	AMOUNT_OF_MEASUREMENTS					+= 1;	// How many more measurements do you want to add?
