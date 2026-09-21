@@ -44,6 +44,56 @@ int main()
     };
     //=====================================================================
     // Open the file for input.
+    fstream dataFile("listOfMeasurements.txt", ios::in);                // PAGE 714
+
+    // If the file was successfully opened, continue.
+    if (dataFile)
+    {
+        // While the last read operation was successful, continue.
+        while (dataFile)
+        {
+            // Display the last item read.
+            cout << input1 << endl;
+
+            // Read an item using ':' as a delimiter.
+            getline(dataFile, input1, ':');
+            getline(dataFile, input2, ':');
+            getline(dataFile, input3);
+
+            long double input3LongDouble = stold(string(input3));   // PAGE 612
+
+            TimespanVector.emplace_back(input1, input2, input3LongDouble);     // PAGE 1080
+        }
+
+        // Close the file.
+        dataFile.close();
+    }
+    else
+    {
+        cout << "ERROR: Cannot open file.\n";
+    }
+
+    cout << endl;
+
+    // Use an iterator to display the vector contents.
+    for (auto& currentTimespan : TimespanVector)                       // PAGE 434
+    {
+        cout
+            << "First character: "
+            << currentTimespan.firstCharacter
+            << endl
+            << "Unit: "
+            << currentTimespan.unit
+            << endl
+            << "Seconds per unit: "
+            << currentTimespan.secondsInASingularUnit
+            << endl
+            
+            << endl;
+    }
+    cout << "********************************************";
+    //=====================================================================
+    // Open the file for input.
     fstream dataFile2("listOfIsotopes.txt", ios::in);                // PAGE 714
 
     // If the file was successfully opened, continue.
@@ -86,7 +136,6 @@ int main()
             << endl
             << endl;
     }
-    //==================================================================================
 
     return 0;
 }
