@@ -24,6 +24,7 @@ struct IsotopeStruct
 
 int main()
 {
+    const long double	GREGORIAN_CALENDAR_SECONDS = 31556952;
     string input1; // To hold file input
     string input2; // To hold file input
     string input3; // To hold file input
@@ -35,14 +36,20 @@ int main()
         {"s",	"second",	1},
         {"m",	"minute",	60},
         {"h",	"hour",		3600},
+        {"d",	"day",		86400},
+        {"y",	"year",		GREGORIAN_CALENDAR_SECONDS},
     };
     vector<IsotopeStruct>IsotopeVector =
     {
         {"Uranium-233",		1.592e5},
         {"Uranium-235",		7.04e8},
         {"Uranium-238",		4.463e9},
+        {"Plutonium-239",	2.411e4},
+        {"Thorium-232",		1.405e10},
     };
-    //=====================================================================
+    //=============================================================================================
+    // Task
+    //=============================================================================================
     // Open the file for input.
     fstream dataFile("listOfMeasurements.txt", ios::in);                // PAGE 714
 
@@ -72,9 +79,10 @@ int main()
     {
         cout << "ERROR: Cannot open file.\n";
     }
-
     cout << endl;
-
+    //=============================================================================================
+    // Task
+    //=============================================================================================
     // Use an iterator to display the vector contents.
     for (auto& currentTimespan : TimespanVector)                       // PAGE 434
     {
@@ -92,7 +100,9 @@ int main()
             << endl;
     }
     cout << "********************************************";
-    //=====================================================================
+    //=============================================================================================
+    // Task
+    //=============================================================================================
     // Open the file for input.
     fstream dataFile2("listOfIsotopes.txt", ios::in);                // PAGE 714
 
@@ -121,9 +131,10 @@ int main()
     {
         cout << "ERROR: Cannot open file.\n";
     }
-
     cout << endl;
-
+    //=============================================================================================
+    // Task
+    //=============================================================================================
     // Use an iterator to display the vector contents.
     for (auto& currentIsotope : IsotopeVector)                       // PAGE 434
     {
