@@ -24,7 +24,7 @@ struct IsotopeStruct
 
 int main()
 {
-    const long double	GREGORIAN_CALENDAR_SECONDS = 31556952;
+    const long double GREGORIAN_CALENDAR_SECONDS = 31556952;
     string input1; // To hold file input
     string input2; // To hold file input
     string input3; // To hold file input
