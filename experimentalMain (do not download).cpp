@@ -192,8 +192,7 @@ int main()
             cout << ERROR_MESSAGE;
         }
     }
-    cout << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt-DEVELOPER_NAME.length());
-
+    cout << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - DEVELOPER_NAME.length());
     cout << ' ';
 
     POALLELE(hConsole);
