@@ -35,10 +35,11 @@ struct IsotopeStruct
 void DEFAULT(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 7);}
 void INVERTED(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 112);}
 
-void GFG_BBG(HANDLE hConsole) { SetConsoleTextAttribute(hConsole, 2);}
+void GFG_BBG(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 2);}
 void MFG_BBG(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 5);}
+void WFG_GBG(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 39);}
 
-void POALLELE(HANDLE hConsole) { SetConsoleTextAttribute(hConsole, 71);}
+void POALLELE(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 71);}
 //=============================================================================================
 
 int main()
@@ -336,7 +337,33 @@ int main()
 
     INVERTED(hConsole);
     cout
-        << "Probability per"
+        << "The decay constant of"
+        << ' '
+        << IsotopeVector[chosenIsotopeResponse - 1].name
+        << ' '
+        << "(when measuring in"
+        << ' '
+        << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit
+        << "s)"
+        << ' '
+        << "is";
+    DEFAULT(hConsole);
+
+    cout << ' ';
+
+    WFG_GBG(hConsole);
+    cout
+        << fixed
+        << setprecision(25)
+        << decayConstant;
+    DEFAULT(hConsole);
+
+    cout << '.';
+    
+    INVERTED(hConsole);
+    cout
+        << endl
+        << "In other words, this value is the probability per"
         << ' '
         << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit
         << ' '
@@ -344,19 +371,14 @@ int main()
         << ' '
         << IsotopeVector[chosenIsotopeResponse - 1].name
         << ' '
-        << "nucleus to decay:";
+        << "nucleus to decay.";
     DEFAULT(hConsole);
 
     cout
-        << ' '
-        << fixed
-        << setprecision(25)
-        << decayConstant
-
         << endl
         << endl
         << endl;
-
+    
     POALLELE(hConsole);
     cout << "@poallele";
     DEFAULT(hConsole);
