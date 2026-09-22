@@ -40,7 +40,11 @@ int main()
     //=============================================================================================
     const long double   GREGORIAN_CALENDAR_SECONDS = 31556952;
     const string		ERROR_MESSAGE = "Invalid character. ";
-    const string        LINE_BREAK = "__________________________________________________________";
+
+    const int           defaultNonFullscreenHorizontalSpaceWin10CMDPrompt = 80;
+
+    const string        LINE_BREAK(80, '_');
+
 
     vector<TimespanStruct>TimespanVector =
     {
@@ -58,9 +62,9 @@ int main()
         {"Plutonium-239",	2.411e4},
         {"Thorium-232",		1.405e10},
     };
-    
-    
-    
+
+
+
     //=============================================================================================
     // Task
     //=============================================================================================
@@ -77,19 +81,21 @@ int main()
     string              input3; // To hold file input
     string              input4; // To hold file input
     string              input5; // To hold file input
-    
-    string              promptStarter = "Select a";
-    string              prompt1         = " Measurement.";
-    string              prompt2         = "n Isotope.";
-    
+
+    string              instruction1 = "SELECT A MEASUREMENT";
+    string              instruction2 = "SELECT AN ISOTOPE";
+    string              instruction1Specs = "SECONDS PER UNIT";
+    string              instruction2Specs = "HALF LIFE IN YEARS";
+
+
     int                 spaceTaken;
-    
+
     int                 numberedOrderOfIsotopes = 0;
 
     long double			decayConstant;
-    
-    
-    
+
+
+
     //=============================================================================================
     // File retrieval 1
     //=============================================================================================
@@ -119,9 +125,9 @@ int main()
     {
         cout << "ERROR: Cannot open file.\n";
     }
-    
-    
-    
+
+
+
     //=============================================================================================
     // File retrieval 2
     //=============================================================================================
@@ -150,16 +156,20 @@ int main()
     {
         cout << "ERROR: Cannot open file.\n";
     }
-    
-    
-    
+
+
+
     //=============================================================================================
     // Prompt 1
     //=============================================================================================
+    cout << LINE_BREAK << endl;
+    
     SetConsoleTextAttribute(hConsole, 112);
-    spaceTaken = prompt1.length();
-    cout << promptStarter << prompt1 << setw(50 - spaceTaken) << "SECONDS IN A SINGULAR UNIT:" << endl;
+    cout << instruction1 << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction1.length()) << instruction1Specs << endl;
     SetConsoleTextAttribute(hConsole, 7);
+
+    
+    
     
     // Use an iterator to display the vector contents.
     for (auto& currentMeasurement : TimespanVector)                 // PAGE 434
@@ -169,14 +179,14 @@ int main()
         SetConsoleTextAttribute(hConsole, 112);
         cout << '<' << currentMeasurement.firstCharacter << '>';
         SetConsoleTextAttribute(hConsole, 7);
-        
+
         cout
             << ' '
             << currentMeasurement.unit
             << "(s)"
             << ':'
 
-            << setw(50 - 1 - spaceTaken);
+            << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction1.length() - currentMeasurement.unit.length() + 11);
 
 
         SetConsoleTextAttribute(hConsole, 5);
@@ -184,16 +194,16 @@ int main()
         SetConsoleTextAttribute(hConsole, 7);
         cout << '|' << endl;
     }
-    
 
-    
+
+
     //=============================================================================================
     // Input Validation 1
     //=============================================================================================
     SetConsoleTextAttribute(hConsole, 112);
     cin >> chosenMeasurementUnitResponse;
     SetConsoleTextAttribute(hConsole, 7);
-    
+
     //while (exitInputValidationLoopForMeasurementUnits != true)
     //{
     //    cin >> chosenMeasurementUnitResponse;
@@ -207,15 +217,18 @@ int main()
     //}
 
 
-    cout << LINE_BREAK << endl;
+    
     //=============================================================================================
     // Prompt 2
     //=============================================================================================
-    SetConsoleTextAttribute(hConsole, 112);
-    spaceTaken = prompt2.length();
-    cout << promptStarter << prompt2 << setw(50 - spaceTaken) << "HALF LIFE IN YEARS:" << endl;
-    SetConsoleTextAttribute(hConsole, 7);
+    cout << LINE_BREAK << endl;
     
+    SetConsoleTextAttribute(hConsole, 112);
+    cout << instruction2 << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction2.length()) << instruction2Specs << endl;
+    SetConsoleTextAttribute(hConsole, 7);
+
+
+
     // Use an iterator to display the vector contents.
     for (auto& currentIsotope : IsotopeVector)                      // PAGE 434
     {
@@ -225,29 +238,29 @@ int main()
         SetConsoleTextAttribute(hConsole, 112);
         cout << '<' << numberedOrderOfIsotopes << '>';
         SetConsoleTextAttribute(hConsole, 7);
-        
+
         cout
             << ' '
             << currentIsotope.name
             << ':'
 
-            << setw(50 + 2 - spaceTaken);
+            << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction2.length() - currentIsotope.name.length() + 11);
 
         SetConsoleTextAttribute(hConsole, 2);
         cout << currentIsotope.halfLife;
         SetConsoleTextAttribute(hConsole, 7);
         cout << '|' << endl;
     }
-    
-    
-    
+
+
+
     //=============================================================================================
     // Input Validation 2
     //=============================================================================================
     SetConsoleTextAttribute(hConsole, 112);
     cin >> chosenIsotopeResponse;
     SetConsoleTextAttribute(hConsole, 7);
-    
+
 
     cout << LINE_BREAK << endl;
     //=============================================================================================
@@ -263,18 +276,18 @@ int main()
 
     decayConstant =	// Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
 
-            (log(2)
-            
+        (log(2)
+
             /
-            
+
             IsotopeVector[indexOfChosenIsotopeInVector].halfLife)
 
-            *
+        *
 
-            (TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit
-                
+        (TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit
+
             /
-            
+
             GREGORIAN_CALENDAR_SECONDS);
 
     SetConsoleTextAttribute(hConsole, 112);
@@ -289,17 +302,17 @@ int main()
         << ' '
         << "nucleus to decay:";
     SetConsoleTextAttribute(hConsole, 7);
-        
+
     cout
         << ' '
         << fixed
         << setprecision(25)
         << decayConstant
-        
+
         << endl
         << endl
         << endl;
-    
+
     SetConsoleTextAttribute(hConsole, 71);
     cout << "@poallele";
     SetConsoleTextAttribute(hConsole, 7);
