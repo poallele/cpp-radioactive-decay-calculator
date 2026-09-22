@@ -31,6 +31,14 @@ struct IsotopeStruct
     string			name;
     long double		halfLife;
 };
+
+void DEFAULT(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 7);}
+void INVERTED(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 112);}
+
+void GFG_BBG(HANDLE hConsole) { SetConsoleTextAttribute(hConsole, 2);}
+void MFG_BBG(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 5);}
+
+void POALLELE(HANDLE hConsole) { SetConsoleTextAttribute(hConsole, 71);}
 //=============================================================================================
 
 int main()
@@ -41,10 +49,11 @@ int main()
     const long double   GREGORIAN_CALENDAR_SECONDS = 31556952;
     const string		ERROR_MESSAGE = "Invalid character. ";
 
-    const int           defaultNonFullscreenHorizontalSpaceWin10CMDPrompt = 80;
-
-    const string        LINE_BREAK(80, '_');
-
+    const string        CMDQuestion = "Are you currently running Windows 11's 'Terminal' (not 'conhost.exe' or any other program)? <y/n>";
+    const string        instruction1 = "SELECT A MEASUREMENT";
+    const string        instruction2 = "SELECT AN ISOTOPE";
+    const string        instruction1Specs = "SECONDS PER UNIT";
+    const string        instruction2Specs = "HALF LIFE IN YEARS";
 
     vector<TimespanStruct>TimespanVector =
     {
@@ -68,6 +77,10 @@ int main()
     //=============================================================================================
     // Task
     //=============================================================================================
+    char                CMDResponse;
+    bool				exitInputValidationLoopForCMD = false;
+    int                 defaultNonFullscreenHorizontalSpaceWin10CMDPrompt;
+    
     string				chosenMeasurementUnitResponse;
     int					indexOfChosenMeasurementUnitsInVector{};
     bool				exitInputValidationLoopForMeasurementUnits = false;
@@ -81,12 +94,6 @@ int main()
     string              input3; // To hold file input
     string              input4; // To hold file input
     string              input5; // To hold file input
-
-    string              instruction1 = "SELECT A MEASUREMENT";
-    string              instruction2 = "SELECT AN ISOTOPE";
-    string              instruction1Specs = "SECONDS PER UNIT";
-    string              instruction2Specs = "HALF LIFE IN YEARS";
-
 
     int                 spaceTaken;
 
@@ -158,15 +165,42 @@ int main()
     }
 
 
+    //=============================================================================================
+    // CMD Width prompt
+    //=============================================================================================
+    cout << CMDQuestion << endl;
+    
+    while (exitInputValidationLoopForCMD != true)
+    {
+        cin >> CMDResponse;
 
+        if (CMDResponse == 'y')
+        {
+            defaultNonFullscreenHorizontalSpaceWin10CMDPrompt = 120;
+            exitInputValidationLoopForCMD = true;
+        }
+        else if (CMDResponse == 'n')
+        {
+            defaultNonFullscreenHorizontalSpaceWin10CMDPrompt = 80;
+            exitInputValidationLoopForCMD = true;
+        }
+        else
+        {
+            cout << ERROR_MESSAGE;
+        }
+    }
+    
+    
+    
     //=============================================================================================
     // Prompt 1
     //=============================================================================================
+    string LINE_BREAK(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt, '_');
     cout << LINE_BREAK << endl;
     
-    SetConsoleTextAttribute(hConsole, 112);
+    INVERTED(hConsole);
     cout << instruction1 << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction1.length()) << instruction1Specs << endl;
-    SetConsoleTextAttribute(hConsole, 7);
+    DEFAULT(hConsole);
 
     
     
@@ -176,9 +210,9 @@ int main()
     {
         spaceTaken = currentMeasurement.unit.length();
 
-        SetConsoleTextAttribute(hConsole, 112);
+        INVERTED(hConsole);
         cout << '<' << currentMeasurement.firstCharacter << '>';
-        SetConsoleTextAttribute(hConsole, 7);
+        DEFAULT(hConsole);
 
         cout
             << ' '
@@ -186,12 +220,17 @@ int main()
             << "(s)"
             << ':'
 
-            << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction1.length() - currentMeasurement.unit.length() + 11);
+            << setw(
+                defaultNonFullscreenHorizontalSpaceWin10CMDPrompt
+                - instruction1.length()
+                - currentMeasurement.unit.length()
+                - currentMeasurement.firstCharacter.length()
+                + 12
+            );
 
-
-        SetConsoleTextAttribute(hConsole, 5);
+        MFG_BBG(hConsole);
         cout << currentMeasurement.secondsInASingularUnit;
-        SetConsoleTextAttribute(hConsole, 7);
+        DEFAULT(hConsole);
         cout << '|' << endl;
     }
 
@@ -200,9 +239,9 @@ int main()
     //=============================================================================================
     // Input Validation 1
     //=============================================================================================
-    SetConsoleTextAttribute(hConsole, 112);
+    INVERTED(hConsole);
     cin >> chosenMeasurementUnitResponse;
-    SetConsoleTextAttribute(hConsole, 7);
+    DEFAULT(hConsole);
 
     //while (exitInputValidationLoopForMeasurementUnits != true)
     //{
@@ -223,9 +262,9 @@ int main()
     //=============================================================================================
     cout << LINE_BREAK << endl;
     
-    SetConsoleTextAttribute(hConsole, 112);
+    INVERTED(hConsole);
     cout << instruction2 << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction2.length()) << instruction2Specs << endl;
-    SetConsoleTextAttribute(hConsole, 7);
+    DEFAULT(hConsole);
 
 
 
@@ -235,20 +274,25 @@ int main()
         numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
         spaceTaken = currentIsotope.name.length();
 
-        SetConsoleTextAttribute(hConsole, 112);
+        INVERTED(hConsole);
         cout << '<' << numberedOrderOfIsotopes << '>';
-        SetConsoleTextAttribute(hConsole, 7);
+        DEFAULT(hConsole);
 
         cout
             << ' '
             << currentIsotope.name
             << ':'
 
-            << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction2.length() - currentIsotope.name.length() + 11);
+            << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt
+                - instruction2.length()
+                - currentIsotope.name.length()
+                - to_string(numberedOrderOfIsotopes).length()       // 613
+                + 12
+            );
 
-        SetConsoleTextAttribute(hConsole, 2);
+        GFG_BBG(hConsole);
         cout << currentIsotope.halfLife;
-        SetConsoleTextAttribute(hConsole, 7);
+        DEFAULT(hConsole);
         cout << '|' << endl;
     }
 
@@ -257,9 +301,9 @@ int main()
     //=============================================================================================
     // Input Validation 2
     //=============================================================================================
-    SetConsoleTextAttribute(hConsole, 112);
+    INVERTED(hConsole);
     cin >> chosenIsotopeResponse;
-    SetConsoleTextAttribute(hConsole, 7);
+    DEFAULT(hConsole);
 
 
     cout << LINE_BREAK << endl;
@@ -290,7 +334,7 @@ int main()
 
             GREGORIAN_CALENDAR_SECONDS);
 
-    SetConsoleTextAttribute(hConsole, 112);
+    INVERTED(hConsole);
     cout
         << "Probability per"
         << ' '
@@ -301,7 +345,7 @@ int main()
         << IsotopeVector[chosenIsotopeResponse - 1].name
         << ' '
         << "nucleus to decay:";
-    SetConsoleTextAttribute(hConsole, 7);
+    DEFAULT(hConsole);
 
     cout
         << ' '
@@ -313,9 +357,9 @@ int main()
         << endl
         << endl;
 
-    SetConsoleTextAttribute(hConsole, 71);
+    POALLELE(hConsole);
     cout << "@poallele";
-    SetConsoleTextAttribute(hConsole, 7);
+    DEFAULT(hConsole);
 
     fstream dataFile3("copyPaste.txt", ios::out);
     dataFile3
