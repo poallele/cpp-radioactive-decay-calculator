@@ -2,7 +2,7 @@
 // a specified delimiter.
 
 // https://manara.edu.sy/downloads/files/1681300155_Refrence.pdf
-// For Windows users: go on Visual Studio and do CTRL F, then CTRL H. Replace '///' with nothing (aka 'Replace...')
+// For Windows users: go on Visual Studio and do CTRL F, then CTRL H. Replace '' with nothing (aka 'Replace...')
 
 #include <iostream>
 #include <vector>
@@ -11,8 +11,8 @@
 #include <fstream>
 #include <iomanip>
 
-///#include <Windows.h>
-///HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+#include <Windows.h>
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 using namespace std;
 
 
@@ -33,18 +33,19 @@ struct IsotopeStruct
     long double		halfLife;
 };
 
-///void DEFAULT(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 7);}
-///void INVERTED(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 112);}
+void DEFAULT(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 7);}
+void INVERTED(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 112);}
 
-///void GFG_BBG(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 2);}
-///void MFG_BBG(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 5);}
-///void WFG_GBG(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 39);}
+void GFG_BBG(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 2);}
+void MFG_BBG(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 5);}
+void WFG_GBG(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 39);}
 
-///void POALLELE(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 71);}
+void POALLELE(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 71);}
 //=============================================================================================
 
 int main()
 {
+    const string        DEVELOPER_NAME = "@poallele";
     //=============================================================================================
     // Task
     //=============================================================================================
@@ -191,7 +192,14 @@ int main()
             cout << ERROR_MESSAGE;
         }
     }
-    
+    cout << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt-DEVELOPER_NAME.length());
+
+    cout << ' ';
+
+    POALLELE(hConsole);
+    cout << "@poallele";
+    DEFAULT(hConsole);
+    cout << endl;
     
     
     //=============================================================================================
@@ -200,9 +208,11 @@ int main()
     string LINE_BREAK(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt, '_');
     cout << LINE_BREAK << endl;
     
-    ///INVERTED(hConsole);
+    
+    
+    INVERTED(hConsole);
     cout << instruction1 << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction1.length()) << instruction1Specs << endl;
-    ///DEFAULT(hConsole);
+    DEFAULT(hConsole);
 
     
     
@@ -212,9 +222,9 @@ int main()
     {
         spaceTaken = currentMeasurement.unit.length();
 
-        ///INVERTED(hConsole);
+        INVERTED(hConsole);
         cout << '<' << currentMeasurement.firstCharacter << '>';
-        ///DEFAULT(hConsole);
+        DEFAULT(hConsole);
 
         cout
             << ' '
@@ -230,9 +240,9 @@ int main()
                 + 12
             );
 
-        ///MFG_BBG(hConsole);
+        MFG_BBG(hConsole);
         cout << currentMeasurement.secondsInASingularUnit;
-        ///DEFAULT(hConsole);
+        DEFAULT(hConsole);
         cout << '|' << endl;
     }
 
@@ -241,9 +251,9 @@ int main()
     //=============================================================================================
     // Input Validation 1
     //=============================================================================================
-    ///INVERTED(hConsole);
+    INVERTED(hConsole);
     cin >> chosenMeasurementUnitResponse;
-    ///DEFAULT(hConsole);
+    DEFAULT(hConsole);
 
     //while (exitInputValidationLoopForMeasurementUnits != true)
     //{
@@ -264,9 +274,9 @@ int main()
     //=============================================================================================
     cout << LINE_BREAK << endl;
     
-    ///INVERTED(hConsole);
+    INVERTED(hConsole);
     cout << instruction2 << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction2.length()) << instruction2Specs << endl;
-    ///DEFAULT(hConsole);
+    DEFAULT(hConsole);
 
 
 
@@ -276,9 +286,9 @@ int main()
         numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
         spaceTaken = currentIsotope.name.length();
 
-        ///INVERTED(hConsole);
+        INVERTED(hConsole);
         cout << '<' << numberedOrderOfIsotopes << '>';
-        ///DEFAULT(hConsole);
+        DEFAULT(hConsole);
 
         cout
             << ' '
@@ -292,9 +302,9 @@ int main()
                 + 12
             );
 
-        ///GFG_BBG(hConsole);
+        GFG_BBG(hConsole);
         cout << currentIsotope.halfLife;
-        ///DEFAULT(hConsole);
+        DEFAULT(hConsole);
         cout << '|' << endl;
     }
 
@@ -303,9 +313,9 @@ int main()
     //=============================================================================================
     // Input Validation 2
     //=============================================================================================
-    ///INVERTED(hConsole);
+    INVERTED(hConsole);
     cin >> chosenIsotopeResponse;
-    ///DEFAULT(hConsole);
+    DEFAULT(hConsole);
 
 
     cout << LINE_BREAK << endl;
@@ -320,23 +330,13 @@ int main()
 
     indexOfChosenIsotopeInVector = chosenIsotopeResponse - 1;
 
-    decayConstant =	// Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
+    // Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
+    decayConstant =
+    (log(2) / IsotopeVector[indexOfChosenIsotopeInVector].halfLife)
+    *
+    (TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit / GREGORIAN_CALENDAR_SECONDS);
 
-        (log(2)
-
-            /
-
-            IsotopeVector[indexOfChosenIsotopeInVector].halfLife)
-
-        *
-
-        (TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit
-
-            /
-
-            GREGORIAN_CALENDAR_SECONDS);
-
-    ///INVERTED(hConsole);
+    INVERTED(hConsole);
     cout
         << "The decay constant of"
         << ' '
@@ -348,20 +348,20 @@ int main()
         << "s)"
         << ' '
         << "is";
-    ///DEFAULT(hConsole);
+    DEFAULT(hConsole);
 
     cout << ' ';
 
-    ///WFG_GBG(hConsole);
+    WFG_GBG(hConsole);
     cout
         << fixed
         << setprecision(25)
         << decayConstant;
-    ///DEFAULT(hConsole);
+    DEFAULT(hConsole);
 
     cout << '.';
     
-    ///INVERTED(hConsole);
+    INVERTED(hConsole);
     cout
         << endl
         << "In other words, this value is the probability per"
@@ -373,17 +373,13 @@ int main()
         << IsotopeVector[chosenIsotopeResponse - 1].name
         << ' '
         << "nucleus to decay.";
-    ///DEFAULT(hConsole);
-
+    DEFAULT(hConsole);
+    
     cout
         << endl
         << endl
         << endl;
     
-    ///POALLELE(hConsole);
-    cout << "@poallele";
-    ///DEFAULT(hConsole);
-
     fstream dataFile3("copyPaste.txt", ios::out);
     dataFile3
         << fixed
