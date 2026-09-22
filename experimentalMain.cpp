@@ -9,6 +9,9 @@
 #include <cmath>
 #include <fstream>
 #include <iomanip>
+
+#include <Windows.h>
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 using namespace std;
 
 
@@ -37,6 +40,7 @@ int main()
     //=============================================================================================
     const long double   GREGORIAN_CALENDAR_SECONDS = 31556952;
     const string		ERROR_MESSAGE = "Invalid character. ";
+    const string        LINE_BREAK = "__________________________________________________________";
 
     vector<TimespanStruct>TimespanVector =
     {
@@ -74,10 +78,14 @@ int main()
     string              input4; // To hold file input
     string              input5; // To hold file input
     
-    int                 numberedOrderOfIsotopes = 0;
+    string              promptStarter = "Select a";
+    string              prompt1         = " Measurement.";
+    string              prompt2         = "n Isotope.";
     
     int                 spaceTaken;
     
+    int                 numberedOrderOfIsotopes = 0;
+
     long double			decayConstant;
     
     
@@ -148,47 +156,65 @@ int main()
     //=============================================================================================
     // Prompt 1
     //=============================================================================================
-    cout
-        << "Select a timespan for measurement:"
-        << endl;
-
+    SetConsoleTextAttribute(hConsole, 112);
+    spaceTaken = prompt1.length();
+    cout << promptStarter << prompt1 << setw(50 - spaceTaken) << "SECONDS IN A SINGULAR UNIT:" << endl;
+    SetConsoleTextAttribute(hConsole, 7);
+    
     // Use an iterator to display the vector contents.
     for (auto& currentMeasurement : TimespanVector)                 // PAGE 434
     {
         spaceTaken = currentMeasurement.unit.length();
 
+        SetConsoleTextAttribute(hConsole, 112);
+        cout << '<' << currentMeasurement.firstCharacter << '>';
+        SetConsoleTextAttribute(hConsole, 7);
+        
         cout
-            << '<'
-            << currentMeasurement.firstCharacter
-            << '>'
             << ' '
-
             << currentMeasurement.unit
             << "(s)"
             << ':'
 
-            << setw(50 - spaceTaken)
-            << "Seconds in a singular unit: "
-            << currentMeasurement.secondsInASingularUnit
-            << endl;
+            << setw(50 - 1 - spaceTaken);
+
+
+        SetConsoleTextAttribute(hConsole, 5);
+        cout << currentMeasurement.secondsInASingularUnit;
+        SetConsoleTextAttribute(hConsole, 7);
+        cout << '|' << endl;
     }
-    cout << endl;
     
 
     
     //=============================================================================================
     // Input Validation 1
     //=============================================================================================
+    SetConsoleTextAttribute(hConsole, 112);
     cin >> chosenMeasurementUnitResponse;
+    SetConsoleTextAttribute(hConsole, 7);
+    
+    //while (exitInputValidationLoopForMeasurementUnits != true)
+    //{
+    //    cin >> chosenMeasurementUnitResponse;
+    //
+    //
+    //    
+    //    if (exitInputValidationLoopForMeasurementUnits == false)
+    //    {
+    //        cout << ERROR_MESSAGE;
+    //    }
+    //}
 
 
-
+    cout << LINE_BREAK << endl;
     //=============================================================================================
     // Prompt 2
     //=============================================================================================
-    cout
-        << "Select a radioactive isotope:"
-        << endl;
+    SetConsoleTextAttribute(hConsole, 112);
+    spaceTaken = prompt2.length();
+    cout << promptStarter << prompt2 << setw(50 - spaceTaken) << "HALF LIFE IN YEARS:" << endl;
+    SetConsoleTextAttribute(hConsole, 7);
     
     // Use an iterator to display the vector contents.
     for (auto& currentIsotope : IsotopeVector)                      // PAGE 434
@@ -196,19 +222,21 @@ int main()
         numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
         spaceTaken = currentIsotope.name.length();
 
+        SetConsoleTextAttribute(hConsole, 112);
+        cout << '<' << numberedOrderOfIsotopes << '>';
+        SetConsoleTextAttribute(hConsole, 7);
+        
         cout
-            << '<'
-            << numberedOrderOfIsotopes
-            << '>'
             << ' '
-
             << currentIsotope.name
             << ':'
 
-            << setw(36 - spaceTaken)
-            << "Half life: "
-            << currentIsotope.halfLife
-            << endl;
+            << setw(50 + 2 - spaceTaken);
+
+        SetConsoleTextAttribute(hConsole, 2);
+        cout << currentIsotope.halfLife;
+        SetConsoleTextAttribute(hConsole, 7);
+        cout << '|' << endl;
     }
     
     
@@ -216,10 +244,12 @@ int main()
     //=============================================================================================
     // Input Validation 2
     //=============================================================================================
+    SetConsoleTextAttribute(hConsole, 112);
     cin >> chosenIsotopeResponse;
+    SetConsoleTextAttribute(hConsole, 7);
+    
 
-
-
+    cout << LINE_BREAK << endl;
     //=============================================================================================
     // Print final output
     //=============================================================================================
@@ -233,16 +263,22 @@ int main()
 
     decayConstant =	// Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
 
-        (log(2) /
+            (log(2)
+            
+            /
+            
             IsotopeVector[indexOfChosenIsotopeInVector].halfLife)
 
-        *
+            *
 
-        (TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit /
+            (TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit
+                
+            /
+            
             GREGORIAN_CALENDAR_SECONDS);
 
+    SetConsoleTextAttribute(hConsole, 112);
     cout
-        << endl
         << "Probability per"
         << ' '
         << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit
@@ -251,16 +287,29 @@ int main()
         << ' '
         << IsotopeVector[chosenIsotopeResponse - 1].name
         << ' '
-        << "nucleus to decay:"
+        << "nucleus to decay:";
+    SetConsoleTextAttribute(hConsole, 7);
+        
+    cout
         << ' '
         << fixed
         << setprecision(25)
         << decayConstant
+        
         << endl
         << endl
         << endl;
+    
+    SetConsoleTextAttribute(hConsole, 71);
+    cout << "@poallele";
+    SetConsoleTextAttribute(hConsole, 7);
 
-
+    fstream dataFile3("copyPaste.txt", ios::out);
+    dataFile3
+        << fixed
+        << setprecision(25)
+        << decayConstant;
+    dataFile3.close();
 
     return 0;
 }
