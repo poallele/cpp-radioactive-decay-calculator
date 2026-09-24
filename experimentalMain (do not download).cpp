@@ -35,12 +35,10 @@ struct IsotopeStruct
 
 void DEFAULT(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 7);}
 void INVERTED(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 112);}
-
-void GFG_BBG(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 2);}
-void MFG_BBG(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 5);}
-void WFG_GBG(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 39);}
-
+void SUCCESS(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 39);}
 void POALLELE(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 71);}
+
+void GOLDEN(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 103);}
 //=============================================================================================
 
 int main()
@@ -196,7 +194,7 @@ int main()
     cout << ' ';
 
     POALLELE(hConsole);
-    cout << "@poallele";
+    cout << DEVELOPER_NAME;
     DEFAULT(hConsole);
     cout << endl;
     
@@ -239,7 +237,7 @@ int main()
                 + 12
             );
 
-        MFG_BBG(hConsole);
+        GOLDEN(hConsole);
         cout << currentMeasurement.secondsInASingularUnit;
         DEFAULT(hConsole);
         cout << '|' << endl;
@@ -301,7 +299,7 @@ int main()
                 + 12
             );
 
-        GFG_BBG(hConsole);
+        GOLDEN(hConsole);
         cout << currentIsotope.halfLife;
         DEFAULT(hConsole);
         cout << '|' << endl;
@@ -335,23 +333,33 @@ int main()
     *
     (TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit / GREGORIAN_CALENDAR_SECONDS);
 
-    INVERTED(hConsole);
+    string print1 = "The decay constant of ";
+    string print2 = " (when measuring in ";
+    string print3 = "s) is";
+    
+
+    DEFAULT(hConsole);
     cout
-        << "The decay constant of"
-        << ' '
+        << print1
         << IsotopeVector[chosenIsotopeResponse - 1].name
-        << ' '
-        << "(when measuring in"
-        << ' '
+        << print2
         << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit
-        << "s)"
-        << ' '
-        << "is";
+        << print3;
     DEFAULT(hConsole);
 
-    cout << ' ';
 
-    WFG_GBG(hConsole);
+    cout
+        << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt
+            - print1.length()
+            - IsotopeVector[chosenIsotopeResponse - 1].name.length()
+            - print2.length()
+            - TimespanVector[indexOfChosenMeasurementUnitsInVector].unit.length()
+            - print3.length()
+            - 25 - 2 - 1
+        )
+        << ' ';
+
+    SUCCESS(hConsole);
     cout
         << fixed
         << setprecision(25)
@@ -360,7 +368,7 @@ int main()
 
     cout << '.';
     
-    INVERTED(hConsole);
+    DEFAULT(hConsole);
     cout
         << endl
         << "In other words, this value is the probability per"
