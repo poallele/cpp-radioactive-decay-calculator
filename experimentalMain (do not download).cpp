@@ -234,11 +234,14 @@ int main()
                 - instruction1.length()
                 - currentMeasurement.unit.length()
                 - currentMeasurement.firstCharacter.length()
-                + 12
+                //- to_string(currentMeasurement.secondsInASingularUnit).length()
+                + 11 + 1 + 1 - 1
+                - (to_string(currentMeasurement.secondsInASingularUnit)).length()
             );
 
+        cout << ' ';
         GOLDEN(hConsole);
-        cout << currentMeasurement.secondsInASingularUnit;
+        cout << to_string(currentMeasurement.secondsInASingularUnit);
         DEFAULT(hConsole);
         cout << '|' << endl;
     }
@@ -296,11 +299,13 @@ int main()
                 - instruction2.length()
                 - currentIsotope.name.length()
                 - to_string(numberedOrderOfIsotopes).length()       // 613
-                + 12
+                + 11 + 1 + 1 - 1
+                - (to_string(currentIsotope.halfLife)).length()
             );
 
+        cout << ' ';
         GOLDEN(hConsole);
-        cout << currentIsotope.halfLife;
+        cout << to_string(currentIsotope.halfLife);
         DEFAULT(hConsole);
         cout << '|' << endl;
     }
