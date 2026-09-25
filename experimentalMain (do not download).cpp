@@ -33,12 +33,17 @@ struct IsotopeStruct
     long double		halfLife;
 };
 
-void DEFAULT(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 7);}
-void INVERTED(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 112);}
-void SUCCESS(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 39);}
-void POALLELE(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 71);}
+void DEFAULT                (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 7)   ;}
+void INVERTED               (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 112) ;}
+void SUCCESS                (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 39)  ;}
+void SUCCESS_FLAIR          (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 80)  ;}
+void POALLELE               (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 71)  ;}
 
-void GOLDEN(HANDLE hConsole) {SetConsoleTextAttribute(hConsole, 103);}
+void BLACK_TXT_BLUE_BG      (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 48)  ;}
+void BLUE_TXT_BLACK_BG      (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 3)   ;}
+
+void BLACK_TXT_GREEN_BG     (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 32)  ;}
+void GREEN_TXT_BLACK_BG     (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 2)  ;}
 //=============================================================================================
 
 int main()
@@ -240,7 +245,7 @@ int main()
             );
 
         cout << ' ';
-        GOLDEN(hConsole);
+        BLACK_TXT_BLUE_BG(hConsole);
         cout << to_string(currentMeasurement.secondsInASingularUnit);
         DEFAULT(hConsole);
         cout << '|' << endl;
@@ -304,7 +309,7 @@ int main()
             );
 
         cout << ' ';
-        GOLDEN(hConsole);
+        BLACK_TXT_GREEN_BG(hConsole);
         cout << to_string(currentIsotope.halfLife);
         DEFAULT(hConsole);
         cout << '|' << endl;
@@ -338,19 +343,23 @@ int main()
     *
     (TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit / GREGORIAN_CALENDAR_SECONDS);
 
-    string print1 = "The decay constant of ";
-    string print2 = " (when measuring in ";
-    string print3 = "s) is";
-    
-
+    string print1 = "When measuring in ";
+    string print2 = ", the decay constant of ";
+    string print3 = " is";
+    //=============================================================================================
+    // Print final output
+    //=============================================================================================
+    cout << print1;
+    BLUE_TXT_BLACK_BG(hConsole);
+    cout << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit;
+    cout << 's';
     DEFAULT(hConsole);
-    cout
-        << print1
-        << IsotopeVector[chosenIsotopeResponse - 1].name
-        << print2
-        << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit
-        << print3;
+    cout << print2;
+        
+    GREEN_TXT_BLACK_BG(hConsole);
+    cout << IsotopeVector[chosenIsotopeResponse - 1].name;
     DEFAULT(hConsole);
+    cout << print3;
 
 
     cout
@@ -360,7 +369,7 @@ int main()
             - print2.length()
             - TimespanVector[indexOfChosenMeasurementUnitsInVector].unit.length()
             - print3.length()
-            - 25 - 2 - 1
+            - 25 - 2 - 1 - 1
         )
         << ' ';
 
@@ -372,7 +381,9 @@ int main()
     DEFAULT(hConsole);
 
     cout << '.';
-    
+    //=============================================================================================
+    // Print final output
+    //=============================================================================================
     DEFAULT(hConsole);
     cout
         << endl
@@ -391,7 +402,9 @@ int main()
         << endl
         << endl
         << endl;
-    
+    //=============================================================================================
+    // Print final output
+    //=============================================================================================
     fstream dataFile3("copyPaste.txt", ios::out);
     dataFile3
         << fixed
