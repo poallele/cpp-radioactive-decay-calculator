@@ -2,7 +2,7 @@
 // a specified delimiter.
 
 // https://manara.edu.sy/downloads/files/1681300155_Refrence.pdf
-// For Windows users: go on Visual Studio and do CTRL F, then CTRL H. Replace '' with nothing (aka 'Replace...')
+// For Windows users: go on Visual Studio and do CTRL F, then CTRL H. Replace '///' with nothing (aka 'Replace...')
 
 #include <iostream>
 #include <vector>
@@ -32,23 +32,71 @@ struct IsotopeStruct
     string			name;
     long double		halfLife;
 };
+//=============================================================================================
+// Task
+//=============================================================================================
+const int HCONSOLE_DEEP_BLUE = 1;
+const int HCONSOLE_DEEP_GREEN = 2;
+const int HCONSOLE_DEEP_AQUA = 3;
+const int HCONSOLE_DEEP_RED = 4;
+const int HCONSOLE_DEEP_MAGENTA = 5;
+const int HCONSOLE_DEEP_YELLOW = 6;
 
-void DEFAULT                (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 7)   ;}
-void INVERTED               (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 112) ;}
-void SUCCESS                (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 39)  ;}
-void SUCCESS_FLAIR          (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 80)  ;}
-void POALLELE               (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 71)  ;}
+const int HCONSOLE_LIGHT_BLUE = 9;
+const int HCONSOLE_LIGHT_GREEN = 10;
+const int HCONSOLE_LIGHT_AQUA = 11;
+const int HCONSOLE_LIGHT_RED = 12;
+const int HCONSOLE_LIGHT_MAGENTA = 13;
+const int HCONSOLE_LIGHT_YELLOW = 14;
 
-void BLACK_TXT_BLUE_BG      (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 48)  ;}
-void BLUE_TXT_BLACK_BG      (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 3)   ;}
+const int HCONSOLE_WHITE = 15;
+const int HCONSOLE_LIGHT_GRAY = 7;
+const int HCONSOLE_GRAY = 8;
+const int HCONSOLE_BLACK = 0;
 
-void BLACK_TXT_GREEN_BG     (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 32)  ;}
-void GREEN_TXT_BLACK_BG     (HANDLE hConsole)   {SetConsoleTextAttribute(hConsole, 2)  ;}
+// (FOREGROUND + (BACKGROUND * 16)) = COLOR
+//===============================================================================
+void DEFAULT // DEFAULT DISPLAY TEXT
+    (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
+        HCONSOLE_LIGHT_AQUA + // CYAN FOREGROUND
+        HCONSOLE_BLACK * 16); // BLACK BACKGROUND
+}
+void INVERTED
+    (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
+        HCONSOLE_BLACK +
+        HCONSOLE_LIGHT_AQUA * 16);
+}
+void FLAIR
+    (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
+        HCONSOLE_BLACK +
+        HCONSOLE_LIGHT_MAGENTA * 16);
+}
+//===============================================================================
+void MEASUREMENT_COLOR_THICK
+    (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
+        HCONSOLE_BLACK +
+        HCONSOLE_DEEP_BLUE * 16);
+}
+void MEASUREMENT_COLOR_THIN
+    (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
+        HCONSOLE_DEEP_BLUE +
+        HCONSOLE_BLACK * 16);
+}
+void ISOTOPE_COLOR_THICK
+    (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
+        HCONSOLE_BLACK +
+        HCONSOLE_LIGHT_GREEN * 16);
+}
+void ISOTOPE_COLOR_THIN
+    (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
+        HCONSOLE_LIGHT_GREEN +
+        HCONSOLE_BLACK * 16);
+}
 //=============================================================================================
 
 int main()
 {
-    const string        DEVELOPER_NAME = "@poallele";
+    const string        DEVELOPER_NAME = "Made by @poallele";
     //=============================================================================================
     // Task
     //=============================================================================================
@@ -100,6 +148,13 @@ int main()
     string              input3; // To hold file input
     string              input4; // To hold file input
     string              input5; // To hold file input
+    
+    string              print1 = "When measuring in [";
+    string              print2 = "], the decay constant of [";
+    string              print3 = "] is";
+    string              print4 = "In other words, this value is the probability per ";
+    string              print5 = " for a single ";
+    string              print6 = " nucleus to decay. Check ";
 
     int                 spaceTaken;
 
@@ -171,15 +226,22 @@ int main()
     }
 
 
+
     //=============================================================================================
     // CMD Width prompt
     //=============================================================================================
+    DEFAULT(hConsole);
     cout << CMDQuestion << endl;
     
+
+    DEFAULT(hConsole);
     while (exitInputValidationLoopForCMD != true)
     {
+        INVERTED(hConsole);
         cin >> CMDResponse;
+        
 
+        DEFAULT(hConsole);
         if (CMDResponse == 'y')
         {
             defaultNonFullscreenHorizontalSpaceWin10CMDPrompt = 120;
@@ -198,15 +260,17 @@ int main()
     cout << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - DEVELOPER_NAME.length());
     cout << ' ';
 
-    POALLELE(hConsole);
+    FLAIR(hConsole);
     cout << DEVELOPER_NAME;
-    DEFAULT(hConsole);
-    cout << endl;
     
-    
+
+
     //=============================================================================================
     // Prompt 1
     //=============================================================================================
+    DEFAULT(hConsole);
+    cout << endl;
+
     string LINE_BREAK(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt, '_');
     cout << LINE_BREAK << endl;
     
@@ -214,11 +278,9 @@ int main()
     
     INVERTED(hConsole);
     cout << instruction1 << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction1.length()) << instruction1Specs << endl;
-    DEFAULT(hConsole);
+    
 
-    
-    
-    
+    DEFAULT(hConsole);
     // Use an iterator to display the vector contents.
     for (auto& currentMeasurement : TimespanVector)                 // PAGE 434
     {
@@ -226,8 +288,9 @@ int main()
 
         INVERTED(hConsole);
         cout << '<' << currentMeasurement.firstCharacter << '>';
-        DEFAULT(hConsole);
+        
 
+        DEFAULT(hConsole);
         cout
             << ' '
             << currentMeasurement.unit
@@ -239,15 +302,17 @@ int main()
                 - instruction1.length()
                 - currentMeasurement.unit.length()
                 - currentMeasurement.firstCharacter.length()
-                //- to_string(currentMeasurement.secondsInASingularUnit).length()
                 + 11 + 1 + 1 - 1
                 - (to_string(currentMeasurement.secondsInASingularUnit)).length()
             );
 
         cout << ' ';
-        BLACK_TXT_BLUE_BG(hConsole);
+        
+        MEASUREMENT_COLOR_THICK(hConsole);
         cout << to_string(currentMeasurement.secondsInASingularUnit);
-        DEFAULT(hConsole);
+        
+        
+        FLAIR(hConsole);
         cout << '|' << endl;
     }
 
@@ -258,7 +323,9 @@ int main()
     //=============================================================================================
     INVERTED(hConsole);
     cin >> chosenMeasurementUnitResponse;
-    DEFAULT(hConsole);
+    
+    
+    
 
     //while (exitInputValidationLoopForMeasurementUnits != true)
     //{
@@ -277,10 +344,14 @@ int main()
     //=============================================================================================
     // Prompt 2
     //=============================================================================================
+    DEFAULT(hConsole);
     cout << LINE_BREAK << endl;
     
+
     INVERTED(hConsole);
     cout << instruction2 << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction2.length()) << instruction2Specs << endl;
+    
+    
     DEFAULT(hConsole);
 
 
@@ -293,8 +364,9 @@ int main()
 
         INVERTED(hConsole);
         cout << '<' << numberedOrderOfIsotopes << '>';
+        
+        
         DEFAULT(hConsole);
-
         cout
             << ' '
             << currentIsotope.name
@@ -309,10 +381,15 @@ int main()
             );
 
         cout << ' ';
-        BLACK_TXT_GREEN_BG(hConsole);
+        
+        ISOTOPE_COLOR_THICK(hConsole);
         cout << to_string(currentIsotope.halfLife);
-        DEFAULT(hConsole);
+        
+        
+        FLAIR(hConsole);
         cout << '|' << endl;
+
+        DEFAULT(hConsole);
     }
 
 
@@ -329,79 +406,65 @@ int main()
     //=============================================================================================
     // Print final output
     //=============================================================================================
+    indexOfChosenIsotopeInVector = chosenIsotopeResponse - 1;   // since the index "[]" for a vector begins at 0, "-1" is used
+                                                                // (since user responses begin at 1). if this was not used,
+                                                                // then chosenIsotopeResponse would equal 6 instead of 5. since 6 is not
+                                                                // present in the index, it would not return anything.
 
-    /* since the index "[]" for a vector begins at 0, "-1" is used
-     * (since user responses begin at 1). if this was not used,
-     * then chosenIsotopeResponse would equal 6 instead of 5. since 6 is not
-     * present in the index, it would not return anything. */
-
-    indexOfChosenIsotopeInVector = chosenIsotopeResponse - 1;
-
-    // Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
-    decayConstant =
-    (log(2) / IsotopeVector[indexOfChosenIsotopeInVector].halfLife)
-    *
+    
+    decayConstant = // Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
+    (log(2) / IsotopeVector[indexOfChosenIsotopeInVector].halfLife) *
     (TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit / GREGORIAN_CALENDAR_SECONDS);
 
-    string print1 = "When measuring in ";
-    string print2 = ", the decay constant of ";
-    string print3 = " is";
+    
     //=============================================================================================
     // Print final output
     //=============================================================================================
+    DEFAULT(hConsole);
     cout << print1;
-    BLUE_TXT_BLACK_BG(hConsole);
-    cout << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit;
-    cout << 's';
+    
+    MEASUREMENT_COLOR_THIN(hConsole);
+    cout << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit << 's';
+    
     DEFAULT(hConsole);
     cout << print2;
         
-    GREEN_TXT_BLACK_BG(hConsole);
+    ISOTOPE_COLOR_THIN(hConsole);
     cout << IsotopeVector[chosenIsotopeResponse - 1].name;
+    
     DEFAULT(hConsole);
-    cout << print3;
-
-
     cout
+        << print3
         << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt
             - print1.length()
             - IsotopeVector[chosenIsotopeResponse - 1].name.length()
             - print2.length()
             - TimespanVector[indexOfChosenMeasurementUnitsInVector].unit.length()
             - print3.length()
-            - 25 - 2 - 1 - 1
-        )
+            - 5 - 2 - 1 - 1 - 4)
         << ' ';
 
-    SUCCESS(hConsole);
-    cout
-        << fixed
-        << setprecision(25)
-        << decayConstant;
-    DEFAULT(hConsole);
-
-    cout << '.';
+    INVERTED(hConsole);
+    cout << fixed << scientific << setprecision(5) << decayConstant;
+    
+    FLAIR(hConsole);
+    cout << '|';
     //=============================================================================================
     // Print final output
     //=============================================================================================
     DEFAULT(hConsole);
     cout
         << endl
-        << "In other words, this value is the probability per"
-        << ' '
+        << print4
         << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit
-        << ' '
-        << "for a single"
-        << ' '
+        << print5
         << IsotopeVector[chosenIsotopeResponse - 1].name
-        << ' '
-        << "nucleus to decay.";
+        << print6;
+
     DEFAULT(hConsole);
+    cout << endl;
     
-    cout
-        << endl
-        << endl
-        << endl;
+    INVERTED(hConsole);
     //=============================================================================================
     // Print final output
     //=============================================================================================
