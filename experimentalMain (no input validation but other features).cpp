@@ -96,14 +96,14 @@ void ISOTOPE_COLOR_THIN
 
 int main()
 {
-    const string        DEVELOPER_NAME = "Made by @poallele";
+    const string        DEVELOPER_NAME = "sole developer: @poallele";
     //=============================================================================================
     // Task
     //=============================================================================================
     const long double   GREGORIAN_CALENDAR_SECONDS = 31556952;
     const string		ERROR_MESSAGE = "Invalid character. ";
 
-    const string        CMDQuestion = "Are you currently running Windows 11's 'Terminal' (not 'conhost.exe' or any other program)? <y/n>";
+    const string        CMDQuestion = "Are you currently running Windows 11's 'Terminal' (not 'conhost.exe' or any other program)? <y/n> ";
     const string        instruction1 = "SELECT A MEASUREMENT";
     const string        instruction2 = "SELECT AN ISOTOPE";
     const string        instruction1Specs = "SECONDS PER UNIT";
@@ -151,7 +151,7 @@ int main()
     
     string              print1 = "When measuring in [";
     string              print2 = "], the decay constant of [";
-    string              print3 = "] is";
+    string              print3 = "] is: ";
     string              print4 = "In other words, this value is the probability per ";
     string              print5 = " for a single ";
     string              print6 = " nucleus to decay. Check ";
@@ -231,7 +231,7 @@ int main()
     // CMD Width prompt
     //=============================================================================================
     DEFAULT(hConsole);
-    cout << CMDQuestion << endl;
+    cout << CMDQuestion;
     
 
     DEFAULT(hConsole);
@@ -244,12 +244,12 @@ int main()
         DEFAULT(hConsole);
         if (CMDResponse == 'y')
         {
-            defaultNonFullscreenHorizontalSpaceWin10CMDPrompt = 120;
+            defaultNonFullscreenHorizontalSpaceWin10CMDPrompt = 120 - 2;
             exitInputValidationLoopForCMD = true;
         }
         else if (CMDResponse == 'n')
         {
-            defaultNonFullscreenHorizontalSpaceWin10CMDPrompt = 80;
+            defaultNonFullscreenHorizontalSpaceWin10CMDPrompt = 80 - 2;
             exitInputValidationLoopForCMD = true;
         }
         else
@@ -257,6 +257,7 @@ int main()
             cout << ERROR_MESSAGE;
         }
     }
+    cout << endl;
     cout << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - DEVELOPER_NAME.length());
     cout << ' ';
 
@@ -271,7 +272,8 @@ int main()
     DEFAULT(hConsole);
     cout << endl;
 
-    string LINE_BREAK(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt, '_');
+    string LINE_BREAK(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt, '=');
+    string LINE_BREAK_END(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt, '*');
     cout << LINE_BREAK << endl;
     
     
@@ -284,6 +286,7 @@ int main()
     // Use an iterator to display the vector contents.
     for (auto& currentMeasurement : TimespanVector)                 // PAGE 434
     {
+        cout << endl;
         spaceTaken = currentMeasurement.unit.length();
 
         INVERTED(hConsole);
@@ -306,23 +309,25 @@ int main()
                 - (to_string(currentMeasurement.secondsInASingularUnit)).length()
             );
 
-        cout << ' ';
+        cout << ' ';    
         
         MEASUREMENT_COLOR_THICK(hConsole);
         cout << to_string(currentMeasurement.secondsInASingularUnit);
         
         
         FLAIR(hConsole);
-        cout << '|' << endl;
+        cout << '|';
     }
-
+    std::cout << "\b \b" << std::flush;
 
 
     //=============================================================================================
     // Input Validation 1
     //=============================================================================================
-    INVERTED(hConsole);
+    FLAIR(hConsole);
     cin >> chosenMeasurementUnitResponse;
+    DEFAULT(hConsole);
+
     
     
     
@@ -344,7 +349,6 @@ int main()
     //=============================================================================================
     // Prompt 2
     //=============================================================================================
-    DEFAULT(hConsole);
     cout << LINE_BREAK << endl;
     
 
@@ -362,6 +366,8 @@ int main()
         numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
         spaceTaken = currentIsotope.name.length();
 
+        cout << endl;
+        
         INVERTED(hConsole);
         cout << '<' << numberedOrderOfIsotopes << '>';
         
@@ -387,22 +393,25 @@ int main()
         
         
         FLAIR(hConsole);
-        cout << '|' << endl;
+        cout << '|';
 
         DEFAULT(hConsole);
     }
-
+    std::cout << "\b \b" << std::flush;
 
 
     //=============================================================================================
     // Input Validation 2
     //=============================================================================================
-    INVERTED(hConsole);
+    FLAIR(hConsole);
     cin >> chosenIsotopeResponse;
     DEFAULT(hConsole);
 
 
-    cout << LINE_BREAK << endl;
+    cout << LINE_BREAK_END << endl;
+
+
+
     //=============================================================================================
     // Print final output
     //=============================================================================================
@@ -430,41 +439,32 @@ int main()
     cout << print2;
         
     ISOTOPE_COLOR_THIN(hConsole);
-    cout << IsotopeVector[chosenIsotopeResponse - 1].name;
+    cout << IsotopeVector[indexOfChosenIsotopeInVector].name;
     
     DEFAULT(hConsole);
-    cout
-        << print3
-        << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt
-            - print1.length()
-            - IsotopeVector[chosenIsotopeResponse - 1].name.length()
-            - print2.length()
-            - TimespanVector[indexOfChosenMeasurementUnitsInVector].unit.length()
-            - print3.length()
-            - 5 - 2 - 1 - 1 - 4)
-        << ' ';
-
-    INVERTED(hConsole);
-    cout << fixed << scientific << setprecision(5) << decayConstant;
+    cout << print3;
+    
+    
+    cout << endl << endl;
     
     FLAIR(hConsole);
+    cout << fixed << scientific << setprecision(5) << decayConstant;
     cout << '|';
+    DEFAULT(hConsole);
+
+    cout << endl << endl;
     //=============================================================================================
     // Print final output
     //=============================================================================================
-    DEFAULT(hConsole);
     cout
-        << endl
         << print4
         << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit
         << print5
-        << IsotopeVector[chosenIsotopeResponse - 1].name
+        << IsotopeVector[indexOfChosenIsotopeInVector].name
         << print6;
 
     DEFAULT(hConsole);
-    cout << endl;
-    
-    INVERTED(hConsole);
+    cout << endl << LINE_BREAK;
     //=============================================================================================
     // Print final output
     //=============================================================================================
