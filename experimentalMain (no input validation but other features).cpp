@@ -13,6 +13,7 @@
 
 #include <Windows.h>
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
 using namespace std;
 
 
@@ -96,18 +97,34 @@ void ISOTOPE_COLOR_THIN
 
 int main()
 {
-    const string        DEVELOPER_NAME = "sole developer: @poallele";
+    const char          YES = 'y';
+    const char          NO = 'n';
+    const string        WHITESPACE = " ";
+
+    const string        BORDER = "|";
+    const string        BRACKET = "<";
+    const string        BRACKET_2 = ">";
+
+    const char          FILE_DELIMITER = ':';
+    
+    const string        DEVELOPER_NAME = "poallele";
+    const string        DEVELOPER_LINK_1 = "https://github.com/";
+    const string        DEVELOPER_LINK_2 = "/cpp-radioactive-decay-calculator";
     //=============================================================================================
     // Task
     //=============================================================================================
     const long double   GREGORIAN_CALENDAR_SECONDS = 31556952;
+    
     const string		ERROR_MESSAGE = "Invalid character. ";
-
-    const string        CMDQuestion = "Are you currently running Windows 11's 'Terminal' (not 'conhost.exe' or any other program)? <y/n> ";
-    const string        instruction1 = "SELECT A MEASUREMENT";
-    const string        instruction2 = "SELECT AN ISOTOPE";
-    const string        instruction1Specs = "SECONDS PER UNIT";
-    const string        instruction2Specs = "HALF LIFE IN YEARS";
+    const string		FILE_ERROR_MESSAGE = "ERROR: Cannot open file.\n";
+    const string        CMDQuestion =
+                                        "Press " + BRACKET + "key" + BRACKET_2 + ", then 'enter'."
+                                        "\nAre you currently running Windows 11's 'Terminal' (not 'conhost.exe' or any other program)? " + BRACKET + YES + "/" + NO + BRACKET_2 + WHITESPACE;
+    
+    const string        instruction1 = "MEASUREMENT (replacethistextwithoutbreakingtheprogram)";
+    const string        instruction1Specs = " (per unit) SECONDS";
+    const string        instruction2 = "ISOTOPE (replacethistextwithoutbreakingtheprogram)";
+    const string        instruction2Specs = "(yrs) HALF LIFE";
 
     vector<TimespanStruct>TimespanVector =
     {
@@ -149,12 +166,11 @@ int main()
     string              input4; // To hold file input
     string              input5; // To hold file input
     
-    string              print1 = "When measuring in [";
-    string              print2 = "], the decay constant of [";
-    string              print3 = "] is: ";
-    string              print4 = "In other words, this value is the probability per ";
-    string              print5 = " for a single ";
-    string              print6 = " nucleus to decay. Check ";
+    string              print1 = "Decay constant: ";
+    string              print4 = "This value is the probability per [";
+    string              print5 = "] for a single [";
+    string              print6 = "] nucleus to decay.";
+    string              print7 = "Check copyPaste.txt to copy and paste it.";
 
     int                 spaceTaken;
 
@@ -177,8 +193,8 @@ int main()
         while (dataFile)
         {
             // Read an item using ':' as a delimiter.
-            getline(dataFile, input1, ':');
-            getline(dataFile, input2, ':');
+            getline(dataFile, input1, FILE_DELIMITER);
+            getline(dataFile, input2, FILE_DELIMITER);
             getline(dataFile, input3);
 
             long double input3LongDouble = stold(string(input3));   // PAGE 612
@@ -191,7 +207,7 @@ int main()
     }
     else
     {
-        cout << "ERROR: Cannot open file.\n";
+        cout << FILE_ERROR_MESSAGE;
     }
 
 
@@ -209,7 +225,7 @@ int main()
         while (dataFile2)
         {
             // Read an item using ':' as a delimiter.
-            getline(dataFile2, input4, ':');
+            getline(dataFile2, input4, FILE_DELIMITER);
             getline(dataFile2, input5);
 
             long double input5LongDouble = stold(string(input5));   // PAGE 612
@@ -222,7 +238,7 @@ int main()
     }
     else
     {
-        cout << "ERROR: Cannot open file.\n";
+        cout << FILE_ERROR_MESSAGE;
     }
 
 
@@ -242,12 +258,12 @@ int main()
         
 
         DEFAULT(hConsole);
-        if (CMDResponse == 'y')
+        if (CMDResponse == YES)
         {
             defaultNonFullscreenHorizontalSpaceWin10CMDPrompt = 120 - 2;
             exitInputValidationLoopForCMD = true;
         }
-        else if (CMDResponse == 'n')
+        else if (CMDResponse == NO)
         {
             defaultNonFullscreenHorizontalSpaceWin10CMDPrompt = 80 - 2;
             exitInputValidationLoopForCMD = true;
@@ -258,22 +274,21 @@ int main()
         }
     }
     cout << endl;
-    cout << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - DEVELOPER_NAME.length());
-    cout << ' ';
+    cout << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - DEVELOPER_NAME.length() - 1);
+    cout << WHITESPACE;
 
     FLAIR(hConsole);
-    cout << DEVELOPER_NAME;
+    cout << '@' << DEVELOPER_NAME;
     
-
-
+    string LINE_BREAK(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt, '=');
+    string LINE_BREAK_END(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt, '*');
     //=============================================================================================
     // Prompt 1
     //=============================================================================================
     DEFAULT(hConsole);
     cout << endl;
 
-    string LINE_BREAK(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt, '=');
-    string LINE_BREAK_END(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt, '*');
+    
     cout << LINE_BREAK << endl;
     
     
@@ -282,7 +297,7 @@ int main()
     cout << instruction1 << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction1.length()) << instruction1Specs << endl;
     
 
-    DEFAULT(hConsole);
+
     // Use an iterator to display the vector contents.
     for (auto& currentMeasurement : TimespanVector)                 // PAGE 434
     {
@@ -290,35 +305,35 @@ int main()
         spaceTaken = currentMeasurement.unit.length();
 
         INVERTED(hConsole);
-        cout << '<' << currentMeasurement.firstCharacter << '>';
-        
+        cout << BRACKET;
+        DEFAULT(hConsole);
+        cout << currentMeasurement.firstCharacter;
+        INVERTED(hConsole);
+        cout << BRACKET_2;
 
         DEFAULT(hConsole);
         cout
-            << ' '
+            << WHITESPACE
             << currentMeasurement.unit
-            << "(s)"
-            << ':'
 
             << setw(
                 defaultNonFullscreenHorizontalSpaceWin10CMDPrompt
-                - instruction1.length()
                 - currentMeasurement.unit.length()
                 - currentMeasurement.firstCharacter.length()
-                + 11 + 1 + 1 - 1
-                - (to_string(currentMeasurement.secondsInASingularUnit)).length()
+                - to_string(currentMeasurement.secondsInASingularUnit).length()
+                - (BRACKET.length()) - (BRACKET_2.length()) - (BORDER.length()) - (WHITESPACE.length())
             );
 
-        cout << ' ';    
+        cout << WHITESPACE;
         
         MEASUREMENT_COLOR_THICK(hConsole);
         cout << to_string(currentMeasurement.secondsInASingularUnit);
         
         
         FLAIR(hConsole);
-        cout << '|';
+        cout << BORDER;
     }
-    std::cout << "\b \b" << std::flush;
+    cout << "\b \b" << flush;
 
 
     //=============================================================================================
@@ -354,9 +369,6 @@ int main()
 
     INVERTED(hConsole);
     cout << instruction2 << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction2.length()) << instruction2Specs << endl;
-    
-    
-    DEFAULT(hConsole);
 
 
 
@@ -366,38 +378,37 @@ int main()
         numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
         spaceTaken = currentIsotope.name.length();
 
-        cout << endl;
-        
+
         INVERTED(hConsole);
-        cout << '<' << numberedOrderOfIsotopes << '>';
-        
+        cout << endl << BRACKET;
+        DEFAULT(hConsole);
+        cout << numberedOrderOfIsotopes;
+        INVERTED(hConsole);
+        cout << BRACKET_2;
         
         DEFAULT(hConsole);
         cout
-            << ' '
+            << WHITESPACE
             << currentIsotope.name
-            << ':'
 
-            << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt
-                - instruction2.length()
+            << setw(
+                defaultNonFullscreenHorizontalSpaceWin10CMDPrompt
                 - currentIsotope.name.length()
                 - to_string(numberedOrderOfIsotopes).length()       // 613
-                + 11 + 1 + 1 - 1
-                - (to_string(currentIsotope.halfLife)).length()
+                - to_string(currentIsotope.halfLife).length()
+                - (BRACKET.length()) - (BRACKET_2.length()) - (BORDER.length()) - (WHITESPACE.length())
             );
 
-        cout << ' ';
+        cout << WHITESPACE;
         
         ISOTOPE_COLOR_THICK(hConsole);
         cout << to_string(currentIsotope.halfLife);
         
         
         FLAIR(hConsole);
-        cout << '|';
-
-        DEFAULT(hConsole);
+        cout << BORDER;
     }
-    std::cout << "\b \b" << std::flush;
+    cout << "\b \b" << flush;
 
 
     //=============================================================================================
@@ -408,7 +419,7 @@ int main()
     DEFAULT(hConsole);
 
 
-    cout << LINE_BREAK_END << endl;
+    cout << LINE_BREAK << endl;
 
 
 
@@ -432,36 +443,37 @@ int main()
     DEFAULT(hConsole);
     cout << print1;
     
-    MEASUREMENT_COLOR_THIN(hConsole);
-    cout << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit << 's';
-    
-    DEFAULT(hConsole);
-    cout << print2;
-        
-    ISOTOPE_COLOR_THIN(hConsole);
-    cout << IsotopeVector[indexOfChosenIsotopeInVector].name;
-    
-    DEFAULT(hConsole);
-    cout << print3;
     
     
-    cout << endl << endl;
-    
-    FLAIR(hConsole);
+    INVERTED(hConsole);
+    cout << "***";
     cout << fixed << scientific << setprecision(5) << decayConstant;
-    cout << '|';
+    cout << "***";
     DEFAULT(hConsole);
 
-    cout << endl << endl;
+    cout << endl;
     //=============================================================================================
     // Print final output
     //=============================================================================================
-    cout
-        << print4
-        << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit
-        << print5
-        << IsotopeVector[indexOfChosenIsotopeInVector].name
-        << print6;
+    cout << print4;
+
+    MEASUREMENT_COLOR_THIN(hConsole);
+    cout << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit;
+        
+    DEFAULT(hConsole);
+    cout << print5;
+        
+    ISOTOPE_COLOR_THIN(hConsole);
+    cout << IsotopeVector[indexOfChosenIsotopeInVector].name;
+        
+    DEFAULT(hConsole);
+    cout << print6 << endl;
+    cout << print7 << endl << endl;
+    
+    INVERTED(hConsole);
+    cout << DEVELOPER_LINK_1;
+    cout << DEVELOPER_NAME;
+    cout << DEVELOPER_LINK_2;
 
     DEFAULT(hConsole);
     cout << endl << LINE_BREAK;
