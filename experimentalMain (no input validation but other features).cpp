@@ -97,6 +97,12 @@ struct IsotopeStruct
 
 int main()
 {
+    //=============================================================================================
+    // Task
+    //=============================================================================================
+    const int           OPTION_YES_SPACE = 120;
+    const int           OPTION_NO_SPACE = 80;
+
     const char          YES = 'y';
     const char          NO = 'n';
     const string        WHITESPACE = " ";
@@ -113,25 +119,39 @@ int main()
     const string        ISOTOPES_FILE = "listOfIsotopes.txt";
     const string        OUTPUT_FILE = "copyPaste.txt";
 
+    const string		ERROR_MESSAGE = "Invalid character. ";
+    const string		FILE_ERROR_MESSAGE = "ERROR: Cannot open file.\n";
+
     const string        DEVELOPER_NAME = "poallele";
     const string        DEVELOPER_LINK_1 = "https://github.com/";
     const string        DEVELOPER_LINK_2 = "/cpp-radioactive-decay-calculator";
+    
+    
+    
     //=============================================================================================
     // Task
     //=============================================================================================
-    const long double   GREGORIAN_CALENDAR_SECONDS = 31556952;
-    
-    const string		ERROR_MESSAGE = "Invalid character. ";
-    const string		FILE_ERROR_MESSAGE = "ERROR: Cannot open file.\n";
     const string        CMDQuestion =
                                         "Press " + BRACKET + "key" + BRACKET_2 + ", then 'enter'."
-                                        "\nAre you currently running Windows 11's 'Terminal' (not 'conhost.exe' or any other program)? " + BRACKET + YES + "/" + NO + BRACKET_2 + WHITESPACE;
+                                        "\nAre you currently running Windows 11's 'Terminal' (not 'conhost.exe' or any other program)? " + BRACKET + YES + "/" + NO + BRACKET_2 + " ";
     
     const string        instruction1 = "MEASUREMENT (replacethistextwithoutbreakingtheprogram)";
     const string        instruction1Specs = " (per unit) SECONDS";
     const string        instruction2 = "ISOTOPE (replacethistextwithoutbreakingtheprogram)";
     const string        instruction2Specs = "(yrs) HALF LIFE";
 
+    const string        print1 = "Decay constant: ";
+    const string        print4 = "This value is the probability per [";
+    const string        print5 = "] for a single [";
+    const string        print6 = "] nucleus to decay.";
+    const string        print7 = "Check " + OUTPUT_FILE + " to copy and paste it.";
+    
+    
+    
+    //=============================================================================================
+    // Task
+    //=============================================================================================
+    const long double   GREGORIAN_CALENDAR_SECONDS = 31556952;
     vector<TimespanStruct>TimespanVector =
     {
         {"s",	"second",	1},
@@ -156,7 +176,7 @@ int main()
     //=============================================================================================
     char                CMDResponse;
     bool				exitInputValidationLoopForCMD = false;
-    int                 defaultNonFullscreenHorizontalSpaceWin10CMDPrompt;
+    int                 horizontalSpace;
     
     string				chosenMeasurementUnitResponse;
     int					indexOfChosenMeasurementUnitsInVector{};
@@ -171,12 +191,6 @@ int main()
     string              input3; // To hold file input
     string              input4; // To hold file input
     string              input5; // To hold file input
-    
-    string              print1 = "Decay constant: ";
-    string              print4 = "This value is the probability per [";
-    string              print5 = "] for a single [";
-    string              print6 = "] nucleus to decay.";
-    string              print7 = "Check" + OUTPUT_FILE + "to copy and paste it.";
 
     int                 spaceTaken;
 
@@ -266,12 +280,12 @@ int main()
         DEFAULT(hConsole);
         if (CMDResponse == YES)
         {
-            defaultNonFullscreenHorizontalSpaceWin10CMDPrompt = 120 - 2;
+            horizontalSpace = OPTION_YES_SPACE;
             exitInputValidationLoopForCMD = true;
         }
         else if (CMDResponse == NO)
         {
-            defaultNonFullscreenHorizontalSpaceWin10CMDPrompt = 80 - 2;
+            horizontalSpace = OPTION_NO_SPACE;
             exitInputValidationLoopForCMD = true;
         }
         else
@@ -280,13 +294,13 @@ int main()
         }
     }
     cout << endl;
-    cout << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - DEVELOPER_NAME.length() - 1);
+    cout << setw(horizontalSpace - DEVELOPER_NAME.length() - WHITESPACE.length());
     cout << WHITESPACE;
 
     FLAIR(hConsole);
     cout << '@' << DEVELOPER_NAME;
     
-    string LINE_BREAK(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt, LINE_BREAK_CHAR);
+    string LINE_BREAK(horizontalSpace, LINE_BREAK_CHAR);
     //=============================================================================================
     // Prompt 1
     //=============================================================================================
@@ -299,7 +313,7 @@ int main()
     
     
     INVERTED(hConsole);
-    cout << instruction1 << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction1.length()) << instruction1Specs << endl;
+    cout << instruction1 << setw(horizontalSpace - instruction1.length()) << instruction1Specs << endl;
     
 
 
@@ -322,7 +336,7 @@ int main()
             << currentMeasurement.unit
 
             << setw(
-                defaultNonFullscreenHorizontalSpaceWin10CMDPrompt
+                horizontalSpace
                 - currentMeasurement.unit.length()
                 - currentMeasurement.firstCharacter.length()
                 - to_string(currentMeasurement.secondsInASingularUnit).length()
@@ -373,7 +387,7 @@ int main()
     
 
     INVERTED(hConsole);
-    cout << instruction2 << setw(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt - instruction2.length()) << instruction2Specs << endl;
+    cout << instruction2 << setw(horizontalSpace - instruction2.length()) << instruction2Specs << endl;
 
 
 
@@ -397,7 +411,7 @@ int main()
             << currentIsotope.name
 
             << setw(
-                defaultNonFullscreenHorizontalSpaceWin10CMDPrompt
+                horizontalSpace
                 - currentIsotope.name.length()
                 - to_string(numberedOrderOfIsotopes).length()       // 613
                 - to_string(currentIsotope.halfLife).length()
