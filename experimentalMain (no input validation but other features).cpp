@@ -107,10 +107,13 @@ int main()
     const char          NO = 'n';
     const string        WHITESPACE = " ";
     const string        BACKSPACE = "\b \b";
+    const int           NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE = -2;
 
     const string        BORDER = "|";
     const string        BRACKET = "<";
     const string        BRACKET_2 = ">";
+    const string        BRACKET_3 = "[";
+    const string        BRACKET_4 = "]";
     const char          LINE_BREAK_CHAR = '=';
 
     const char          FILE_DELIMITER = ':';
@@ -133,7 +136,13 @@ int main()
     //=============================================================================================
     const string        CMDQuestion =
                                         "Press " + BRACKET + "key" + BRACKET_2 + ", then 'enter'."
-                                        "\nAre you currently running Windows 11's 'Terminal' (not 'conhost.exe' or any other program)? " + BRACKET + YES + "/" + NO + BRACKET_2 + " ";
+                                        "\nAre you currently running Windows 11's 'Terminal' (not 'conhost.exe' or any other program)? "
+                                        + BRACKET + YES + "/" + NO + BRACKET_2 + " ";
+    
+
+    const string        CMDQuestion2 = "You have selected a horizontal screen size of " + BRACKET_3;
+    const string        CMDQuestion3 = BRACKET_4 + " characters.\nYou can modify the values corresponding with "
+                                       + BRACKET_3 + YES + BRACKET_4 + " or " + BRACKET_3 + NO + BRACKET_4 + " near line 100 in the source code.";
     
     const string        instruction1 = "MEASUREMENT (replacethistextwithoutbreakingtheprogram)";
     const string        instruction1Specs = " (per unit) SECONDS";
@@ -141,9 +150,9 @@ int main()
     const string        instruction2Specs = "(yrs) HALF LIFE";
 
     const string        print1 = "Decay constant: ";
-    const string        print4 = "This value is the probability per [";
-    const string        print5 = "] for a single [";
-    const string        print6 = "] nucleus to decay.";
+    const string        print4 = "This value is the probability per " + BRACKET_3;
+    const string        print5 = BRACKET_4 + " for a single " + BRACKET_3;
+    const string        print6 = BRACKET_4 + " nucleus to decay.";
     const string        print7 = "Check " + OUTPUT_FILE + " to copy and paste it.";
     
     
@@ -280,12 +289,12 @@ int main()
         DEFAULT(hConsole);
         if (CMDResponse == YES)
         {
-            horizontalSpace = OPTION_YES_SPACE;
+            horizontalSpace = OPTION_YES_SPACE + NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE;
             exitInputValidationLoopForCMD = true;
         }
         else if (CMDResponse == NO)
         {
-            horizontalSpace = OPTION_NO_SPACE;
+            horizontalSpace = OPTION_NO_SPACE + NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE;
             exitInputValidationLoopForCMD = true;
         }
         else
@@ -293,14 +302,15 @@ int main()
             cout << ERROR_MESSAGE;
         }
     }
-    cout << endl;
+    cout << CMDQuestion2 << horizontalSpace - NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE << CMDQuestion3 << endl << endl;
+
     cout << setw(horizontalSpace - DEVELOPER_NAME.length() - WHITESPACE.length());
     cout << WHITESPACE;
 
     FLAIR(hConsole);
     cout << '@' << DEVELOPER_NAME;
     
-    string LINE_BREAK(horizontalSpace, LINE_BREAK_CHAR);
+    const string LINE_BREAK(horizontalSpace, LINE_BREAK_CHAR);
     //=============================================================================================
     // Prompt 1
     //=============================================================================================
@@ -318,7 +328,7 @@ int main()
 
 
     // Use an iterator to display the vector contents.
-    for (auto& currentMeasurement : TimespanVector)                 // PAGE 434
+    for (auto& currentMeasurement:TimespanVector)                 // PAGE 434
     {
         cout << endl;
         spaceTaken = currentMeasurement.unit.length();
@@ -392,7 +402,7 @@ int main()
 
 
     // Use an iterator to display the vector contents.
-    for (auto& currentIsotope : IsotopeVector)                      // PAGE 434
+    for (auto& currentIsotope:IsotopeVector)                      // PAGE 434
     {
         numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
         spaceTaken = currentIsotope.name.length();
