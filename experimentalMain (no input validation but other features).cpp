@@ -100,13 +100,19 @@ int main()
     const char          YES = 'y';
     const char          NO = 'n';
     const string        WHITESPACE = " ";
+    const string        BACKSPACE = "\b \b";
 
     const string        BORDER = "|";
     const string        BRACKET = "<";
     const string        BRACKET_2 = ">";
+    const char          LINE_BREAK_CHAR = '=';
 
     const char          FILE_DELIMITER = ':';
-    
+
+    const string        MEASUREMENTS_FILE = "listOfMeasurements.txt";
+    const string        ISOTOPES_FILE = "listOfIsotopes.txt";
+    const string        OUTPUT_FILE = "copyPaste.txt";
+
     const string        DEVELOPER_NAME = "poallele";
     const string        DEVELOPER_LINK_1 = "https://github.com/";
     const string        DEVELOPER_LINK_2 = "/cpp-radioactive-decay-calculator";
@@ -170,7 +176,7 @@ int main()
     string              print4 = "This value is the probability per [";
     string              print5 = "] for a single [";
     string              print6 = "] nucleus to decay.";
-    string              print7 = "Check copyPaste.txt to copy and paste it.";
+    string              print7 = "Check" + OUTPUT_FILE + "to copy and paste it.";
 
     int                 spaceTaken;
 
@@ -184,7 +190,7 @@ int main()
     // File retrieval 1
     //=============================================================================================
     // Open the file for input.
-    fstream dataFile("listOfMeasurements.txt", ios::in);                // PAGE 714
+    fstream dataFile(MEASUREMENTS_FILE, ios::in);                // PAGE 714
 
     // If the file was successfully opened, continue.
     if (dataFile)
@@ -216,7 +222,7 @@ int main()
     // File retrieval 2
     //=============================================================================================
     // Open the file for input.
-    fstream dataFile2("listOfIsotopes.txt", ios::in);                // PAGE 714
+    fstream dataFile2(ISOTOPES_FILE, ios::in);                // PAGE 714
 
     // If the file was successfully opened, continue.
     if (dataFile2)
@@ -280,8 +286,7 @@ int main()
     FLAIR(hConsole);
     cout << '@' << DEVELOPER_NAME;
     
-    string LINE_BREAK(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt, '=');
-    string LINE_BREAK_END(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt, '*');
+    string LINE_BREAK(defaultNonFullscreenHorizontalSpaceWin10CMDPrompt, LINE_BREAK_CHAR);
     //=============================================================================================
     // Prompt 1
     //=============================================================================================
@@ -333,7 +338,7 @@ int main()
         FLAIR(hConsole);
         cout << BORDER;
     }
-    cout << "\b \b" << flush;
+    cout << BACKSPACE << flush;
 
 
     //=============================================================================================
@@ -408,7 +413,7 @@ int main()
         FLAIR(hConsole);
         cout << BORDER;
     }
-    cout << "\b \b" << flush;
+    cout << BACKSPACE << flush;
 
 
     //=============================================================================================
@@ -446,9 +451,7 @@ int main()
     
     
     INVERTED(hConsole);
-    cout << "***";
     cout << fixed << scientific << setprecision(5) << decayConstant;
-    cout << "***";
     DEFAULT(hConsole);
 
     cout << endl;
@@ -480,7 +483,7 @@ int main()
     //=============================================================================================
     // Print final output
     //=============================================================================================
-    fstream dataFile3("copyPaste.txt", ios::out);
+    fstream dataFile3(OUTPUT_FILE, ios::out);
     dataFile3
         << fixed
         << setprecision(25)
