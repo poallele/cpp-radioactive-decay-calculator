@@ -12,8 +12,6 @@
 #include <iomanip>
 
 #include <Windows.h>
-HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
 using namespace std;
 
 
@@ -21,21 +19,8 @@ using namespace std;
 //=============================================================================================
 // Task
 //=============================================================================================
-struct TimespanStruct
-{
-    string			firstCharacter;
-    string			unit;
-    long double		secondsInASingularUnit;
-};
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-struct IsotopeStruct
-{
-    string			name;
-    long double		halfLife;
-};
-//=============================================================================================
-// Task
-//=============================================================================================
 const int HCONSOLE_DEEP_BLUE = 1;
 const int HCONSOLE_DEEP_GREEN = 2;
 const int HCONSOLE_DEEP_AQUA = 3;
@@ -54,9 +39,9 @@ const int HCONSOLE_WHITE = 15;
 const int HCONSOLE_LIGHT_GRAY = 7;
 const int HCONSOLE_GRAY = 8;
 const int HCONSOLE_BLACK = 0;
-
+//=============================================================================================
 // (FOREGROUND + (BACKGROUND * 16)) = COLOR
-//===============================================================================
+//==========================================
 void DEFAULT // DEFAULT DISPLAY TEXT
     (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
         HCONSOLE_LIGHT_AQUA + // CYAN FOREGROUND
@@ -93,6 +78,21 @@ void ISOTOPE_COLOR_THIN
         HCONSOLE_LIGHT_GREEN +
         HCONSOLE_BLACK * 16);
 }
+//=============================================================================================
+// Task
+//=============================================================================================
+struct TimespanStruct
+{
+    string			firstCharacter;
+    string			unit;
+    long double		secondsInASingularUnit;
+};
+
+struct IsotopeStruct
+{
+    string			name;
+    long double		halfLife;
+};
 //=============================================================================================
 
 int main()
