@@ -21,77 +21,72 @@ using namespace std;
 //=============================================================================================
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-const int HCONSOLE_DEEP_BLUE = 1;
-const int HCONSOLE_DEEP_GREEN = 2;
-const int HCONSOLE_DEEP_AQUA = 3;
-const int HCONSOLE_DEEP_RED = 4;
-const int HCONSOLE_DEEP_MAGENTA = 5;
-const int HCONSOLE_DEEP_YELLOW = 6;
-
-const int HCONSOLE_LIGHT_BLUE = 9;
-const int HCONSOLE_LIGHT_GREEN = 10;
-const int HCONSOLE_LIGHT_AQUA = 11;
-const int HCONSOLE_LIGHT_RED = 12;
-const int HCONSOLE_LIGHT_MAGENTA = 13;
-const int HCONSOLE_LIGHT_YELLOW = 14;
-
-const int HCONSOLE_WHITE = 15;
-const int HCONSOLE_LIGHT_GRAY = 7;
-const int HCONSOLE_GRAY = 8;
-const int HCONSOLE_BLACK = 0;
+const int               HCONSOLE_DEEP_BLUE = 1,
+                        HCONSOLE_DEEP_GREEN = 2,
+                        HCONSOLE_DEEP_AQUA = 3,
+                        HCONSOLE_DEEP_RED = 4,
+                        HCONSOLE_DEEP_MAGENTA = 5,
+                        HCONSOLE_DEEP_YELLOW = 6,
+            
+                        HCONSOLE_LIGHT_BLUE = 9,
+                        HCONSOLE_LIGHT_GREEN = 10,
+                        HCONSOLE_LIGHT_AQUA = 11,
+                        HCONSOLE_LIGHT_RED = 12,
+                        HCONSOLE_LIGHT_MAGENTA = 13,
+                        HCONSOLE_LIGHT_YELLOW = 14,
+            
+                        HCONSOLE_WHITE = 15,
+                        HCONSOLE_LIGHT_GRAY = 7,
+                        HCONSOLE_GRAY = 8,
+                        HCONSOLE_BLACK = 0;
 //=============================================================================================
 // (FOREGROUND + (BACKGROUND * 16)) = COLOR
 //==========================================
-void DEFAULT // DEFAULT DISPLAY TEXT
-    (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
-        HCONSOLE_LIGHT_AQUA + // CYAN FOREGROUND
+void DEFAULT(HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
+
+        HCONSOLE_WHITE + // WHITE FOREGROUND
         HCONSOLE_BLACK * 16); // BLACK BACKGROUND
 }
-void INVERTED
-    (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
-        HCONSOLE_BLACK +
-        HCONSOLE_LIGHT_AQUA * 16);
+void PROGRAM_DEFAULT (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
+
+                        HCONSOLE_LIGHT_AQUA +
+                        HCONSOLE_BLACK * 16);
 }
-void FLAIR
-    (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
-        HCONSOLE_BLACK +
-        HCONSOLE_LIGHT_MAGENTA * 16);
+void INVERTED (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
+
+                        HCONSOLE_BLACK +
+                        HCONSOLE_LIGHT_AQUA * 16);
+}
+void FLAIR (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
+
+                        HCONSOLE_BLACK +
+                        HCONSOLE_LIGHT_MAGENTA * 16);
 }
 //===============================================================================
-void MEASUREMENT_COLOR_THICK
-    (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
-        HCONSOLE_BLACK +
-        HCONSOLE_DEEP_BLUE * 16);
+void MEASUREMENT_COLOR_THICK (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
+
+                        HCONSOLE_BLACK +
+                        HCONSOLE_DEEP_BLUE * 16);
 }
-void MEASUREMENT_COLOR_THIN
-    (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
-        HCONSOLE_DEEP_BLUE +
-        HCONSOLE_BLACK * 16);
-}
-void ISOTOPE_COLOR_THICK
-    (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
-        HCONSOLE_BLACK +
-        HCONSOLE_LIGHT_GREEN * 16);
-}
-void ISOTOPE_COLOR_THIN
-    (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
-        HCONSOLE_LIGHT_GREEN +
-        HCONSOLE_BLACK * 16);
+void ISOTOPE_COLOR_THICK (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
+
+                        HCONSOLE_BLACK +
+                        HCONSOLE_LIGHT_GREEN * 16);
 }
 //=============================================================================================
 // Task
 //=============================================================================================
 struct TimespanStruct
 {
-    string			firstCharacter;
-    string			unit;
-    long double		secondsInASingularUnit;
+    string			    firstCharacter;
+    string			    unit;
+    long double		    secondsInASingularUnit;
 };
 
 struct IsotopeStruct
 {
-    string			name;
-    long double		halfLife;
+    string			    name;
+    long double		    halfLife;
 };
 //=============================================================================================
 
@@ -100,60 +95,72 @@ int main()
     //=============================================================================================
     // Task
     //=============================================================================================
-    const int           OPTION_YES_SPACE = 120;
-    const int           OPTION_NO_SPACE = 80;
+    const int           OPTION_YES_SPACE = 120,
+                        OPTION_NO_SPACE = 80,
+                        NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE = -2;
 
-    const char          YES = 'y';
-    const char          NO = 'n';
-    const string        WHITESPACE = " ";
-    const string        BACKSPACE = "\b \b";
-    const int           NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE = -2;
-
-    const string        BORDER = "|";
-    const string        BRACKET = "<";
-    const string        BRACKET_2 = ">";
-    const string        BRACKET_3 = "[";
-    const string        BRACKET_4 = "]";
-    const char          LINE_BREAK_CHAR = '=';
-
-    const char          FILE_DELIMITER = ':';
-
-    const string        MEASUREMENTS_FILE = "listOfMeasurements.txt";
-    const string        ISOTOPES_FILE = "listOfIsotopes.txt";
-    const string        OUTPUT_FILE = "copyPaste.txt";
-
-    const string		ERROR_MESSAGE = "Invalid character. ";
-    const string		FILE_ERROR_MESSAGE = "ERROR: Cannot open file.\n";
-
-    const string        DEVELOPER_NAME = "poallele";
-    const string        DEVELOPER_LINK_1 = "https://github.com/";
-    const string        DEVELOPER_LINK_2 = "/cpp-radioactive-decay-calculator";
+    const char          YES = 'y',
+                        NO = 'n',
+                        LINE_BREAK_1_CHAR = '*',
+                        LINE_BREAK_2_CHAR = '=',
+                        FILE_DELIMITER = ':';
     
+    const string        WHITESPACE = " ",
+                        BACKSPACE = "\b \b",
+                        
+                        AT = "@",
+                        BORDER = "|",
+                        BRACKET_1 = "<",
+                        BRACKET_2 = ">",
+                        BRACKET_3 = "[",
+                        BRACKET_4 = "]",
+
+                        MEASUREMENTS_FILE = "listOfMeasurements.txt",
+                        ISOTOPES_FILE = "listOfIsotopes.txt",
+                        OUTPUT_FILE = "copyPaste.txt";
+
     
     
     //=============================================================================================
     // Task
     //=============================================================================================
-    const string        CMDQuestion =
-                                        "Press " + BRACKET + "key" + BRACKET_2 + ", then 'enter'."
+    const string        ORIGINAL = "original: ",
+                        ORIGINALLY_DEVELOPED_BY = "originally developed by ",
+                        ORIGINAL_DEVELOPER_NAME = "poallele",
+                        ORIGINAL_DEVELOPER_SITE = "https://github.com/",
+                        ORIGINAL_DEVELOPER_REPO = "/cpp-radioactive-decay-calculator",
+        
+                        FORK = "fork: ",
+                        MODIFIED_BY = "modified by ",
+                        MODIFYING_DEVELOPER_NAME = "sampletext",
+                        MODIFYING_DEVELOPER_SITE = "https://github.com/",
+                        MODIFYING_DEVELOPER_REPO = "/sample-text",
+        
+                        ERROR_MESSAGE = "Invalid character. ",
+                        FILE_ERROR_MESSAGE = "ERROR: Cannot open file.\n",
+        
+                        
+        
+                        CMDQuestion =
+                                        "Press " + BRACKET_1 + "key" + BRACKET_2 + ", then 'enter'."
                                         "\nAre you currently running Windows 11's 'Terminal' (not 'conhost.exe' or any other program)? "
-                                        + BRACKET + YES + "/" + NO + BRACKET_2 + " ";
-    
-
-    const string        CMDQuestion2 = "You have selected a horizontal screen size of " + BRACKET_3;
-    const string        CMDQuestion3 = BRACKET_4 + " characters.\nYou can modify the values corresponding with "
-                                       + BRACKET_3 + YES + BRACKET_4 + " or " + BRACKET_3 + NO + BRACKET_4 + " near line 100 in the source code.";
-    
-    const string        instruction1 = "MEASUREMENT (replacethistextwithoutbreakingtheprogram)";
-    const string        instruction1Specs = " (per unit) SECONDS";
-    const string        instruction2 = "ISOTOPE (replacethistextwithoutbreakingtheprogram)";
-    const string        instruction2Specs = "(yrs) HALF LIFE";
-
-    const string        print1 = "Decay constant: ";
-    const string        print4 = "This value is the probability per " + BRACKET_3;
-    const string        print5 = BRACKET_4 + " for a single " + BRACKET_3;
-    const string        print6 = BRACKET_4 + " nucleus to decay.";
-    const string        print7 = "Check " + OUTPUT_FILE + " to copy and paste it.";
+                                        + BRACKET_1 + YES + "/" + NO + BRACKET_2 + " ",
+                        CMDQuestion2 = "You have selected a horizontal screen size of " + BRACKET_3,
+                        CMDQuestion3 = BRACKET_4 + " characters.\nYou can modify the values corresponding with "
+                                       + BRACKET_3 + YES + BRACKET_4 + " or " + BRACKET_3 + NO + BRACKET_4 + " near line 100 in the source code.",
+        
+                        
+        
+                        instruction1 = "MEASUREMENT (replacethistextwithoutbreakingtheprogram)",
+                        instruction1Specs = " (per unit) SECONDS",
+                        instruction2 = "ISOTOPE (replacethistextwithoutbreakingtheprogram)",
+                        instruction2Specs = "(yrs) HALF LIFE",
+        
+                        print1 = "Decay constant: ",
+                        print4 = "This value is the probability per " + BRACKET_3,
+                        print5 = BRACKET_4 + " for a single " + BRACKET_3,
+                        print6 = BRACKET_4 + " nucleus to decay.",
+                        print7 = "Check " + BRACKET_3 + OUTPUT_FILE + BRACKET_4 + " to copy and paste it.";
     
     
     
@@ -163,19 +170,19 @@ int main()
     const long double   GREGORIAN_CALENDAR_SECONDS = 31556952;
     vector<TimespanStruct>TimespanVector =
     {
-        {"s",	"second",	1},
-        {"m",	"minute",	60},
-        {"h",	"hour",		3600},
-        {"d",	"day",		86400},
-        {"y",	"year",		GREGORIAN_CALENDAR_SECONDS},
+                        {"s",	"second",	1},
+                        {"m",	"minute",	60},
+                        {"h",	"hour",		3600},
+                        {"d",	"day",		86400},
+                        {"y",	"year",		GREGORIAN_CALENDAR_SECONDS},
     };
     vector<IsotopeStruct>IsotopeVector =
     {
-        {"Uranium-233",		1.592e5},
-        {"Uranium-235",		7.04e8},
-        {"Uranium-238",		4.463e9},
-        {"Plutonium-239",	2.411e4},
-        {"Thorium-232",		1.405e10},
+                        {"Uranium-233",		1.592e5},
+                        {"Uranium-235",		7.04e8},
+                        {"Uranium-238",		4.463e9},
+                        {"Plutonium-239",	2.411e4},
+                        {"Thorium-232",		1.405e10},
     };
 
 
@@ -188,23 +195,20 @@ int main()
     int                 horizontalSpace;
     
     string				chosenMeasurementUnitResponse;
-    int					indexOfChosenMeasurementUnitsInVector{};
+    int					indexOfChosenMeasurementUnitsInVector = 0;
     bool				exitInputValidationLoopForMeasurementUnits = false;
 
     double				chosenIsotopeResponse;
-    int					indexOfChosenIsotopeInVector{};
+    int					indexOfChosenIsotopeInVector = 0;
     bool				exitInputValidationLoopForIsotopes = false;
 
-    string              input1; // To hold file input
-    string              input2; // To hold file input
-    string              input3; // To hold file input
-    string              input4; // To hold file input
-    string              input5; // To hold file input
-
-    int                 spaceTaken;
+    string              input1,
+                        input2,
+                        input3,
+                        input4,
+                        input5;
 
     int                 numberedOrderOfIsotopes = 0;
-
     long double			decayConstant;
 
 
@@ -275,18 +279,18 @@ int main()
     //=============================================================================================
     // CMD Width prompt
     //=============================================================================================
-    DEFAULT(hConsole);
+    PROGRAM_DEFAULT(hConsole);
     cout << CMDQuestion;
     
 
-    DEFAULT(hConsole);
+    PROGRAM_DEFAULT(hConsole);
     while (exitInputValidationLoopForCMD != true)
     {
         INVERTED(hConsole);
         cin >> CMDResponse;
         
 
-        DEFAULT(hConsole);
+        PROGRAM_DEFAULT(hConsole);
         if (CMDResponse == YES)
         {
             horizontalSpace = OPTION_YES_SPACE + NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE;
@@ -302,45 +306,67 @@ int main()
             cout << ERROR_MESSAGE;
         }
     }
-    cout << CMDQuestion2 << horizontalSpace - NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE << CMDQuestion3 << endl << endl;
+    const string LINE_BREAK_1(horizontalSpace, LINE_BREAK_1_CHAR);
+    const string LINE_BREAK_2(horizontalSpace, LINE_BREAK_2_CHAR);
 
-    cout << setw(horizontalSpace - DEVELOPER_NAME.length() - WHITESPACE.length());
-    cout << WHITESPACE;
-
-    FLAIR(hConsole);
-    cout << '@' << DEVELOPER_NAME;
+    cout
+        << CMDQuestion2
+        << horizontalSpace - NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE
+        << CMDQuestion3
+        << endl
+        << LINE_BREAK_1
+        << endl
+        << endl
+        << endl;
     
-    const string LINE_BREAK(horizontalSpace, LINE_BREAK_CHAR);
+    
+    
     //=============================================================================================
     // Prompt 1
     //=============================================================================================
-    DEFAULT(hConsole);
-    cout << endl;
+    cout
+        << setw(horizontalSpace - MODIFIED_BY.length() - MODIFYING_DEVELOPER_NAME.length() - AT.length())
+        << WHITESPACE
+        << MODIFIED_BY
+        << AT
+        << MODIFYING_DEVELOPER_NAME;
+    
+    PROGRAM_DEFAULT(hConsole);
+    cout
+        << endl
+        << LINE_BREAK_2;
 
-    
-    cout << LINE_BREAK << endl;
-    
-    
+    for (int x = 1; x <= ORIGINALLY_DEVELOPED_BY.length() + ORIGINAL_DEVELOPER_NAME.length() + AT.length(); x++)
+        cout << BACKSPACE;
+
+    FLAIR(hConsole);
+    cout
+        << ORIGINALLY_DEVELOPED_BY
+        << AT
+        << ORIGINAL_DEVELOPER_NAME
+        << endl;
     
     INVERTED(hConsole);
-    cout << instruction1 << setw(horizontalSpace - instruction1.length()) << instruction1Specs << endl;
+    cout
+        << instruction1
+        << setw(horizontalSpace - instruction1.length())
+        << instruction1Specs
+        << endl;
     
-
 
     // Use an iterator to display the vector contents.
     for (auto& currentMeasurement:TimespanVector)                 // PAGE 434
     {
         cout << endl;
-        spaceTaken = currentMeasurement.unit.length();
 
         INVERTED(hConsole);
-        cout << BRACKET;
-        DEFAULT(hConsole);
+        cout << BRACKET_1;
+        PROGRAM_DEFAULT(hConsole);
         cout << currentMeasurement.firstCharacter;
         INVERTED(hConsole);
         cout << BRACKET_2;
 
-        DEFAULT(hConsole);
+        PROGRAM_DEFAULT(hConsole);
         cout
             << WHITESPACE
             << currentMeasurement.unit
@@ -350,10 +376,10 @@ int main()
                 - currentMeasurement.unit.length()
                 - currentMeasurement.firstCharacter.length()
                 - to_string(currentMeasurement.secondsInASingularUnit).length()
-                - (BRACKET.length()) - (BRACKET_2.length()) - (BORDER.length()) - (WHITESPACE.length())
-            );
-
-        cout << WHITESPACE;
+                - (BRACKET_1.length()) - (BRACKET_2.length()) - (BORDER.length()) - (WHITESPACE.length())
+            )
+            
+            << WHITESPACE;
         
         MEASUREMENT_COLOR_THICK(hConsole);
         cout << to_string(currentMeasurement.secondsInASingularUnit);
@@ -362,7 +388,9 @@ int main()
         FLAIR(hConsole);
         cout << BORDER;
     }
-    cout << BACKSPACE << flush;
+    cout
+        << BACKSPACE
+        << flush;
 
 
     //=============================================================================================
@@ -370,7 +398,7 @@ int main()
     //=============================================================================================
     FLAIR(hConsole);
     cin >> chosenMeasurementUnitResponse;
-    DEFAULT(hConsole);
+    PROGRAM_DEFAULT(hConsole);
 
     
     
@@ -393,11 +421,17 @@ int main()
     //=============================================================================================
     // Prompt 2
     //=============================================================================================
-    cout << LINE_BREAK << endl;
+    cout
+        << LINE_BREAK_2
+        << endl;
     
 
     INVERTED(hConsole);
-    cout << instruction2 << setw(horizontalSpace - instruction2.length()) << instruction2Specs << endl;
+    cout
+        << instruction2
+        << setw(horizontalSpace - instruction2.length())
+        << instruction2Specs
+        << endl;
 
 
 
@@ -405,17 +439,16 @@ int main()
     for (auto& currentIsotope:IsotopeVector)                      // PAGE 434
     {
         numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
-        spaceTaken = currentIsotope.name.length();
 
 
         INVERTED(hConsole);
-        cout << endl << BRACKET;
-        DEFAULT(hConsole);
+        cout << endl << BRACKET_1;
+        PROGRAM_DEFAULT(hConsole);
         cout << numberedOrderOfIsotopes;
         INVERTED(hConsole);
         cout << BRACKET_2;
         
-        DEFAULT(hConsole);
+        PROGRAM_DEFAULT(hConsole);
         cout
             << WHITESPACE
             << currentIsotope.name
@@ -425,10 +458,10 @@ int main()
                 - currentIsotope.name.length()
                 - to_string(numberedOrderOfIsotopes).length()       // 613
                 - to_string(currentIsotope.halfLife).length()
-                - (BRACKET.length()) - (BRACKET_2.length()) - (BORDER.length()) - (WHITESPACE.length())
-            );
-
-        cout << WHITESPACE;
+                - (BRACKET_1.length()) - (BRACKET_2.length()) - (BORDER.length()) - (WHITESPACE.length())
+            )
+            
+            << WHITESPACE;
         
         ISOTOPE_COLOR_THICK(hConsole);
         cout << to_string(currentIsotope.halfLife);
@@ -437,7 +470,9 @@ int main()
         FLAIR(hConsole);
         cout << BORDER;
     }
-    cout << BACKSPACE << flush;
+    cout
+        << BACKSPACE
+        << flush;
 
 
     //=============================================================================================
@@ -445,10 +480,12 @@ int main()
     //=============================================================================================
     FLAIR(hConsole);
     cin >> chosenIsotopeResponse;
-    DEFAULT(hConsole);
+    PROGRAM_DEFAULT(hConsole);
 
 
-    cout << LINE_BREAK << endl;
+    cout
+        << LINE_BREAK_2
+        << endl;
 
 
 
@@ -469,41 +506,43 @@ int main()
     //=============================================================================================
     // Print final output
     //=============================================================================================
-    DEFAULT(hConsole);
-    cout << print1;
-    
-    
-    
-    INVERTED(hConsole);
-    cout << fixed << scientific << setprecision(5) << decayConstant;
-    DEFAULT(hConsole);
-
-    cout << endl;
-    //=============================================================================================
-    // Print final output
-    //=============================================================================================
-    cout << print4;
-
-    MEASUREMENT_COLOR_THIN(hConsole);
-    cout << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit;
+    cout
+        << print1
+        << fixed
+        << scientific
+        << setprecision(5)
+        << decayConstant
         
-    DEFAULT(hConsole);
-    cout << print5;
+        << endl
+        << print4
+        << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit
+        << print5
+        << IsotopeVector[indexOfChosenIsotopeInVector].name
+        << print6
+        << endl
+        << print7
+        << endl
+        << endl
+        << endl
         
-    ISOTOPE_COLOR_THIN(hConsole);
-    cout << IsotopeVector[indexOfChosenIsotopeInVector].name;
-        
-    DEFAULT(hConsole);
-    cout << print6 << endl;
-    cout << print7 << endl << endl;
-    
-    INVERTED(hConsole);
-    cout << DEVELOPER_LINK_1;
-    cout << DEVELOPER_NAME;
-    cout << DEVELOPER_LINK_2;
+        << FORK
+        << MODIFYING_DEVELOPER_SITE
+        << MODIFYING_DEVELOPER_NAME
+        << MODIFYING_DEVELOPER_REPO;
 
+    FLAIR(hConsole);
+    cout
+        << endl
+        << ORIGINAL
+        << ORIGINAL_DEVELOPER_SITE
+        << ORIGINAL_DEVELOPER_NAME
+        << ORIGINAL_DEVELOPER_REPO;
+
+    PROGRAM_DEFAULT(hConsole);
+    cout
+        << endl
+        << LINE_BREAK_2;
     DEFAULT(hConsole);
-    cout << endl << LINE_BREAK;
     //=============================================================================================
     // Print final output
     //=============================================================================================
