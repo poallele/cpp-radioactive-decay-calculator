@@ -102,18 +102,18 @@ int main()
     const char          YES = 'y',
                         NO = 'n',
                         LINE_BREAK_1_CHAR = '*',
-                        LINE_BREAK_2_CHAR = '=',
+                        LINE_BREAK_2_CHAR = '/',
                         FILE_DELIMITER = ':';
     
     const string        WHITESPACE = " ",
                         BACKSPACE = "\b \b",
                         
                         AT = "@",
-                        BORDER = "|",
-                        BRACKET_1 = "<",
-                        BRACKET_2 = ">",
-                        BRACKET_3 = "[",
-                        BRACKET_4 = "]",
+                        BORDER = "/",
+                        BRACKET_1 = "[",
+                        BRACKET_2 = "]",
+                        BRACKET_3 = "<",
+                        BRACKET_4 = ">",
 
                         MEASUREMENTS_FILE = "listOfMeasurements.txt",
                         ISOTOPES_FILE = "listOfIsotopes.txt",
@@ -127,13 +127,13 @@ int main()
     const string        ORIGINAL = "original: ",
                         ORIGINALLY_DEVELOPED_BY = "originally developed by ",
                         ORIGINAL_DEVELOPER_NAME = "poallele",
-                        ORIGINAL_DEVELOPER_SITE = "https://github.com/",
+                        ORIGINAL_DEVELOPER_SITE = "github.com/",
                         ORIGINAL_DEVELOPER_REPO = "/cpp-radioactive-decay-calculator",
         
                         FORK = "fork: ",
                         MODIFIED_BY = "modified by ",
                         MODIFYING_DEVELOPER_NAME = "sampletext",
-                        MODIFYING_DEVELOPER_SITE = "https://github.com/",
+                        MODIFYING_DEVELOPER_SITE = "github.com/",
                         MODIFYING_DEVELOPER_REPO = "/sample-text",
         
                         ERROR_MESSAGE = "Invalid character. ",
@@ -324,22 +324,22 @@ int main()
     //=============================================================================================
     // Prompt 1
     //=============================================================================================
+    FLAIR(hConsole);
+    cout << endl << LINE_BREAK_2;
+
+    for (int x = 1; x <= MODIFIED_BY.length() + MODIFYING_DEVELOPER_NAME.length() + AT.length(); x++)
+        cout << BACKSPACE;
+
     cout
-        << setw(horizontalSpace - MODIFIED_BY.length() - MODIFYING_DEVELOPER_NAME.length() - AT.length())
-        << WHITESPACE
         << MODIFIED_BY
         << AT
         << MODIFYING_DEVELOPER_NAME;
     
-    PROGRAM_DEFAULT(hConsole);
-    cout
-        << endl
-        << LINE_BREAK_2;
+    cout << endl << LINE_BREAK_2;
 
     for (int x = 1; x <= ORIGINALLY_DEVELOPED_BY.length() + ORIGINAL_DEVELOPER_NAME.length() + AT.length(); x++)
         cout << BACKSPACE;
 
-    FLAIR(hConsole);
     cout
         << ORIGINALLY_DEVELOPED_BY
         << AT
@@ -349,12 +349,17 @@ int main()
     INVERTED(hConsole);
     cout
         << instruction1
-        << setw(horizontalSpace - instruction1.length())
-        << instruction1Specs
-        << endl;
-    
+        << setw(horizontalSpace - instruction1.length() - BORDER.length())
+        << instruction1Specs;
 
+    FLAIR(hConsole);
+    cout << BORDER;
+    INVERTED(hConsole);
+    cout << endl;
+    
+    //=============================================================================================
     // Use an iterator to display the vector contents.
+    //=============================================================================================
     for (auto& currentMeasurement:TimespanVector)                 // PAGE 434
     {
         cout << endl;
@@ -421,6 +426,7 @@ int main()
     //=============================================================================================
     // Prompt 2
     //=============================================================================================
+    FLAIR(hConsole);
     cout
         << LINE_BREAK_2
         << endl;
@@ -429,13 +435,19 @@ int main()
     INVERTED(hConsole);
     cout
         << instruction2
-        << setw(horizontalSpace - instruction2.length())
-        << instruction2Specs
-        << endl;
+        << setw(horizontalSpace - instruction2.length() - BORDER.length())
+        << instruction2Specs;
+
+    FLAIR(hConsole);
+    cout << BORDER;
+    INVERTED(hConsole);
+    cout << endl;
 
 
 
+    //=============================================================================================
     // Use an iterator to display the vector contents.
+    //=============================================================================================
     for (auto& currentIsotope:IsotopeVector)                      // PAGE 434
     {
         numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
@@ -482,10 +494,11 @@ int main()
     cin >> chosenIsotopeResponse;
     PROGRAM_DEFAULT(hConsole);
 
+    FLAIR(hConsole);
+    cout << LINE_BREAK_2;
 
-    cout
-        << LINE_BREAK_2
-        << endl;
+    INVERTED(hConsole);
+    cout << endl << LINE_BREAK_1;
 
 
 
@@ -506,7 +519,10 @@ int main()
     //=============================================================================================
     // Print final output
     //=============================================================================================
+    PROGRAM_DEFAULT(hConsole);
     cout
+        << endl
+        << endl
         << print1
         << fixed
         << scientific
@@ -528,20 +544,16 @@ int main()
         << FORK
         << MODIFYING_DEVELOPER_SITE
         << MODIFYING_DEVELOPER_NAME
-        << MODIFYING_DEVELOPER_REPO;
-
-    FLAIR(hConsole);
-    cout
+        << MODIFYING_DEVELOPER_REPO
+        
         << endl
         << ORIGINAL
         << ORIGINAL_DEVELOPER_SITE
         << ORIGINAL_DEVELOPER_NAME
-        << ORIGINAL_DEVELOPER_REPO;
-
-    PROGRAM_DEFAULT(hConsole);
-    cout
+        << ORIGINAL_DEVELOPER_REPO
+        
         << endl
-        << LINE_BREAK_2;
+        << LINE_BREAK_1;
     DEFAULT(hConsole);
     //=============================================================================================
     // Print final output
