@@ -42,45 +42,35 @@ const int               HCONSOLE_DEEP_BLUE = 1,
 //=============================================================================================
 // (FOREGROUND + (BACKGROUND * 16)) = COLOR
 //==========================================
-void DEFAULT(HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
-
-        HCONSOLE_WHITE + // WHITE FOREGROUND
-        HCONSOLE_BLACK * 16); // BLACK BACKGROUND
-}
-void PROGRAM_DEFAULT (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
-
+void COLOR_DEFAULT_TEXT (HANDLE hConsole)                   {SetConsoleTextAttribute(hConsole,
                         HCONSOLE_LIGHT_AQUA +
                         HCONSOLE_BLACK * 16);
 }
-void INVERTED (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
-
+void COLOR_DEFAULT_INVERTED (HANDLE hConsole)               {SetConsoleTextAttribute(hConsole,
                         HCONSOLE_BLACK +
                         HCONSOLE_LIGHT_AQUA * 16);
 }
-void FLAIR (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
-
+void COLOR_EXTERNAL_BORDER (HANDLE hConsole)                {SetConsoleTextAttribute(hConsole,
                         HCONSOLE_BLACK +
                         HCONSOLE_LIGHT_MAGENTA * 16);
 }
 //===============================================================================
-void MEASUREMENT_COLOR_THICK (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
-
+void COLOR_MEASUREMENT (HANDLE hConsole)                    {SetConsoleTextAttribute(hConsole,
                         HCONSOLE_BLACK +
                         HCONSOLE_DEEP_BLUE * 16);
 }
-void ISOTOPE_COLOR_THICK (HANDLE hConsole) {SetConsoleTextAttribute(hConsole,
-
+void COLOR_ISOTOPE (HANDLE hConsole)                        {SetConsoleTextAttribute(hConsole,
                         HCONSOLE_BLACK +
                         HCONSOLE_LIGHT_GREEN * 16);
 }
 //=============================================================================================
 // Task
 //=============================================================================================
-struct TimespanStruct
+struct MeasurementStruct
 {
-    string			    firstCharacter;
-    string			    unit;
-    long double		    secondsInASingularUnit;
+    string			    keystring;
+    string			    name;
+    long double		    seconds;
 };
 
 struct IsotopeStruct
@@ -105,15 +95,17 @@ int main()
                         LINE_BREAK_2_CHAR = '/',
                         FILE_DELIMITER = ':';
     
-    const string        WHITESPACE = " ",
-                        BACKSPACE = "\b \b",
-                        
-                        AT = "@",
-                        BORDER = "/",
+    const string        AT = "@",
+                        INTERNAL_BORDER_1 = "|",
+                        INTERNAL_BORDER_2 = " ",
+                        EXTERNAL_BORDER = "/",
                         BRACKET_1 = "[",
                         BRACKET_2 = "]",
                         BRACKET_3 = "<",
                         BRACKET_4 = ">",
+                        
+                        BACKSPACE = "\b \b",
+
 
                         MEASUREMENTS_FILE = "listOfMeasurements.txt",
                         ISOTOPES_FILE = "listOfIsotopes.txt",
@@ -168,7 +160,7 @@ int main()
     // Task
     //=============================================================================================
     const long double   GREGORIAN_CALENDAR_SECONDS = 31556952;
-    vector<TimespanStruct>TimespanVector =
+    vector<MeasurementStruct>MeasurementVector =
     {
                         {"s",	"second",	1},
                         {"m",	"minute",	60},
@@ -232,7 +224,7 @@ int main()
 
             long double input3LongDouble = stold(string(input3));   // PAGE 612
 
-            TimespanVector.emplace_back(input1, input2, input3LongDouble);     // PAGE 1080
+            MeasurementVector.emplace_back(input1, input2, input3LongDouble);     // PAGE 1080
         }
 
         // Close the file.
@@ -279,18 +271,18 @@ int main()
     //=============================================================================================
     // CMD Width prompt
     //=============================================================================================
-    PROGRAM_DEFAULT(hConsole);
+    COLOR_DEFAULT_TEXT(hConsole);
     cout << CMDQuestion;
     
 
-    PROGRAM_DEFAULT(hConsole);
+    COLOR_DEFAULT_TEXT(hConsole);
     while (exitInputValidationLoopForCMD != true)
     {
-        INVERTED(hConsole);
+        COLOR_DEFAULT_INVERTED(hConsole);
         cin >> CMDResponse;
         
 
-        PROGRAM_DEFAULT(hConsole);
+        COLOR_DEFAULT_TEXT(hConsole);
         if (CMDResponse == YES)
         {
             horizontalSpace = OPTION_YES_SPACE + NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE;
@@ -324,74 +316,64 @@ int main()
     //=============================================================================================
     // Prompt 1
     //=============================================================================================
-    FLAIR(hConsole);
+    COLOR_EXTERNAL_BORDER(hConsole);
     cout << endl << LINE_BREAK_2;
 
     for (int x = 1; x <= MODIFIED_BY.length() + MODIFYING_DEVELOPER_NAME.length() + AT.length(); x++)
         cout << BACKSPACE;
+    cout << MODIFIED_BY << AT << MODIFYING_DEVELOPER_NAME << endl << LINE_BREAK_2;
 
-    cout
-        << MODIFIED_BY
-        << AT
-        << MODIFYING_DEVELOPER_NAME;
-    
-    cout << endl << LINE_BREAK_2;
+
+
 
     for (int x = 1; x <= ORIGINALLY_DEVELOPED_BY.length() + ORIGINAL_DEVELOPER_NAME.length() + AT.length(); x++)
         cout << BACKSPACE;
-
-    cout
-        << ORIGINALLY_DEVELOPED_BY
-        << AT
-        << ORIGINAL_DEVELOPER_NAME
-        << endl;
+    cout << ORIGINALLY_DEVELOPED_BY << AT << ORIGINAL_DEVELOPER_NAME << endl;
     
-    INVERTED(hConsole);
+
+
+
+    COLOR_DEFAULT_INVERTED(hConsole);
     cout
         << instruction1
-        << setw(horizontalSpace - instruction1.length() - BORDER.length())
+        << setw(horizontalSpace - instruction1.length() - EXTERNAL_BORDER.length())
         << instruction1Specs;
 
-    FLAIR(hConsole);
-    cout << BORDER;
-    INVERTED(hConsole);
+    COLOR_EXTERNAL_BORDER(hConsole);
+    cout << EXTERNAL_BORDER;
+    COLOR_DEFAULT_INVERTED(hConsole);
     cout << endl;
     
     //=============================================================================================
     // Use an iterator to display the vector contents.
     //=============================================================================================
-    for (auto& currentMeasurement:TimespanVector)                 // PAGE 434
+    for (auto& currentMeasurement:MeasurementVector)                 // PAGE 434
     {
-        cout << endl;
-
-        INVERTED(hConsole);
-        cout << BRACKET_1;
-        PROGRAM_DEFAULT(hConsole);
-        cout << currentMeasurement.firstCharacter;
-        INVERTED(hConsole);
-        cout << BRACKET_2;
-
-        PROGRAM_DEFAULT(hConsole);
+        COLOR_DEFAULT_TEXT(hConsole);
         cout
-            << WHITESPACE
-            << currentMeasurement.unit
-
-            << setw(
+            << endl
+            << INTERNAL_BORDER_1
+            << BRACKET_1
+            << currentMeasurement.keystring
+            << BRACKET_2
+            << INTERNAL_BORDER_1
+            << currentMeasurement.name
+            << setw
+            (
                 horizontalSpace
-                - currentMeasurement.unit.length()
-                - currentMeasurement.firstCharacter.length()
-                - to_string(currentMeasurement.secondsInASingularUnit).length()
-                - (BRACKET_1.length()) - (BRACKET_2.length()) - (BORDER.length()) - (WHITESPACE.length())
+                - currentMeasurement.name.length()
+                - currentMeasurement.keystring.length()
+                - to_string(currentMeasurement.seconds).length()
+                - (BRACKET_1.length()) - (BRACKET_2.length()) - (EXTERNAL_BORDER.length()) - (INTERNAL_BORDER_1.length()) - (INTERNAL_BORDER_2.length())
             )
-            
-            << WHITESPACE;
+            << INTERNAL_BORDER_2;
         
-        MEASUREMENT_COLOR_THICK(hConsole);
-        cout << to_string(currentMeasurement.secondsInASingularUnit);
+        COLOR_MEASUREMENT(hConsole);
+        cout << to_string(currentMeasurement.seconds);
         
         
-        FLAIR(hConsole);
-        cout << BORDER;
+        COLOR_EXTERNAL_BORDER(hConsole);
+        cout << EXTERNAL_BORDER;
     }
     cout
         << BACKSPACE
@@ -401,9 +383,9 @@ int main()
     //=============================================================================================
     // Input Validation 1
     //=============================================================================================
-    FLAIR(hConsole);
+    COLOR_EXTERNAL_BORDER(hConsole);
     cin >> chosenMeasurementUnitResponse;
-    PROGRAM_DEFAULT(hConsole);
+    COLOR_DEFAULT_TEXT(hConsole);
 
     
     
@@ -426,21 +408,21 @@ int main()
     //=============================================================================================
     // Prompt 2
     //=============================================================================================
-    FLAIR(hConsole);
+    COLOR_EXTERNAL_BORDER(hConsole);
     cout
         << LINE_BREAK_2
         << endl;
     
 
-    INVERTED(hConsole);
+    COLOR_DEFAULT_INVERTED(hConsole);
     cout
         << instruction2
-        << setw(horizontalSpace - instruction2.length() - BORDER.length())
+        << setw(horizontalSpace - instruction2.length() - EXTERNAL_BORDER.length())
         << instruction2Specs;
 
-    FLAIR(hConsole);
-    cout << BORDER;
-    INVERTED(hConsole);
+    COLOR_EXTERNAL_BORDER(hConsole);
+    cout << EXTERNAL_BORDER;
+    COLOR_DEFAULT_INVERTED(hConsole);
     cout << endl;
 
 
@@ -451,36 +433,31 @@ int main()
     for (auto& currentIsotope:IsotopeVector)                      // PAGE 434
     {
         numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
-
-
-        INVERTED(hConsole);
-        cout << endl << BRACKET_1;
-        PROGRAM_DEFAULT(hConsole);
-        cout << numberedOrderOfIsotopes;
-        INVERTED(hConsole);
-        cout << BRACKET_2;
-        
-        PROGRAM_DEFAULT(hConsole);
+        COLOR_DEFAULT_TEXT(hConsole);
         cout
-            << WHITESPACE
+            << endl
+            << INTERNAL_BORDER_1
+            << BRACKET_1
+            << numberedOrderOfIsotopes
+            << BRACKET_2
+            << INTERNAL_BORDER_1
             << currentIsotope.name
-
-            << setw(
+            << setw
+            (
                 horizontalSpace
                 - currentIsotope.name.length()
                 - to_string(numberedOrderOfIsotopes).length()       // 613
                 - to_string(currentIsotope.halfLife).length()
-                - (BRACKET_1.length()) - (BRACKET_2.length()) - (BORDER.length()) - (WHITESPACE.length())
+                - (BRACKET_1.length()) - (BRACKET_2.length()) - (EXTERNAL_BORDER.length()) - (INTERNAL_BORDER_1.length()) - (INTERNAL_BORDER_2.length())
             )
-            
-            << WHITESPACE;
+            << INTERNAL_BORDER_2;
         
-        ISOTOPE_COLOR_THICK(hConsole);
+        COLOR_ISOTOPE(hConsole);
         cout << to_string(currentIsotope.halfLife);
         
         
-        FLAIR(hConsole);
-        cout << BORDER;
+        COLOR_EXTERNAL_BORDER(hConsole);
+        cout << EXTERNAL_BORDER;
     }
     cout
         << BACKSPACE
@@ -490,14 +467,14 @@ int main()
     //=============================================================================================
     // Input Validation 2
     //=============================================================================================
-    FLAIR(hConsole);
+    COLOR_EXTERNAL_BORDER(hConsole);
     cin >> chosenIsotopeResponse;
-    PROGRAM_DEFAULT(hConsole);
+    COLOR_DEFAULT_TEXT(hConsole);
 
-    FLAIR(hConsole);
+    COLOR_EXTERNAL_BORDER(hConsole);
     cout << LINE_BREAK_2;
 
-    INVERTED(hConsole);
+    COLOR_DEFAULT_INVERTED(hConsole);
     cout << endl << LINE_BREAK_1;
 
 
@@ -513,13 +490,13 @@ int main()
     
     decayConstant = // Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
     (log(2) / IsotopeVector[indexOfChosenIsotopeInVector].halfLife) *
-    (TimespanVector[indexOfChosenMeasurementUnitsInVector].secondsInASingularUnit / GREGORIAN_CALENDAR_SECONDS);
+    (MeasurementVector[indexOfChosenMeasurementUnitsInVector].seconds / GREGORIAN_CALENDAR_SECONDS);
 
     
     //=============================================================================================
     // Print final output
     //=============================================================================================
-    PROGRAM_DEFAULT(hConsole);
+    COLOR_DEFAULT_TEXT(hConsole);
     cout
         << endl
         << endl
@@ -531,7 +508,7 @@ int main()
         
         << endl
         << print4
-        << TimespanVector[indexOfChosenMeasurementUnitsInVector].unit
+        << MeasurementVector[indexOfChosenMeasurementUnitsInVector].name
         << print5
         << IsotopeVector[indexOfChosenIsotopeInVector].name
         << print6
@@ -554,7 +531,7 @@ int main()
         
         << endl
         << LINE_BREAK_1;
-    DEFAULT(hConsole);
+    COLOR_DEFAULT_TEXT(hConsole);
     //=============================================================================================
     // Print final output
     //=============================================================================================
