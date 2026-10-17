@@ -96,21 +96,18 @@ int main()
                         FILE_DELIMITER = ':';
     
     const string        AT = "@",
-                        INTERNAL_BORDER_1 = "|",
-                        INTERNAL_BORDER_2 = " ",
-                        EXTERNAL_BORDER = "/",
                         BRACKET_1 = "[",
                         BRACKET_2 = "]",
                         BRACKET_3 = "<",
                         BRACKET_4 = ">",
+                        BRACKET_5 = "(",
+                        BRACKET_6 = ")",
+                        INTERNAL_BORDER_1 = "|",
+                        INTERNAL_BORDER_2 = " ",
+                        EXTERNAL_BORDER = "/",
                         
-                        BACKSPACE = "\b \b",
-
-
-                        MEASUREMENTS_FILE = "listOfMeasurements.txt",
-                        ISOTOPES_FILE = "listOfIsotopes.txt",
-                        OUTPUT_FILE = "copyPaste.txt";
-
+                        BACKSPACE = "\b \b";
+    
     
     
     //=============================================================================================
@@ -129,30 +126,38 @@ int main()
                         MODIFYING_DEVELOPER_REPO = "/sample-text",
         
                         ERROR_MESSAGE = "Invalid character. ",
-                        FILE_ERROR_MESSAGE = "ERROR: Cannot open file.\n",
-        
+                        FILE_ERROR_MESSAGE = "ERROR: Cannot open file.",
                         
-        
-                        CMDQuestion =
-                                        "Press " + BRACKET_1 + "key" + BRACKET_2 + ", then 'enter'."
-                                        "\nAre you currently running Windows 11's 'Terminal' (not 'conhost.exe' or any other program)? "
+                        MEASUREMENTS_FILE = "listOfMeasurements.txt",
+                        ISOTOPES_FILE = "listOfIsotopes.txt",
+                        OUTPUT_FILE = "copyPaste.txt";
+    
+    
+    
+    //=============================================================================================
+    // Task
+    //=============================================================================================
+    const string        QUESTION_1 =    "Press " + BRACKET_1 + "key" + BRACKET_2 + ", then 'enter'."
+                                        "\nAre you currently running Windows 11's 'Terminal' (not 'conhost.exe' or any other program)? Yes or no? "
                                         + BRACKET_1 + YES + "/" + NO + BRACKET_2 + " ",
-                        CMDQuestion2 = "You have selected a horizontal screen size of " + BRACKET_3,
-                        CMDQuestion3 = BRACKET_4 + " characters.\nYou can modify the values corresponding with "
-                                       + BRACKET_3 + YES + BRACKET_4 + " or " + BRACKET_3 + NO + BRACKET_4 + " near line 100 in the source code.",
+                        
+                        QUESTION_2 =    "You have selected a horizontal screen size of " + BRACKET_3,
+                        
+                        QUESTION_3 =    BRACKET_4 + " characters.\nYou can modify the values corresponding with "
+                                        + BRACKET_3 + YES + BRACKET_4 + " or " + BRACKET_3 + NO + BRACKET_4 + " near line 100 in the source code.",
         
                         
         
-                        instruction1 = "MEASUREMENT (replacethistextwithoutbreakingtheprogram)",
-                        instruction1Specs = " (per unit) SECONDS",
-                        instruction2 = "ISOTOPE (replacethistextwithoutbreakingtheprogram)",
-                        instruction2Specs = "(yrs) HALF LIFE",
+                        HEADER_1_LEFT = "MEASUREMENT",
+                        HEADER_1_RIGHT = BRACKET_5 + "per unit" + BRACKET_6 + " SECONDS",
+                        HEADER_2_LEFT = "ISOTOPE",
+                        HEADER_2_RIGHT = BRACKET_5 + "yrs" + BRACKET_6 + " HALF LIFE",
         
-                        print1 = "Decay constant: ",
-                        print4 = "This value is the probability per " + BRACKET_3,
-                        print5 = BRACKET_4 + " for a single " + BRACKET_3,
-                        print6 = BRACKET_4 + " nucleus to decay.",
-                        print7 = "Check " + BRACKET_3 + OUTPUT_FILE + BRACKET_4 + " to copy and paste it.";
+                        FINAL_PRINT_1 = "Decay constant: ",
+                        FINAL_PRINT_2 = "This value is the probability per " + BRACKET_3,
+                        FINAL_PRINT_3 = BRACKET_4 + " for a single " + BRACKET_3,
+                        FINAL_PRINT_4 = BRACKET_4 + " nucleus to decay.",
+                        FINAL_PRINT_5 = "Check " + BRACKET_3 + OUTPUT_FILE + BRACKET_4 + " to copy and paste it.";
     
     
     
@@ -162,19 +167,74 @@ int main()
     const long double   GREGORIAN_CALENDAR_SECONDS = 31556952;
     vector<MeasurementStruct>MeasurementVector =
     {
-                        {"s",	"second",	1},
-                        {"m",	"minute",	60},
-                        {"h",	"hour",		3600},
-                        {"d",	"day",		86400},
-                        {"y",	"year",		GREGORIAN_CALENDAR_SECONDS},
+                        {
+                        "s",
+                        "second",
+                        1},
+                        
+
+                        {
+                        "m",
+                        "minute",
+                        60
+                        },
+                        
+
+                        {
+                        "h",
+                        "hour",
+                        3600
+                        },
+        
+
+                        {
+                        "d",
+                        "day",
+                        86400
+                        },
+
+
+                        {
+                        "y",
+                        "year",
+                        GREGORIAN_CALENDAR_SECONDS
+                        },
     };
     vector<IsotopeStruct>IsotopeVector =
     {
-                        {"Uranium-233",		1.592e5},
-                        {"Uranium-235",		7.04e8},
-                        {"Uranium-238",		4.463e9},
-                        {"Plutonium-239",	2.411e4},
-                        {"Thorium-232",		1.405e10},
+                        {
+                        //"U1"
+                        "Uranium-233",
+                        1.592e5
+                        },
+                        
+        
+                        {
+                        //"U2"
+                        "Uranium-235",
+                        7.04e8
+                        },
+                        
+        
+                        {
+                        //"U3"
+                        "Uranium-238",
+                        4.463e9
+                        },
+                        
+        
+                        {
+                        //"P"
+                        "Plutonium-239",
+                        2.411e4
+                        },
+                        
+        
+                        {
+                        //"T"
+                        "Thorium-232",
+                        1.405e10
+                        },
     };
 
 
@@ -183,22 +243,23 @@ int main()
     // Task
     //=============================================================================================
     char                CMDResponse;
-    bool				exitInputValidationLoopForCMD = false;
+    bool				exitQuestionLoop = false;
     int                 horizontalSpace;
     
-    string				chosenMeasurementUnitResponse;
-    int					indexOfChosenMeasurementUnitsInVector = 0;
-    bool				exitInputValidationLoopForMeasurementUnits = false;
+    string				chosenMeasurement;
+    int					chosenMeasurementVectorIndex = 0;
+    bool				exitMeasurementsLoop = false;
 
-    double				chosenIsotopeResponse;
-    int					indexOfChosenIsotopeInVector = 0;
-    bool				exitInputValidationLoopForIsotopes = false;
+    double				chosenIsotope;
+    int					chosenIsotopeVectorIndex = 0;
+    bool				exitIsotopesLoop = false;
 
-    string              input1,
-                        input2,
-                        input3,
-                        input4,
-                        input5;
+    string              measurementInput1,
+                        measurementInput2,
+                        measurementInput3,
+                        isotopeInput1,
+                        isotopeInput2,
+                        isotopeInput3;
 
     int                 numberedOrderOfIsotopes = 0;
     long double			decayConstant;
@@ -218,13 +279,13 @@ int main()
         while (dataFile)
         {
             // Read an item using ':' as a delimiter.
-            getline(dataFile, input1, FILE_DELIMITER);
-            getline(dataFile, input2, FILE_DELIMITER);
-            getline(dataFile, input3);
+            getline(dataFile, measurementInput1, FILE_DELIMITER);
+            getline(dataFile, measurementInput2, FILE_DELIMITER);
+            getline(dataFile, measurementInput3);
 
-            long double input3LongDouble = stold(string(input3));   // PAGE 612
+            long double measurementInput3LD = stold(string(measurementInput3));   // PAGE 612
 
-            MeasurementVector.emplace_back(input1, input2, input3LongDouble);     // PAGE 1080
+            MeasurementVector.emplace_back(measurementInput1, measurementInput2, measurementInput3LD);     // PAGE 1080
         }
 
         // Close the file.
@@ -232,7 +293,7 @@ int main()
     }
     else
     {
-        cout << FILE_ERROR_MESSAGE;
+        cout << FILE_ERROR_MESSAGE << endl;
     }
 
 
@@ -250,12 +311,12 @@ int main()
         while (dataFile2)
         {
             // Read an item using ':' as a delimiter.
-            getline(dataFile2, input4, FILE_DELIMITER);
-            getline(dataFile2, input5);
+            getline(dataFile2, isotopeInput1, FILE_DELIMITER);
+            getline(dataFile2, isotopeInput2);
 
-            long double input5LongDouble = stold(string(input5));   // PAGE 612
+            long double isotopeInput2LD = stold(string(isotopeInput2));   // PAGE 612
 
-            IsotopeVector.emplace_back(input4, input5LongDouble);     // PAGE 1080
+            IsotopeVector.emplace_back(isotopeInput1, isotopeInput2LD);     // PAGE 1080
         }
 
         // Close the file.
@@ -263,7 +324,7 @@ int main()
     }
     else
     {
-        cout << FILE_ERROR_MESSAGE;
+        cout << FILE_ERROR_MESSAGE << endl;
     }
 
 
@@ -272,26 +333,19 @@ int main()
     // CMD Width prompt
     //=============================================================================================
     COLOR_DEFAULT_TEXT(hConsole);
-    cout << CMDQuestion;
-    
-
-    COLOR_DEFAULT_TEXT(hConsole);
-    while (exitInputValidationLoopForCMD != true)
+    cout << QUESTION_1;
+    while (exitQuestionLoop != true)
     {
-        COLOR_DEFAULT_INVERTED(hConsole);
         cin >> CMDResponse;
-        
-
-        COLOR_DEFAULT_TEXT(hConsole);
         if (CMDResponse == YES)
         {
             horizontalSpace = OPTION_YES_SPACE + NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE;
-            exitInputValidationLoopForCMD = true;
+            exitQuestionLoop = true;
         }
         else if (CMDResponse == NO)
         {
             horizontalSpace = OPTION_NO_SPACE + NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE;
-            exitInputValidationLoopForCMD = true;
+            exitQuestionLoop = true;
         }
         else
         {
@@ -302,9 +356,9 @@ int main()
     const string LINE_BREAK_2(horizontalSpace, LINE_BREAK_2_CHAR);
 
     cout
-        << CMDQuestion2
+        << QUESTION_2
         << horizontalSpace - NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE
-        << CMDQuestion3
+        << QUESTION_3
         << endl
         << LINE_BREAK_1
         << endl
@@ -319,15 +373,17 @@ int main()
     COLOR_EXTERNAL_BORDER(hConsole);
     cout << endl << LINE_BREAK_2;
 
-    for (int x = 1; x <= MODIFIED_BY.length() + MODIFYING_DEVELOPER_NAME.length() + AT.length(); x++)
+    for (int x = 1; x <= MODIFIED_BY.length() + MODIFYING_DEVELOPER_NAME.length() + AT.length(); x++) {
         cout << BACKSPACE;
+    }
     cout << MODIFIED_BY << AT << MODIFYING_DEVELOPER_NAME << endl << LINE_BREAK_2;
 
 
 
 
-    for (int x = 1; x <= ORIGINALLY_DEVELOPED_BY.length() + ORIGINAL_DEVELOPER_NAME.length() + AT.length(); x++)
+    for (int x = 1; x <= ORIGINALLY_DEVELOPED_BY.length() + ORIGINAL_DEVELOPER_NAME.length() + AT.length(); x++) {
         cout << BACKSPACE;
+    }
     cout << ORIGINALLY_DEVELOPED_BY << AT << ORIGINAL_DEVELOPER_NAME << endl;
     
 
@@ -335,9 +391,9 @@ int main()
 
     COLOR_DEFAULT_INVERTED(hConsole);
     cout
-        << instruction1
-        << setw(horizontalSpace - instruction1.length() - EXTERNAL_BORDER.length())
-        << instruction1Specs;
+        << HEADER_1_LEFT
+        << setw(horizontalSpace - HEADER_1_LEFT.length() - EXTERNAL_BORDER.length())
+        << HEADER_1_RIGHT;
 
     COLOR_EXTERNAL_BORDER(hConsole);
     cout << EXTERNAL_BORDER;
@@ -384,20 +440,20 @@ int main()
     // Input Validation 1
     //=============================================================================================
     COLOR_EXTERNAL_BORDER(hConsole);
-    cin >> chosenMeasurementUnitResponse;
+    cin >> chosenMeasurement;
     COLOR_DEFAULT_TEXT(hConsole);
 
     
     
     
 
-    //while (exitInputValidationLoopForMeasurementUnits != true)
+    //while (exitMeasurementsLoop != true)
     //{
-    //    cin >> chosenMeasurementUnitResponse;
+    //    cin >> chosenMeasurement;
     //
     //
     //    
-    //    if (exitInputValidationLoopForMeasurementUnits == false)
+    //    if (exitMeasurementsLoop == false)
     //    {
     //        cout << ERROR_MESSAGE;
     //    }
@@ -416,9 +472,9 @@ int main()
 
     COLOR_DEFAULT_INVERTED(hConsole);
     cout
-        << instruction2
-        << setw(horizontalSpace - instruction2.length() - EXTERNAL_BORDER.length())
-        << instruction2Specs;
+        << HEADER_2_LEFT
+        << setw(horizontalSpace - HEADER_2_LEFT.length() - EXTERNAL_BORDER.length())
+        << HEADER_2_RIGHT;
 
     COLOR_EXTERNAL_BORDER(hConsole);
     cout << EXTERNAL_BORDER;
@@ -468,7 +524,7 @@ int main()
     // Input Validation 2
     //=============================================================================================
     COLOR_EXTERNAL_BORDER(hConsole);
-    cin >> chosenIsotopeResponse;
+    cin >> chosenIsotope;
     COLOR_DEFAULT_TEXT(hConsole);
 
     COLOR_EXTERNAL_BORDER(hConsole);
@@ -482,15 +538,15 @@ int main()
     //=============================================================================================
     // Print final output
     //=============================================================================================
-    indexOfChosenIsotopeInVector = chosenIsotopeResponse - 1;   // since the index "[]" for a vector begins at 0, "-1" is used
+    chosenIsotopeVectorIndex = chosenIsotope - 1;   // since the index "[]" for a vector begins at 0, "-1" is used
                                                                 // (since user responses begin at 1). if this was not used,
-                                                                // then chosenIsotopeResponse would equal 6 instead of 5. since 6 is not
+                                                                // then chosenIsotope would equal 6 instead of 5. since 6 is not
                                                                 // present in the index, it would not return anything.
 
     
     decayConstant = // Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
-    (log(2) / IsotopeVector[indexOfChosenIsotopeInVector].halfLife) *
-    (MeasurementVector[indexOfChosenMeasurementUnitsInVector].seconds / GREGORIAN_CALENDAR_SECONDS);
+    (log(2) / IsotopeVector[chosenIsotopeVectorIndex].halfLife) *
+    (MeasurementVector[chosenMeasurementVectorIndex].seconds / GREGORIAN_CALENDAR_SECONDS);
 
     
     //=============================================================================================
@@ -500,20 +556,20 @@ int main()
     cout
         << endl
         << endl
-        << print1
+        << FINAL_PRINT_1
         << fixed
         << scientific
         << setprecision(5)
         << decayConstant
         
         << endl
-        << print4
-        << MeasurementVector[indexOfChosenMeasurementUnitsInVector].name
-        << print5
-        << IsotopeVector[indexOfChosenIsotopeInVector].name
-        << print6
+        << FINAL_PRINT_2
+        << MeasurementVector[chosenMeasurementVectorIndex].name
+        << FINAL_PRINT_3
+        << IsotopeVector[chosenIsotopeVectorIndex].name
+        << FINAL_PRINT_4
         << endl
-        << print7
+        << FINAL_PRINT_5
         << endl
         << endl
         << endl
