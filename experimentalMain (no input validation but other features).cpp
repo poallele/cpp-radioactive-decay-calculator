@@ -75,6 +75,7 @@ struct MeasurementStruct
 
 struct IsotopeStruct
 {
+    string              keystring;
     string			    name;
     long double		    halfLife;
 };
@@ -170,7 +171,8 @@ int main()
                         {
                         "s",
                         "second",
-                        1},
+                        1
+                        },
                         
 
                         {
@@ -203,35 +205,35 @@ int main()
     vector<IsotopeStruct>IsotopeVector =
     {
                         {
-                        //"U1"
+                        "U1",
                         "Uranium-233",
                         1.592e5
                         },
                         
         
                         {
-                        //"U2"
+                        "U2",
                         "Uranium-235",
                         7.04e8
                         },
                         
         
                         {
-                        //"U3"
+                        "U3",
                         "Uranium-238",
                         4.463e9
                         },
                         
         
                         {
-                        //"P"
+                        "Pu1",
                         "Plutonium-239",
                         2.411e4
                         },
                         
         
                         {
-                        //"T"
+                        "Th1",
                         "Thorium-232",
                         1.405e10
                         },
@@ -261,7 +263,6 @@ int main()
                         isotopeInput2,
                         isotopeInput3;
 
-    int                 numberedOrderOfIsotopes = 0;
     long double			decayConstant;
 
 
@@ -312,11 +313,12 @@ int main()
         {
             // Read an item using ':' as a delimiter.
             getline(dataFile2, isotopeInput1, FILE_DELIMITER);
-            getline(dataFile2, isotopeInput2);
+            getline(dataFile2, isotopeInput2, FILE_DELIMITER);
+            getline(dataFile2, isotopeInput3);
 
-            long double isotopeInput2LD = stold(string(isotopeInput2));   // PAGE 612
+            long double isotopeInput3LD = stold(string(isotopeInput3));   // PAGE 612
 
-            IsotopeVector.emplace_back(isotopeInput1, isotopeInput2LD);     // PAGE 1080
+            IsotopeVector.emplace_back(isotopeInput1, isotopeInput2, isotopeInput3LD);     // PAGE 1080
         }
 
         // Close the file.
@@ -486,15 +488,14 @@ int main()
     //=============================================================================================
     // Use an iterator to display the vector contents.
     //=============================================================================================
-    for (auto& currentIsotope:IsotopeVector)                      // PAGE 434
+    for (auto& currentIsotope : IsotopeVector)                 // PAGE 434
     {
-        numberedOrderOfIsotopes = numberedOrderOfIsotopes + 1;
         COLOR_DEFAULT_TEXT(hConsole);
         cout
             << endl
             << INTERNAL_BORDER_1
             << BRACKET_1
-            << numberedOrderOfIsotopes
+            << currentIsotope.keystring
             << BRACKET_2
             << INTERNAL_BORDER_1
             << currentIsotope.name
@@ -502,16 +503,16 @@ int main()
             (
                 horizontalSpace
                 - currentIsotope.name.length()
-                - to_string(numberedOrderOfIsotopes).length()       // 613
+                - currentIsotope.keystring.length()
                 - to_string(currentIsotope.halfLife).length()
                 - (BRACKET_1.length()) - (BRACKET_2.length()) - (EXTERNAL_BORDER.length()) - (INTERNAL_BORDER_1.length()) - (INTERNAL_BORDER_2.length())
             )
             << INTERNAL_BORDER_2;
-        
+
         COLOR_ISOTOPE(hConsole);
         cout << to_string(currentIsotope.halfLife);
-        
-        
+
+
         COLOR_EXTERNAL_BORDER(hConsole);
         cout << EXTERNAL_BORDER;
     }
@@ -538,7 +539,7 @@ int main()
     //=============================================================================================
     // Print final output
     //=============================================================================================
-    chosenIsotopeVectorIndex = chosenIsotope - 1;   // since the index "[]" for a vector begins at 0, "-1" is used
+    chosenIsotopeVectorIndex = 0;                               // since the index "[]" for a vector begins at 0, "-1" is used
                                                                 // (since user responses begin at 1). if this was not used,
                                                                 // then chosenIsotope would equal 6 instead of 5. since 6 is not
                                                                 // present in the index, it would not return anything.
