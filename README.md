@@ -2,30 +2,18 @@
 
 Goals (new additions from old version--github.com/poallele/cpp-radioactive-decay-calculator-OLD):
 
-Use namespace std (replace all 'std::' with nothing)
-
-Make all vars, vectors, structs most readable name possible (deepseek)
-
-Add comments (deepseek)
-
-Didnt end up using AI actually
+Man I havent changed these goals in forever
 
 
-Fix formatting
 
 
-Add new framework using units.txt and isotopes.txt, with a separate setup.cpp program to allow new entries to be added without modifying the core calculation program.
+https://shop.m5stack.com/products/m5stack-fire-iot-development-kit-psram-v2-7
+Use this with ESP-IDF. It will interact with the C++ code to display physical effects on the screen
 
-RadioactiveDecay/
 
-│
+Use python to display charts with matplotlib
+Or just do some interesting visualizations in general
 
-├── main.cpp
 
-├── setup.cpp
 
-│
-
-├── units.txt
-
-└── isotopes.txt
+ADD (actually good) INPUT VALIDATION
