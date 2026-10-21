@@ -10,6 +10,7 @@
 #include <cmath>
 #include <fstream>
 #include <iomanip>
+#include <functional>
 
 #include <Windows.h>
 using namespace std;
@@ -19,8 +20,18 @@ using namespace std;
 //=============================================================================================
 // Task
 //=============================================================================================
-HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+struct BaselineStruct
+{
+    string			    keystring;
+    string			    name;
+    long double		    secondsOrHalfLife;
+};
 
+
+
+//=============================================================================================
+// Task
+//=============================================================================================
 const int               HCONSOLE_DEEP_BLUE = 1,
                         HCONSOLE_DEEP_GREEN = 2,
                         HCONSOLE_DEEP_AQUA = 3,
@@ -39,48 +50,153 @@ const int               HCONSOLE_DEEP_BLUE = 1,
                         HCONSOLE_LIGHT_GRAY = 7,
                         HCONSOLE_GRAY = 8,
                         HCONSOLE_BLACK = 0;
+
+
+
 //=============================================================================================
 // (FOREGROUND + (BACKGROUND * 16)) = COLOR
 //==========================================
-void COLOR_DEFAULT_TEXT (HANDLE hConsole)                   {SetConsoleTextAttribute(hConsole,
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+void COLOR_DEFAULT_TEXT (HANDLE hConsole)                     {SetConsoleTextAttribute(hConsole,
                         HCONSOLE_LIGHT_AQUA +
                         HCONSOLE_BLACK * 16);
 }
-void COLOR_DEFAULT_INVERTED (HANDLE hConsole)               {SetConsoleTextAttribute(hConsole,
+void COLOR_DEFAULT_INVERTED (HANDLE hConsole)                 {SetConsoleTextAttribute(hConsole,
                         HCONSOLE_BLACK +
                         HCONSOLE_LIGHT_AQUA * 16);
 }
-void COLOR_EXTERNAL_BORDER (HANDLE hConsole)                {SetConsoleTextAttribute(hConsole,
-                        HCONSOLE_BLACK +
+void COLOR_EXTERNAL_BORDER  (HANDLE hConsole)                 {SetConsoleTextAttribute(hConsole,
+                        HCONSOLE_DEEP_MAGENTA +
                         HCONSOLE_LIGHT_MAGENTA * 16);
 }
-//===============================================================================
-void COLOR_MEASUREMENT (HANDLE hConsole)                    {SetConsoleTextAttribute(hConsole,
-                        HCONSOLE_BLACK +
+void COLOR_MEASUREMENT  (HANDLE hConsole)                      {SetConsoleTextAttribute(hConsole,
+                        HCONSOLE_LIGHT_BLUE +
                         HCONSOLE_DEEP_BLUE * 16);
 }
-void COLOR_ISOTOPE (HANDLE hConsole)                        {SetConsoleTextAttribute(hConsole,
-                        HCONSOLE_BLACK +
-                        HCONSOLE_LIGHT_GREEN * 16);
+void COLOR_ISOTOPE      (HANDLE hConsole)                        {SetConsoleTextAttribute(hConsole,
+                        HCONSOLE_LIGHT_GREEN +
+                        HCONSOLE_DEEP_GREEN * 16);
 }
+
+
+
 //=============================================================================================
 // Task
 //=============================================================================================
-struct MeasurementStruct
-{
-    string			    keystring;
-    string			    name;
-    long double		    seconds;
-};
+void fileRetrieval (
+     string                     MISC_FILE,
+     char                       FILE_DELIMITER,
+     vector<BaselineStruct>     & MiscVector,           // '&' is EXTREMELY NECESSARY. Without it, a LOCAL COPY is created and immediately destroyed when exiting the function. This makes changes to the actual vector
+     string                     FILE_ERROR_MESSAGE)
 
-struct IsotopeStruct
 {
-    string              keystring;
-    string			    name;
-    long double		    halfLife;
-};
+    fstream dataFile(MISC_FILE, ios::in);                // PAGE 714
+    string input1;
+    string input2;
+    string input3;
+
+    // If the file was successfully opened, continue.
+    if (dataFile)
+    {
+        // While the last read operation was successful, continue.
+        while (dataFile)
+        {
+            // Read an item using ':' as a delimiter.
+            getline(dataFile, input1, FILE_DELIMITER);
+            getline(dataFile, input2, FILE_DELIMITER);
+            getline(dataFile, input3);
+
+            long double input3LD = stold(string(input3));   // PAGE 612
+            
+            MiscVector.emplace_back(input1, input2, input3LD);     // PAGE 1080
+        }
+
+        // Close the file.
+        dataFile.close();
+        
+    }
+    else
+    {
+        cout << FILE_ERROR_MESSAGE << endl;
+    }
+}
+
+
+
 //=============================================================================================
+// Task
+//=============================================================================================
+void displayVectorContents
+(
+    vector<BaselineStruct>          MiscVector,
+    
+    string                      HEADER_NUMBER_LEFT,
+    string                      HEADER_NUMBER_RIGHT,
+    
+    string                      INTERNAL_BORDER_1,
+    string                      INTERNAL_BORDER_2,
+    string                      EXTERNAL_BORDER,
+    string                      BRACKET_1,
+    string                      BRACKET_2,
+    string                      BACKSPACE,
+    int                         horizontalSpace
+)
 
+
+{
+    COLOR_DEFAULT_INVERTED(hConsole);
+    cout
+        << HEADER_NUMBER_LEFT
+        << setw(horizontalSpace - HEADER_NUMBER_LEFT.length() - EXTERNAL_BORDER.length())
+        << HEADER_NUMBER_RIGHT;
+
+    COLOR_EXTERNAL_BORDER(hConsole);
+    cout << EXTERNAL_BORDER;
+    COLOR_DEFAULT_INVERTED(hConsole);
+    cout << endl;
+    
+    for (auto& currentVectorSelection : MiscVector)                 // PAGE 434
+    {
+        COLOR_DEFAULT_TEXT(hConsole);
+        cout
+            << endl
+            << INTERNAL_BORDER_1                                    //1
+            << BRACKET_1                                            //2
+            << currentVectorSelection.keystring                  //3
+            << BRACKET_2                                            //4
+            << INTERNAL_BORDER_1                                    //5
+            << currentVectorSelection.name                              //6
+            << setw
+            (
+                horizontalSpace
+                - INTERNAL_BORDER_1.length()                        //1
+                - BRACKET_1.length()                                //2
+                - currentVectorSelection.keystring.length()             //3
+                - BRACKET_2.length()                                //4
+                - INTERNAL_BORDER_1.length()                        //5
+                - currentVectorSelection.name.length()                  //6
+
+                - to_string(currentVectorSelection.secondsOrHalfLife).length()    //1
+                - EXTERNAL_BORDER.length()                          //2
+            )
+            << INTERNAL_BORDER_2;                                   //3
+
+        COLOR_MEASUREMENT(hConsole);
+        cout << to_string(currentVectorSelection.secondsOrHalfLife);              //1
+
+
+        COLOR_EXTERNAL_BORDER(hConsole);
+        cout << EXTERNAL_BORDER;                                    //2
+    }
+    cout
+        << BACKSPACE
+        << flush;
+}
+
+
+
+//=============================================================================================
 int main()
 {
     //=============================================================================================
@@ -103,9 +219,9 @@ int main()
                         BRACKET_4 = ">",
                         BRACKET_5 = "(",
                         BRACKET_6 = ")",
-                        INTERNAL_BORDER_1 = "|",
-                        INTERNAL_BORDER_2 = " ",
-                        EXTERNAL_BORDER = "/",
+                        INTERNAL_BORDER_1 = "||",
+                        INTERNAL_BORDER_2 = "||",
+                        EXTERNAL_BORDER = "//",
                         
                         BACKSPACE = "\b \b";
     
@@ -166,7 +282,7 @@ int main()
     // Task
     //=============================================================================================
     const long double   GREGORIAN_CALENDAR_SECONDS = 31556952;
-    vector<MeasurementStruct>MeasurementVector =
+    vector<BaselineStruct>MeasurementVector =
     {
                         {
                         "s",
@@ -202,7 +318,7 @@ int main()
                         GREGORIAN_CALENDAR_SECONDS
                         },
     };
-    vector<IsotopeStruct>IsotopeVector =
+    vector<BaselineStruct>IsotopeVector =
     {
                         {
                         "U1",
@@ -270,64 +386,14 @@ int main()
     //=============================================================================================
     // File retrieval 1
     //=============================================================================================
-    // Open the file for input.
-    fstream dataFile(MEASUREMENTS_FILE, ios::in);                // PAGE 714
-
-    // If the file was successfully opened, continue.
-    if (dataFile)
-    {
-        // While the last read operation was successful, continue.
-        while (dataFile)
-        {
-            // Read an item using ':' as a delimiter.
-            getline(dataFile, measurementInput1, FILE_DELIMITER);
-            getline(dataFile, measurementInput2, FILE_DELIMITER);
-            getline(dataFile, measurementInput3);
-
-            long double measurementInput3LD = stold(string(measurementInput3));   // PAGE 612
-
-            MeasurementVector.emplace_back(measurementInput1, measurementInput2, measurementInput3LD);     // PAGE 1080
-        }
-
-        // Close the file.
-        dataFile.close();
-    }
-    else
-    {
-        cout << FILE_ERROR_MESSAGE << endl;
-    }
+    fileRetrieval(MEASUREMENTS_FILE, FILE_DELIMITER, MeasurementVector, FILE_ERROR_MESSAGE);
 
 
 
     //=============================================================================================
     // File retrieval 2
     //=============================================================================================
-    // Open the file for input.
-    fstream dataFile2(ISOTOPES_FILE, ios::in);                // PAGE 714
-
-    // If the file was successfully opened, continue.
-    if (dataFile2)
-    {
-        // While the last read operation was successful, continue.
-        while (dataFile2)
-        {
-            // Read an item using ':' as a delimiter.
-            getline(dataFile2, isotopeInput1, FILE_DELIMITER);
-            getline(dataFile2, isotopeInput2, FILE_DELIMITER);
-            getline(dataFile2, isotopeInput3);
-
-            long double isotopeInput3LD = stold(string(isotopeInput3));   // PAGE 612
-
-            IsotopeVector.emplace_back(isotopeInput1, isotopeInput2, isotopeInput3LD);     // PAGE 1080
-        }
-
-        // Close the file.
-        dataFile2.close();
-    }
-    else
-    {
-        cout << FILE_ERROR_MESSAGE << endl;
-    }
+    fileRetrieval(ISOTOPES_FILE, FILE_DELIMITER, IsotopeVector, FILE_ERROR_MESSAGE);
 
 
 
@@ -391,51 +457,12 @@ int main()
 
 
 
-    COLOR_DEFAULT_INVERTED(hConsole);
-    cout
-        << HEADER_1_LEFT
-        << setw(horizontalSpace - HEADER_1_LEFT.length() - EXTERNAL_BORDER.length())
-        << HEADER_1_RIGHT;
-
-    COLOR_EXTERNAL_BORDER(hConsole);
-    cout << EXTERNAL_BORDER;
-    COLOR_DEFAULT_INVERTED(hConsole);
-    cout << endl;
+    
     
     //=============================================================================================
     // Use an iterator to display the vector contents.
     //=============================================================================================
-    for (auto& currentMeasurement:MeasurementVector)                 // PAGE 434
-    {
-        COLOR_DEFAULT_TEXT(hConsole);
-        cout
-            << endl
-            << INTERNAL_BORDER_1
-            << BRACKET_1
-            << currentMeasurement.keystring
-            << BRACKET_2
-            << INTERNAL_BORDER_1
-            << currentMeasurement.name
-            << setw
-            (
-                horizontalSpace
-                - currentMeasurement.name.length()
-                - currentMeasurement.keystring.length()
-                - to_string(currentMeasurement.seconds).length()
-                - (BRACKET_1.length()) - (BRACKET_2.length()) - (EXTERNAL_BORDER.length()) - (INTERNAL_BORDER_1.length()) - (INTERNAL_BORDER_2.length())
-            )
-            << INTERNAL_BORDER_2;
-        
-        COLOR_MEASUREMENT(hConsole);
-        cout << to_string(currentMeasurement.seconds);
-        
-        
-        COLOR_EXTERNAL_BORDER(hConsole);
-        cout << EXTERNAL_BORDER;
-    }
-    cout
-        << BACKSPACE
-        << flush;
+    displayVectorContents(MeasurementVector, HEADER_1_LEFT, HEADER_1_RIGHT, INTERNAL_BORDER_1, INTERNAL_BORDER_2, EXTERNAL_BORDER, BRACKET_1, BRACKET_2, BACKSPACE, horizontalSpace);
 
 
     //=============================================================================================
@@ -472,53 +499,10 @@ int main()
         << endl;
     
 
-    COLOR_DEFAULT_INVERTED(hConsole);
-    cout
-        << HEADER_2_LEFT
-        << setw(horizontalSpace - HEADER_2_LEFT.length() - EXTERNAL_BORDER.length())
-        << HEADER_2_RIGHT;
-
-    COLOR_EXTERNAL_BORDER(hConsole);
-    cout << EXTERNAL_BORDER;
-    COLOR_DEFAULT_INVERTED(hConsole);
-    cout << endl;
-
-
-
     //=============================================================================================
     // Use an iterator to display the vector contents.
     //=============================================================================================
-    for (auto& currentIsotope : IsotopeVector)                 // PAGE 434
-    {
-        COLOR_DEFAULT_TEXT(hConsole);
-        cout
-            << endl
-            << INTERNAL_BORDER_1
-            << BRACKET_1
-            << currentIsotope.keystring
-            << BRACKET_2
-            << INTERNAL_BORDER_1
-            << currentIsotope.name
-            << setw
-            (
-                horizontalSpace
-                - currentIsotope.name.length()
-                - currentIsotope.keystring.length()
-                - to_string(currentIsotope.halfLife).length()
-                - (BRACKET_1.length()) - (BRACKET_2.length()) - (EXTERNAL_BORDER.length()) - (INTERNAL_BORDER_1.length()) - (INTERNAL_BORDER_2.length())
-            )
-            << INTERNAL_BORDER_2;
-
-        COLOR_ISOTOPE(hConsole);
-        cout << to_string(currentIsotope.halfLife);
-
-
-        COLOR_EXTERNAL_BORDER(hConsole);
-        cout << EXTERNAL_BORDER;
-    }
-    cout
-        << BACKSPACE
-        << flush;
+    displayVectorContents(IsotopeVector, HEADER_2_LEFT, HEADER_2_RIGHT, INTERNAL_BORDER_1, INTERNAL_BORDER_2, EXTERNAL_BORDER, BRACKET_1, BRACKET_2, BACKSPACE, horizontalSpace);
 
 
     //=============================================================================================
@@ -546,8 +530,8 @@ int main()
 
     
     decayConstant = // Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
-    (log(2) / IsotopeVector[chosenIsotopeVectorIndex].halfLife) *
-    (MeasurementVector[chosenMeasurementVectorIndex].seconds / GREGORIAN_CALENDAR_SECONDS);
+    (log(2) / IsotopeVector[chosenIsotopeVectorIndex].secondsOrHalfLife) *
+    (MeasurementVector[chosenMeasurementVectorIndex].secondsOrHalfLife / GREGORIAN_CALENDAR_SECONDS);
 
     
     //=============================================================================================
@@ -562,7 +546,7 @@ int main()
         << scientific
         << setprecision(5)
         << decayConstant
-        
+
         << endl
         << FINAL_PRINT_2
         << MeasurementVector[chosenMeasurementVectorIndex].name
@@ -574,18 +558,18 @@ int main()
         << endl
         << endl
         << endl
-        
+
         << FORK
         << MODIFYING_DEVELOPER_SITE
         << MODIFYING_DEVELOPER_NAME
         << MODIFYING_DEVELOPER_REPO
-        
+
         << endl
         << ORIGINAL
         << ORIGINAL_DEVELOPER_SITE
         << ORIGINAL_DEVELOPER_NAME
         << ORIGINAL_DEVELOPER_REPO
-        
+
         << endl
         << LINE_BREAK_1;
     COLOR_DEFAULT_TEXT(hConsole);
