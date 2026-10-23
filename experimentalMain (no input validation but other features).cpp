@@ -38,14 +38,14 @@ const int               HCONSOLE_DEEP_BLUE = 1,
                         HCONSOLE_DEEP_RED = 4,
                         HCONSOLE_DEEP_MAGENTA = 5,
                         HCONSOLE_DEEP_YELLOW = 6,
-            
+
                         HCONSOLE_LIGHT_BLUE = 9,
                         HCONSOLE_LIGHT_GREEN = 10,
                         HCONSOLE_LIGHT_AQUA = 11,
                         HCONSOLE_LIGHT_RED = 12,
                         HCONSOLE_LIGHT_MAGENTA = 13,
                         HCONSOLE_LIGHT_YELLOW = 14,
-            
+
                         HCONSOLE_WHITE = 15,
                         HCONSOLE_LIGHT_GRAY = 7,
                         HCONSOLE_GRAY = 8,
@@ -58,23 +58,27 @@ const int               HCONSOLE_DEEP_BLUE = 1,
 //==========================================
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-void COLOR_DEFAULT_TEXT (HANDLE hConsole)                     {SetConsoleTextAttribute(hConsole,
+void COLOR_DEFAULT_TEXT(HANDLE hConsole)                    {SetConsoleTextAttribute(hConsole,
                         HCONSOLE_LIGHT_AQUA +
                         HCONSOLE_BLACK * 16);
 }
-void COLOR_DEFAULT_INVERTED (HANDLE hConsole)                 {SetConsoleTextAttribute(hConsole,
+void COLOR_DEFAULT_INVERTED(HANDLE hConsole)                {SetConsoleTextAttribute(hConsole,
                         HCONSOLE_BLACK +
                         HCONSOLE_LIGHT_AQUA * 16);
 }
-void COLOR_EXTERNAL_BORDER  (HANDLE hConsole)                 {SetConsoleTextAttribute(hConsole,
+void COLOR_BORDER(HANDLE hConsole)                          {SetConsoleTextAttribute(hConsole,
                         HCONSOLE_DEEP_MAGENTA +
                         HCONSOLE_LIGHT_MAGENTA * 16);
 }
-void COLOR_MEASUREMENT  (HANDLE hConsole)                      {SetConsoleTextAttribute(hConsole,
+void COLOR_SELECTION(HANDLE hConsole)                       {SetConsoleTextAttribute(hConsole,
+                        HCONSOLE_LIGHT_AQUA +
+                        HCONSOLE_GRAY * 16);
+}
+void COLOR_MEASUREMENT(HANDLE hConsole)                     {SetConsoleTextAttribute(hConsole,
                         HCONSOLE_LIGHT_BLUE +
                         HCONSOLE_DEEP_BLUE * 16);
 }
-void COLOR_ISOTOPE      (HANDLE hConsole)                        {SetConsoleTextAttribute(hConsole,
+void COLOR_ISOTOPE(HANDLE hConsole)                         {SetConsoleTextAttribute(hConsole,
                         HCONSOLE_LIGHT_GREEN +
                         HCONSOLE_DEEP_GREEN * 16);
 }
@@ -84,11 +88,13 @@ void COLOR_ISOTOPE      (HANDLE hConsole)                        {SetConsoleText
 //=============================================================================================
 // Task
 //=============================================================================================
-void fileRetrieval (
-     string                     MISC_FILE,
-     char                       FILE_DELIMITER,
-     vector<BaselineStruct>     & MiscVector,           // '&' is EXTREMELY NECESSARY. Without it, a LOCAL COPY is created and immediately destroyed when exiting the function. This makes changes to the actual vector
-     string                     FILE_ERROR_MESSAGE)
+void fileRetrieval
+(
+    string                  MISC_FILE,
+    char                    FILE_DELIMITER,
+    vector<BaselineStruct>  & MiscVector,           // '&' is EXTREMELY NECESSARY. Without it, a LOCAL COPY is created and immediately destroyed when exiting the function. This makes changes to the actual vector
+    string                  FILE_ERROR_MESSAGE
+)
 
 {
     fstream dataFile(MISC_FILE, ios::in);                // PAGE 714
@@ -108,13 +114,13 @@ void fileRetrieval (
             getline(dataFile, input3);
 
             long double input3LD = stold(string(input3));   // PAGE 612
-            
+
             MiscVector.emplace_back(input1, input2, input3LD);     // PAGE 1080
         }
 
         // Close the file.
         dataFile.close();
-        
+
     }
     else
     {
@@ -127,67 +133,93 @@ void fileRetrieval (
 //=============================================================================================
 // Task
 //=============================================================================================
+void embedDeveloperNames
+(
+    string                      LINE_BREAK_2,
+    string                      BY,
+    string                      DEVELOPER_NAME,
+    string                      AT,
+    string                      BACKSPACE
+)
+
+{
+    cout << LINE_BREAK_2;
+    for (int x = 1; x <= BY.length() + DEVELOPER_NAME.length() + AT.length(); x++) {
+        cout << BACKSPACE;
+    }
+    cout << BY << AT << DEVELOPER_NAME << endl;
+}
+
+//=============================================================================================
+// Task
+//=============================================================================================
 void displayVectorContents
 (
-    vector<BaselineStruct>          MiscVector,
-    
+    vector<BaselineStruct>      MiscVector,
+
     string                      HEADER_NUMBER_LEFT,
     string                      HEADER_NUMBER_RIGHT,
-    
-    string                      INTERNAL_BORDER_1,
-    string                      INTERNAL_BORDER_2,
-    string                      EXTERNAL_BORDER,
+
+    string                      INTERNAL_SEPARATOR_1,
+    string                      INTERNAL_SEPARATOR_2,
+    string                      INTERNAL_SEPARATOR_3,
+    string                      BORDER,
     string                      BRACKET_1,
     string                      BRACKET_2,
     string                      BACKSPACE,
     int                         horizontalSpace
 )
 
-
 {
     COLOR_DEFAULT_INVERTED(hConsole);
     cout
         << HEADER_NUMBER_LEFT
-        << setw(horizontalSpace - HEADER_NUMBER_LEFT.length() - EXTERNAL_BORDER.length())
+        << setw(horizontalSpace - HEADER_NUMBER_LEFT.length() - BORDER.length())
         << HEADER_NUMBER_RIGHT;
 
-    COLOR_EXTERNAL_BORDER(hConsole);
-    cout << EXTERNAL_BORDER;
+    COLOR_BORDER(hConsole);
+    cout << BORDER;
     COLOR_DEFAULT_INVERTED(hConsole);
     cout << endl;
+
     
-    for (auto& currentVectorSelection : MiscVector)                 // PAGE 434
+    int count = 0;
+    for (auto& currentVectorSelection:MiscVector)                               // PAGE 434
     {
-        COLOR_DEFAULT_TEXT(hConsole);
+        COLOR_DEFAULT_INVERTED(hConsole);
+        count += 1; if (count != 1) {cout << endl;}
+        
         cout
-            << endl
-            << INTERNAL_BORDER_1                                    //1
-            << BRACKET_1                                            //2
-            << currentVectorSelection.keystring                  //3
-            << BRACKET_2                                            //4
-            << INTERNAL_BORDER_1                                    //5
-            << currentVectorSelection.name                              //6
+            << INTERNAL_SEPARATOR_1                                                //1
+            << BRACKET_1                                                        //2
+            << currentVectorSelection.keystring                                 //3
+            << BRACKET_2;                                                        //4
+        
+        COLOR_SELECTION(hConsole);
+        cout    
+            << INTERNAL_SEPARATOR_2                                                //5
+            << currentVectorSelection.name                                      //6
             << setw
             (
                 horizontalSpace
-                - INTERNAL_BORDER_1.length()                        //1
-                - BRACKET_1.length()                                //2
-                - currentVectorSelection.keystring.length()             //3
-                - BRACKET_2.length()                                //4
-                - INTERNAL_BORDER_1.length()                        //5
-                - currentVectorSelection.name.length()                  //6
+                - INTERNAL_SEPARATOR_1.length() + (2 * 1)                          //1
+                - BRACKET_1.length()                                            //2
+                - currentVectorSelection.keystring.length()                     //3
+                - BRACKET_2.length()                                            //4
+                - INTERNAL_SEPARATOR_2.length()                                    //5
+                - currentVectorSelection.name.length()                          //6
 
-                - to_string(currentVectorSelection.secondsOrHalfLife).length()    //1
-                - EXTERNAL_BORDER.length()                          //2
+                - to_string(currentVectorSelection.secondsOrHalfLife).length()  //1
+                - BORDER.length()                                      //2
             )
-            << INTERNAL_BORDER_2;                                   //3
+            << INTERNAL_SEPARATOR_3;                                               //3
 
         COLOR_MEASUREMENT(hConsole);
-        cout << to_string(currentVectorSelection.secondsOrHalfLife);              //1
+        cout << to_string(currentVectorSelection.secondsOrHalfLife);            //1
 
 
-        COLOR_EXTERNAL_BORDER(hConsole);
-        cout << EXTERNAL_BORDER;                                    //2
+        COLOR_BORDER(hConsole);
+        cout << BORDER;                                                //2
     }
     cout
         << BACKSPACE
@@ -199,19 +231,22 @@ void displayVectorContents
 //=============================================================================================
 int main()
 {
+    SetConsoleOutputCP(CP_UTF8);
     //=============================================================================================
     // Task
     //=============================================================================================
     const int           OPTION_YES_SPACE = 120,
                         OPTION_NO_SPACE = 80,
-                        NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE = -2;
+                        NECESSARY_CONSTANT_FOR_BACKSPACING_NEAR_SCREEN_EDGE = -2,
+                        NECESSARY_CONSTANT_FOR_LENGTH_OPERATION_ON_UNICODE_CHARACTERS = 2,
+                        NUMBER_OF_INDIVIDUAL_UNICODE_CHARACTERS_USED_BELOW = 2; // Modify this
 
     const char          YES = 'y',
                         NO = 'n',
                         LINE_BREAK_1_CHAR = '*',
                         LINE_BREAK_2_CHAR = '/',
                         FILE_DELIMITER = ':';
-    
+
     const string        AT = "@",
                         BRACKET_1 = "[",
                         BRACKET_2 = "]",
@@ -219,14 +254,15 @@ int main()
                         BRACKET_4 = ">",
                         BRACKET_5 = "(",
                         BRACKET_6 = ")",
-                        INTERNAL_BORDER_1 = "||",
-                        INTERNAL_BORDER_2 = "||",
-                        EXTERNAL_BORDER = "//",
-                        
+                        INTERNAL_SEPARATOR_1 = "├",
+                        INTERNAL_SEPARATOR_2 = " ",
+                        INTERNAL_SEPARATOR_3 = " ",
+                        BORDER = "//",
+
                         BACKSPACE = "\b \b";
-    
-    
-    
+
+
+
     //=============================================================================================
     // Task
     //=============================================================================================
@@ -235,49 +271,49 @@ int main()
                         ORIGINAL_DEVELOPER_NAME = "poallele",
                         ORIGINAL_DEVELOPER_SITE = "github.com/",
                         ORIGINAL_DEVELOPER_REPO = "/cpp-radioactive-decay-calculator",
-        
+
                         FORK = "fork: ",
                         MODIFIED_BY = "modified by ",
                         MODIFYING_DEVELOPER_NAME = "sampletext",
                         MODIFYING_DEVELOPER_SITE = "github.com/",
                         MODIFYING_DEVELOPER_REPO = "/sample-text",
-        
+
                         ERROR_MESSAGE = "Invalid character. ",
                         FILE_ERROR_MESSAGE = "ERROR: Cannot open file.",
-                        
+
                         MEASUREMENTS_FILE = "listOfMeasurements.txt",
                         ISOTOPES_FILE = "listOfIsotopes.txt",
                         OUTPUT_FILE = "copyPaste.txt";
-    
-    
-    
+
+
+
     //=============================================================================================
     // Task
     //=============================================================================================
-    const string        QUESTION_1 =    "Press " + BRACKET_1 + "key" + BRACKET_2 + ", then 'enter'."
-                                        "\nAre you currently running Windows 11's 'Terminal' (not 'conhost.exe' or any other program)? Yes or no? "
-                                        + BRACKET_1 + YES + "/" + NO + BRACKET_2 + " ",
-                        
-                        QUESTION_2 =    "You have selected a horizontal screen size of " + BRACKET_3,
-                        
-                        QUESTION_3 =    BRACKET_4 + " characters.\nYou can modify the values corresponding with "
-                                        + BRACKET_3 + YES + BRACKET_4 + " or " + BRACKET_3 + NO + BRACKET_4 + " near line 100 in the source code.",
-        
-                        
-        
+    const string        QUESTION_1 = "Press " + BRACKET_1 + "key" + BRACKET_2 + ", then 'enter'."
+                        "\nAre you currently running Windows 11's 'Terminal' (not 'conhost.exe' or any other program)? Yes or no? "
+                        + BRACKET_1 + YES + "/" + NO + BRACKET_2 + " ",
+
+                        QUESTION_2 = "You have selected a horizontal screen size of " + BRACKET_3,
+
+                        QUESTION_3 = BRACKET_4 + " characters.\nYou can modify the values corresponding with "
+                        + BRACKET_3 + YES + BRACKET_4 + " or " + BRACKET_3 + NO + BRACKET_4 + " near line 100 in the source code.",
+
+
+
                         HEADER_1_LEFT = "MEASUREMENT",
                         HEADER_1_RIGHT = BRACKET_5 + "per unit" + BRACKET_6 + " SECONDS",
                         HEADER_2_LEFT = "ISOTOPE",
                         HEADER_2_RIGHT = BRACKET_5 + "yrs" + BRACKET_6 + " HALF LIFE",
-        
+
                         FINAL_PRINT_1 = "Decay constant: ",
                         FINAL_PRINT_2 = "This value is the probability per " + BRACKET_3,
                         FINAL_PRINT_3 = BRACKET_4 + " for a single " + BRACKET_3,
                         FINAL_PRINT_4 = BRACKET_4 + " nucleus to decay.",
                         FINAL_PRINT_5 = "Check " + BRACKET_3 + OUTPUT_FILE + BRACKET_4 + " to copy and paste it.";
-    
-    
-    
+
+
+
     //=============================================================================================
     // Task
     //=============================================================================================
@@ -289,21 +325,21 @@ int main()
                         "second",
                         1
                         },
-                        
+
 
                         {
                         "m",
                         "minute",
                         60
                         },
-                        
+
 
                         {
                         "h",
                         "hour",
                         3600
                         },
-        
+
 
                         {
                         "d",
@@ -321,35 +357,35 @@ int main()
     vector<BaselineStruct>IsotopeVector =
     {
                         {
-                        "U1",
+                        "U233",
                         "Uranium-233",
                         1.592e5
                         },
-                        
-        
+
+
                         {
-                        "U2",
+                        "U235",
                         "Uranium-235",
                         7.04e8
                         },
-                        
-        
+
+
                         {
-                        "U3",
+                        "U238",
                         "Uranium-238",
                         4.463e9
                         },
-                        
-        
+
+
                         {
-                        "Pu1",
+                        "Pu239",
                         "Plutonium-239",
                         2.411e4
                         },
-                        
-        
+
+
                         {
-                        "Th1",
+                        "Th232",
                         "Thorium-232",
                         1.405e10
                         },
@@ -363,7 +399,7 @@ int main()
     char                CMDResponse;
     bool				exitQuestionLoop = false;
     int                 horizontalSpace;
-    
+
     string				chosenMeasurement;
     int					chosenMeasurementVectorIndex = 0;
     bool				exitMeasurementsLoop = false;
@@ -371,13 +407,6 @@ int main()
     double				chosenIsotope;
     int					chosenIsotopeVectorIndex = 0;
     bool				exitIsotopesLoop = false;
-
-    string              measurementInput1,
-                        measurementInput2,
-                        measurementInput3,
-                        isotopeInput1,
-                        isotopeInput2,
-                        isotopeInput3;
 
     long double			decayConstant;
 
@@ -420,6 +449,7 @@ int main()
             cout << ERROR_MESSAGE;
         }
     }
+    
     const string LINE_BREAK_1(horizontalSpace, LINE_BREAK_1_CHAR);
     const string LINE_BREAK_2(horizontalSpace, LINE_BREAK_2_CHAR);
 
@@ -431,109 +461,76 @@ int main()
         << LINE_BREAK_1
         << endl
         << endl
+        << endl
         << endl;
-    
-    
-    
+
+
+
     //=============================================================================================
     // Prompt 1
     //=============================================================================================
-    COLOR_EXTERNAL_BORDER(hConsole);
-    cout << endl << LINE_BREAK_2;
-
-    for (int x = 1; x <= MODIFIED_BY.length() + MODIFYING_DEVELOPER_NAME.length() + AT.length(); x++) {
-        cout << BACKSPACE;
-    }
-    cout << MODIFIED_BY << AT << MODIFYING_DEVELOPER_NAME << endl << LINE_BREAK_2;
+    COLOR_BORDER(hConsole);
+    embedDeveloperNames(LINE_BREAK_2, MODIFIED_BY, MODIFYING_DEVELOPER_NAME, AT, BACKSPACE);
+    embedDeveloperNames(LINE_BREAK_2, ORIGINALLY_DEVELOPED_BY, ORIGINAL_DEVELOPER_NAME, AT, BACKSPACE);
 
 
 
-
-    for (int x = 1; x <= ORIGINALLY_DEVELOPED_BY.length() + ORIGINAL_DEVELOPER_NAME.length() + AT.length(); x++) {
-        cout << BACKSPACE;
-    }
-    cout << ORIGINALLY_DEVELOPED_BY << AT << ORIGINAL_DEVELOPER_NAME << endl;
-    
-
-
-
-    
-    
     //=============================================================================================
     // Use an iterator to display the vector contents.
     //=============================================================================================
-    displayVectorContents(MeasurementVector, HEADER_1_LEFT, HEADER_1_RIGHT, INTERNAL_BORDER_1, INTERNAL_BORDER_2, EXTERNAL_BORDER, BRACKET_1, BRACKET_2, BACKSPACE, horizontalSpace);
+    displayVectorContents   (
+                            MeasurementVector, HEADER_1_LEFT, HEADER_1_RIGHT, INTERNAL_SEPARATOR_1, INTERNAL_SEPARATOR_2, INTERNAL_SEPARATOR_3,
+                            BORDER, BRACKET_1, BRACKET_2, BACKSPACE, horizontalSpace
+                            );
 
 
     //=============================================================================================
     // Input Validation 1
     //=============================================================================================
-    COLOR_EXTERNAL_BORDER(hConsole);
+    COLOR_BORDER(hConsole);
     cin >> chosenMeasurement;
-    COLOR_DEFAULT_TEXT(hConsole);
+    
+    COLOR_BORDER(hConsole);
+    cout << LINE_BREAK_2 << endl;
 
-    
-    
-    
-
-    //while (exitMeasurementsLoop != true)
-    //{
-    //    cin >> chosenMeasurement;
-    //
-    //
-    //    
-    //    if (exitMeasurementsLoop == false)
-    //    {
-    //        cout << ERROR_MESSAGE;
-    //    }
-    //}
-
-
-    
-    //=============================================================================================
-    // Prompt 2
-    //=============================================================================================
-    COLOR_EXTERNAL_BORDER(hConsole);
-    cout
-        << LINE_BREAK_2
-        << endl;
-    
 
     //=============================================================================================
     // Use an iterator to display the vector contents.
     //=============================================================================================
-    displayVectorContents(IsotopeVector, HEADER_2_LEFT, HEADER_2_RIGHT, INTERNAL_BORDER_1, INTERNAL_BORDER_2, EXTERNAL_BORDER, BRACKET_1, BRACKET_2, BACKSPACE, horizontalSpace);
+    displayVectorContents   (
+                            IsotopeVector, HEADER_2_LEFT, HEADER_2_RIGHT, INTERNAL_SEPARATOR_1, INTERNAL_SEPARATOR_2, INTERNAL_SEPARATOR_3,
+                            BORDER, BRACKET_1, BRACKET_2, BACKSPACE, horizontalSpace
+                            );
 
 
     //=============================================================================================
     // Input Validation 2
     //=============================================================================================
-    COLOR_EXTERNAL_BORDER(hConsole);
+    COLOR_BORDER(hConsole);
     cin >> chosenIsotope;
-    COLOR_DEFAULT_TEXT(hConsole);
-
-    COLOR_EXTERNAL_BORDER(hConsole);
-    cout << LINE_BREAK_2;
-
-    COLOR_DEFAULT_INVERTED(hConsole);
-    cout << endl << LINE_BREAK_1;
+    
+    COLOR_BORDER(hConsole);
+    cout << LINE_BREAK_2 << endl;
 
 
 
     //=============================================================================================
     // Print final output
     //=============================================================================================
+    COLOR_DEFAULT_INVERTED(hConsole);
+    cout << LINE_BREAK_1;
+    
     chosenIsotopeVectorIndex = 0;                               // since the index "[]" for a vector begins at 0, "-1" is used
                                                                 // (since user responses begin at 1). if this was not used,
                                                                 // then chosenIsotope would equal 6 instead of 5. since 6 is not
                                                                 // present in the index, it would not return anything.
 
-    
-    decayConstant = // Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
-    (log(2) / IsotopeVector[chosenIsotopeVectorIndex].secondsOrHalfLife) *
-    (MeasurementVector[chosenMeasurementVectorIndex].secondsOrHalfLife / GREGORIAN_CALENDAR_SECONDS);
 
-    
+    decayConstant = // Decay constant is the (natural logarithm of 2) divided by the half life. It can be multiplied by the amount of units
+        (log(2) / IsotopeVector[chosenIsotopeVectorIndex].secondsOrHalfLife) *
+        (MeasurementVector[chosenMeasurementVectorIndex].secondsOrHalfLife / GREGORIAN_CALENDAR_SECONDS);
+
+
     //=============================================================================================
     // Print final output
     //=============================================================================================
