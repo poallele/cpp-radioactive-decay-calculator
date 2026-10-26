@@ -46,11 +46,26 @@ const int               HCONSOLE_DEEP_BLUE = 1,
                         HCONSOLE_LIGHT_MAGENTA = 13,
                         HCONSOLE_LIGHT_YELLOW = 14,
 
-                        HCONSOLE_WHITE = 15,
                         HCONSOLE_LIGHT_GRAY = 7,
-                        HCONSOLE_GRAY = 8,
-                        HCONSOLE_BLACK = 0;
+                        HCONSOLE_DEEP_GRAY = 8,
+                        HCONSOLE_BLACK = 0,
+                        HCONSOLE_WHITE = 15;
 
+
+
+//=============================================================================================
+// THEME COLORS // MODIFY THESE VALUES
+//==========================================
+const int   MAIN_COLOR = HCONSOLE_LIGHT_AQUA;                                   // Modify this
+
+const int   HCONSOLE_COLOR_INTERNAL_WINDOW_FOREGROUND = HCONSOLE_LIGHT_GRAY,    // Modify this
+            HCONSOLE_COLOR_INTERNAL_WINDOW_BACKGROUND = HCONSOLE_DEEP_GRAY;     // Modify this
+
+const int   HCONSOLE_COLOR_MEASUREMENT_FOREGORUND = HCONSOLE_LIGHT_BLUE,        // Modify this
+            HCONSOLE_COLOR_MEASUREMENT_BACKGROUND = HCONSOLE_DEEP_BLUE;         // Modify this
+
+const int   HCONSOLE_COLOR_ISOTOPE_FOREGROUND = HCONSOLE_LIGHT_GREEN,           // Modify this
+            HCONSOLE_COLOR_ISOTOPE_BACKGROUND = HCONSOLE_DEEP_GREEN;            // Modify this
 
 
 //=============================================================================================
@@ -59,29 +74,32 @@ const int               HCONSOLE_DEEP_BLUE = 1,
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void COLOR_DEFAULT_TEXT(HANDLE hConsole)                    {SetConsoleTextAttribute(hConsole,
-                        HCONSOLE_LIGHT_AQUA +
-                        HCONSOLE_BLACK * 16);
+                        
+                        MAIN_COLOR +
+                        (HCONSOLE_BLACK * 16)
+                        );
 }
 void COLOR_DEFAULT_INVERTED(HANDLE hConsole)                {SetConsoleTextAttribute(hConsole,
+                        
                         HCONSOLE_BLACK +
-                        HCONSOLE_LIGHT_AQUA * 16);
+                        (MAIN_COLOR * 16)
+                        );
 }
 void COLOR_BORDER(HANDLE hConsole)                          {SetConsoleTextAttribute(hConsole,
-                        HCONSOLE_DEEP_MAGENTA +
-                        HCONSOLE_LIGHT_MAGENTA * 16);
+                        
+                        (MAIN_COLOR - 8) +
+                        (MAIN_COLOR * 16)
+                        );
 }
-void COLOR_SELECTION(HANDLE hConsole)                       {SetConsoleTextAttribute(hConsole,
-                        HCONSOLE_LIGHT_AQUA +
-                        HCONSOLE_GRAY * 16);
-}
-void COLOR_MEASUREMENT(HANDLE hConsole)                     {SetConsoleTextAttribute(hConsole,
-                        HCONSOLE_LIGHT_BLUE +
-                        HCONSOLE_DEEP_BLUE * 16);
-}
-void COLOR_ISOTOPE(HANDLE hConsole)                         {SetConsoleTextAttribute(hConsole,
-                        HCONSOLE_LIGHT_GREEN +
-                        HCONSOLE_DEEP_GREEN * 16);
-}
+
+const int HCONSOLE_FUNC_COLOR_INTERNAL_WINDOW = HCONSOLE_COLOR_INTERNAL_WINDOW_FOREGROUND + HCONSOLE_COLOR_INTERNAL_WINDOW_BACKGROUND * 16;
+void COLOR_INTERNAL_WINDOW(HANDLE hConsole){SetConsoleTextAttribute(hConsole,HCONSOLE_FUNC_COLOR_INTERNAL_WINDOW);}
+
+const int HCONSOLE_FUNC_COLOR_MEASUREMENT = HCONSOLE_COLOR_MEASUREMENT_FOREGORUND + HCONSOLE_COLOR_MEASUREMENT_BACKGROUND * 16;
+void COLOR_MEASUREMENT(HANDLE hConsole){SetConsoleTextAttribute(hConsole,HCONSOLE_FUNC_COLOR_MEASUREMENT);}
+
+const int HCONSOLE_FUNC_COLOR_ISOTOPE = HCONSOLE_COLOR_ISOTOPE_FOREGROUND + HCONSOLE_COLOR_ISOTOPE_BACKGROUND * 16;
+void COLOR_ISOTOPE(HANDLE hConsole){SetConsoleTextAttribute(hConsole,HCONSOLE_FUNC_COLOR_ISOTOPE);}
 
 
 
@@ -93,7 +111,8 @@ void fileRetrieval
     string                  MISC_FILE,
     char                    FILE_DELIMITER,
     vector<BaselineStruct>  & MiscVector,           // '&' is EXTREMELY NECESSARY. Without it, a LOCAL COPY is created and immediately destroyed when exiting the function. This makes changes to the actual vector
-    string                  FILE_ERROR_MESSAGE
+    string                  FILE_ERROR_MESSAGE,
+    int                     defaultVectorItems
 )
 
 {
@@ -101,6 +120,7 @@ void fileRetrieval
     string input1;
     string input2;
     string input3;
+    int count = 0;
 
     // If the file was successfully opened, continue.
     if (dataFile)
@@ -116,6 +136,9 @@ void fileRetrieval
             long double input3LD = stold(string(input3));   // PAGE 612
 
             MiscVector.emplace_back(input1, input2, input3LD);     // PAGE 1080
+            //MiscVector[defaultVectorItems + count] = {input1, input2, input3LD};     // PAGE 1080
+
+            count += 1;
         }
 
         // Close the file.
@@ -153,6 +176,29 @@ void embedDeveloperNames
 //=============================================================================================
 // Task
 //=============================================================================================
+void obtainProperFormattingConstants
+(
+    vector<BaselineStruct>      MiscVector,
+    string keystring
+)
+
+{
+    // var largestLength
+    //get keystring value
+    // get the .length() of it
+    // largestLength = keystring.length()
+    //go through vector keystrings
+    // if the current keystrings length is greater than largestLength, largestLength = that
+    // keep doing that until done
+    // finished
+    // get the delta of largestLength and keystring.length()
+    // return this value
+    // it will be used for adding space at the beginning. it is supposed to be used in a loop
+}
+
+//=============================================================================================
+// Task
+//=============================================================================================
 void displayVectorContents
 (
     vector<BaselineStruct>      MiscVector,
@@ -167,7 +213,8 @@ void displayVectorContents
     string                      BRACKET_1,
     string                      BRACKET_2,
     string                      BACKSPACE,
-    int                         horizontalSpace
+    int                         horizontalSpace,
+    int                         HCONSOLE_FUNC_COLOR
 )
 
 {
@@ -183,43 +230,44 @@ void displayVectorContents
     cout << endl;
 
     
-    int count = 0;
+    int count = -1;
     for (auto& currentVectorSelection:MiscVector)                               // PAGE 434
     {
+        count += 1; if (count != 0) {cout << endl;}
+        
+        
         COLOR_DEFAULT_INVERTED(hConsole);
-        count += 1; if (count != 1) {cout << endl;}
-        
         cout
-            << INTERNAL_SEPARATOR_1                                                //1
+            << INTERNAL_SEPARATOR_1                                             //1
             << BRACKET_1                                                        //2
-            << currentVectorSelection.keystring                                 //3
-            << BRACKET_2;                                                        //4
+            << MiscVector[count].keystring                                      //3
+            << BRACKET_2;                                                       //4
         
-        COLOR_SELECTION(hConsole);
+        COLOR_INTERNAL_WINDOW(hConsole);
         cout    
-            << INTERNAL_SEPARATOR_2                                                //5
-            << currentVectorSelection.name                                      //6
+            << INTERNAL_SEPARATOR_2                                             //5
+            << MiscVector[count].name                                           //6
             << setw
             (
                 horizontalSpace
-                - INTERNAL_SEPARATOR_1.length() + (2 * 1)                          //1
+                - INTERNAL_SEPARATOR_1.length()                                 //1
                 - BRACKET_1.length()                                            //2
-                - currentVectorSelection.keystring.length()                     //3
+                - MiscVector[count].keystring.length()                          //3
                 - BRACKET_2.length()                                            //4
-                - INTERNAL_SEPARATOR_2.length()                                    //5
-                - currentVectorSelection.name.length()                          //6
+                - INTERNAL_SEPARATOR_2.length()                                 //5
+                - MiscVector[count].name.length()                               //6
 
-                - to_string(currentVectorSelection.secondsOrHalfLife).length()  //1
-                - BORDER.length()                                      //2
+                - to_string(MiscVector[count].secondsOrHalfLife).length()       //1
+                - BORDER.length()                                               //2
             )
-            << INTERNAL_SEPARATOR_3;                                               //3
+            << INTERNAL_SEPARATOR_3;                                            //3
 
-        COLOR_MEASUREMENT(hConsole);
-        cout << to_string(currentVectorSelection.secondsOrHalfLife);            //1
+        SetConsoleTextAttribute(hConsole, HCONSOLE_FUNC_COLOR);
+        cout << to_string(MiscVector[count].secondsOrHalfLife);                 //1
 
 
         COLOR_BORDER(hConsole);
-        cout << BORDER;                                                //2
+        cout << BORDER;                                                         //2
     }
     cout
         << BACKSPACE
@@ -231,7 +279,6 @@ void displayVectorContents
 //=============================================================================================
 int main()
 {
-    SetConsoleOutputCP(CP_UTF8);
     //=============================================================================================
     // Task
     //=============================================================================================
@@ -254,7 +301,7 @@ int main()
                         BRACKET_4 = ">",
                         BRACKET_5 = "(",
                         BRACKET_6 = ")",
-                        INTERNAL_SEPARATOR_1 = "├",
+                        INTERNAL_SEPARATOR_1 = "|",
                         INTERNAL_SEPARATOR_2 = " ",
                         INTERNAL_SEPARATOR_3 = " ",
                         BORDER = "//",
@@ -318,6 +365,8 @@ int main()
     // Task
     //=============================================================================================
     const long double   GREGORIAN_CALENDAR_SECONDS = 31556952;
+    
+    int defaultMeasurementVectorItems = 5;
     vector<BaselineStruct>MeasurementVector =
     {
                         {
@@ -354,6 +403,8 @@ int main()
                         GREGORIAN_CALENDAR_SECONDS
                         },
     };
+    
+    int defaultIsotopeVectorItems = 5;
     vector<BaselineStruct>IsotopeVector =
     {
                         {
@@ -415,14 +466,14 @@ int main()
     //=============================================================================================
     // File retrieval 1
     //=============================================================================================
-    fileRetrieval(MEASUREMENTS_FILE, FILE_DELIMITER, MeasurementVector, FILE_ERROR_MESSAGE);
+    fileRetrieval(MEASUREMENTS_FILE, FILE_DELIMITER, MeasurementVector, FILE_ERROR_MESSAGE, defaultIsotopeVectorItems);
 
 
 
     //=============================================================================================
     // File retrieval 2
     //=============================================================================================
-    fileRetrieval(ISOTOPES_FILE, FILE_DELIMITER, IsotopeVector, FILE_ERROR_MESSAGE);
+    fileRetrieval(ISOTOPES_FILE, FILE_DELIMITER, IsotopeVector, FILE_ERROR_MESSAGE, defaultMeasurementVectorItems);
 
 
 
@@ -480,7 +531,7 @@ int main()
     //=============================================================================================
     displayVectorContents   (
                             MeasurementVector, HEADER_1_LEFT, HEADER_1_RIGHT, INTERNAL_SEPARATOR_1, INTERNAL_SEPARATOR_2, INTERNAL_SEPARATOR_3,
-                            BORDER, BRACKET_1, BRACKET_2, BACKSPACE, horizontalSpace
+                            BORDER, BRACKET_1, BRACKET_2, BACKSPACE, horizontalSpace, HCONSOLE_FUNC_COLOR_MEASUREMENT
                             );
 
 
@@ -499,7 +550,7 @@ int main()
     //=============================================================================================
     displayVectorContents   (
                             IsotopeVector, HEADER_2_LEFT, HEADER_2_RIGHT, INTERNAL_SEPARATOR_1, INTERNAL_SEPARATOR_2, INTERNAL_SEPARATOR_3,
-                            BORDER, BRACKET_1, BRACKET_2, BACKSPACE, horizontalSpace
+                            BORDER, BRACKET_1, BRACKET_2, BACKSPACE, horizontalSpace, HCONSOLE_FUNC_COLOR_ISOTOPE
                             );
 
 
